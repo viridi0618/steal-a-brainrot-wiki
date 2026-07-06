@@ -1,14 +1,17 @@
 export interface NavItem {
   label: string;
-  href: string;
+  href: PublicRoute;
+  submenu?: NavItem[];
 }
 
-export interface SiteMeta {
+export interface SiteConfig {
   name: string;
   shortName: string;
+  gameName: string;
   description: string;
   url: string;
-  gameName: string;
+  officialGameUrl: string;
+  defaultSocialImage: string;
 }
 
 export interface FAQ {
@@ -19,16 +22,23 @@ export interface FAQ {
 export interface GuideLink {
   title: string;
   description: string;
-  href: string;
+  href: PublicRoute;
   tag?: string;
+}
+
+export interface InfoItem {
+  label: string;
+  value: string;
 }
 
 export interface Brainrot {
   slug: string;
   name: string;
   rarity: string;
-  value: string;
-  income: string;
+  baseCost: string;
+  baseIncome: string;
+  acquisitionMethod: string;
+  availability: string;
   traits: string[];
   mutations: string[];
   description: string;
@@ -37,14 +47,20 @@ export interface Brainrot {
 export interface Trait {
   slug: string;
   name: string;
-  effect: string;
   multiplier: string;
-  obtainMethod: string;
-  bestUse: string;
+  category: string;
+  acquisitionSource: string;
+  availability: string;
+  effect: string;
   description: string;
 }
 
-export interface PageIntro {
-  title: string;
-  description: string;
-}
+export type PublicRoute =
+  | "/"
+  | "/brainrots"
+  | "/traits"
+  | "/index"
+  | "/best-brainrots"
+  | "/admin-abuse"
+  | "/taco-tuesday"
+  | "/faq";

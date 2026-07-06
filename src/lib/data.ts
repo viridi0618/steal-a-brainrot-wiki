@@ -1,213 +1,201 @@
-import type { Brainrot, FAQ, GuideLink, NavItem, SiteMeta, Trait } from "./types";
+import type { Brainrot, FAQ, GuideLink, InfoItem, NavItem, PublicRoute, SiteConfig, Trait } from "./types";
 
-export const siteMeta: SiteMeta = {
+const fallbackSiteUrl = "https://stealabrainrot.wiki";
+
+export const siteConfig: SiteConfig = {
   name: "Steal a Brainrot Wiki",
   shortName: "Brainrot Wiki",
   gameName: "Steal a Brainrot",
   description:
-    "A community wiki template for Steal a Brainrot with brainrots, traits, values, event guides, FAQs, and future strategy pages.",
-  url: "https://steal-a-brainrot-wiki.vercel.app",
+    "A fan-made Steal a Brainrot wiki structure for verified brainrot data, traits, index progress, event guides, and FAQs.",
+  url: process.env.NEXT_PUBLIC_SITE_URL || fallbackSiteUrl,
+  officialGameUrl: process.env.NEXT_PUBLIC_OFFICIAL_GAME_URL || "",
+  defaultSocialImage: "/og-image.png",
 };
+
+export const publicRoutes: { href: PublicRoute; label: string; priority: number }[] = [
+  { href: "/", label: "Home", priority: 1 },
+  { href: "/brainrots", label: "Brainrots", priority: 0.9 },
+  { href: "/traits", label: "Traits", priority: 0.9 },
+  { href: "/index", label: "Index", priority: 0.8 },
+  { href: "/best-brainrots", label: "Best Brainrots", priority: 0.8 },
+  { href: "/admin-abuse", label: "Admin Abuse", priority: 0.8 },
+  { href: "/taco-tuesday", label: "Taco Tuesday", priority: 0.8 },
+  { href: "/faq", label: "FAQ", priority: 0.7 },
+];
 
 export const navItems: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "Brainrots", href: "/brainrots" },
   { label: "Traits", href: "/traits" },
   { label: "Index", href: "/index" },
-  { label: "Best Brainrots", href: "/best-brainrots" },
-  { label: "Admin Abuse", href: "/admin-abuse" },
-  { label: "Taco Tuesday", href: "/taco-tuesday" },
-  { label: "FAQ", href: "/faq" },
-];
-
-export const brainrots: Brainrot[] = [
   {
-    slug: "starter-brainrot",
-    name: "Starter Brainrot",
-    rarity: "Common",
-    value: "Placeholder value",
-    income: "Placeholder income",
-    traits: ["Starter", "Stable"],
-    mutations: ["None listed"],
-    description:
-      "Placeholder overview for a beginner-friendly brainrot. Replace this summary when final game data is ready.",
-  },
-  {
-    slug: "rare-brainrot",
-    name: "Rare Brainrot",
-    rarity: "Rare",
-    value: "Placeholder value",
-    income: "Placeholder income",
-    traits: ["Value", "Income"],
-    mutations: ["Placeholder mutation"],
-    description:
-      "Placeholder overview for a higher-value brainrot. This page is ready for stats, values, and strategy notes.",
-  },
-  {
-    slug: "event-brainrot",
-    name: "Event Brainrot",
-    rarity: "Event",
-    value: "Placeholder value",
-    income: "Placeholder income",
-    traits: ["Limited", "Event"],
-    mutations: ["Placeholder mutation"],
-    description:
-      "Placeholder overview for an event brainrot. Add event availability, trading notes, and collection tips later.",
-  },
-];
-
-export const traits: Trait[] = [
-  {
-    slug: "starter-trait",
-    name: "Starter Trait",
-    effect: "Placeholder effect",
-    multiplier: "1x placeholder",
-    obtainMethod: "Placeholder obtain method",
-    bestUse: "Placeholder best use",
-    description:
-      "Placeholder trait summary for future details about effects, multipliers, and ideal brainrot pairings.",
-  },
-  {
-    slug: "income-trait",
-    name: "Income Trait",
-    effect: "Placeholder income effect",
-    multiplier: "Placeholder multiplier",
-    obtainMethod: "Placeholder obtain method",
-    bestUse: "Placeholder best use",
-    description:
-      "Placeholder trait summary for income-focused builds and value comparisons.",
-  },
-  {
-    slug: "event-trait",
-    name: "Event Trait",
-    effect: "Placeholder event effect",
-    multiplier: "Placeholder multiplier",
-    obtainMethod: "Placeholder event source",
-    bestUse: "Placeholder best use",
-    description:
-      "Placeholder trait summary for event-based gameplay and limited-time rewards.",
-  },
-];
-
-export const featuredGuides: GuideLink[] = [
-  {
-    title: "Best Brainrots",
-    description: "Placeholder tier list and progression recommendations.",
+    label: "Guides",
     href: "/best-brainrots",
-    tag: "Guide",
+    submenu: [
+      { label: "Best Brainrots", href: "/best-brainrots" },
+      { label: "Admin Abuse", href: "/admin-abuse" },
+      { label: "Taco Tuesday", href: "/taco-tuesday" },
+    ],
   },
   {
-    title: "Admin Abuse",
-    description: "Placeholder event schedule, reward, and preparation guide.",
-    href: "/admin-abuse",
-    tag: "Event",
+    label: "More",
+    href: "/faq",
+    submenu: [{ label: "FAQ", href: "/faq" }],
   },
-  {
-    title: "Taco Tuesday",
-    description: "Placeholder weekly event notes, rewards, and tips.",
-    href: "/taco-tuesday",
-    tag: "Event",
-  },
+];
+
+export const brainrots: Brainrot[] = [];
+
+export const traits: Trait[] = [];
+
+export const quickFacts: InfoItem[] = [
+  { label: "Platform", value: "Pending verification" },
+  { label: "Genre", value: "Pending verification" },
+  { label: "Core Goal", value: "Collect and manage brainrots" },
+  { label: "Primary Currency", value: "Pending verification" },
+  { label: "Collection System", value: "Index data pending" },
 ];
 
 export const relatedGuides: GuideLink[] = [
   {
     title: "Brainrots",
-    description: "Browse placeholder brainrot pages and future stat entries.",
+    description: "Prepared for verified brainrot costs, income, rarity, and availability.",
     href: "/brainrots",
-    tag: "Index",
+    tag: "Database",
   },
   {
     title: "Traits",
-    description: "Review placeholder trait effects, multipliers, and uses.",
+    description: "Prepared for verified trait effects, multipliers, and sources.",
     href: "/traits",
-    tag: "Index",
+    tag: "Database",
   },
   {
-    title: "Complete Index",
-    description: "A placeholder master index for all brainrot entries.",
+    title: "Index",
+    description: "A structure for collection progress, rewards, and missing entries.",
     href: "/index",
     tag: "Reference",
   },
-  ...featuredGuides,
-];
-
-export const faqs: FAQ[] = [
   {
-    question: "What is Steal a Brainrot Wiki?",
-    answer:
-      "This is a placeholder wiki structure for Steal a Brainrot. Final gameplay details can be added later.",
+    title: "Best Brainrots",
+    description: "Ranking containers ready for verified comparison data.",
+    href: "/best-brainrots",
+    tag: "Guide",
   },
   {
-    question: "Are the brainrot values final?",
-    answer:
-      "No. Values are placeholders so future editors can replace them with verified game data.",
+    title: "Admin Abuse",
+    description: "Event guide structure for schedule, rewards, and preparation notes.",
+    href: "/admin-abuse",
+    tag: "Event",
   },
   {
-    question: "Are trait multipliers final?",
-    answer:
-      "No. Trait multipliers are placeholder entries until the wiki is populated with accurate information.",
+    title: "Taco Tuesday",
+    description: "Event guide structure for schedule, rewards, and mechanics.",
+    href: "/taco-tuesday",
+    tag: "Event",
   },
   {
-    question: "Does every listed page exist?",
-    answer:
-      "Yes. Navigation and related guide links point only to pages included in this template.",
-  },
-  {
-    question: "Can this wiki support individual brainrot pages?",
-    answer:
-      "Yes. Dynamic brainrot pages are already scaffolded and can be expanded with real stats later.",
-  },
-  {
-    question: "Can this wiki support individual trait pages?",
-    answer:
-      "Yes. Dynamic trait pages are scaffolded for future effect, multiplier, and obtain-method details.",
-  },
-  {
-    question: "What should go in the Index page?",
-    answer:
-      "The Index page is reserved for a complete searchable brainrot list once final content is available.",
-  },
-  {
-    question: "What should go in Best Brainrots?",
-    answer:
-      "Use it for a future tier list, early-game recommendations, and late-game recommendations.",
-  },
-  {
-    question: "What is Admin Abuse?",
-    answer:
-      "This page is a placeholder for future event schedules, rewards, and preparation tips.",
-  },
-  {
-    question: "What is Taco Tuesday?",
-    answer:
-      "This page is a placeholder for future weekly event schedules, rewards, and tips.",
-  },
-  {
-    question: "Is there final artwork?",
-    answer:
-      "No. Placeholder branding and text are used until final assets are ready.",
-  },
-  {
-    question: "Is this project ready for SEO content?",
-    answer:
-      "Yes. Metadata, structured data, sitemap, and robots files have been updated for the new wiki.",
-  },
-  {
-    question: "Can more pages be added later?",
-    answer:
-      "Yes. The structure is designed so future guide pages can reuse the existing components and data patterns.",
-  },
-  {
-    question: "Who maintains this wiki?",
-    answer:
-      "This placeholder answer can be replaced with community, author, or editorial information later.",
-  },
-  {
-    question: "Where should corrections go?",
-    answer:
-      "This placeholder answer can be replaced with contribution instructions once the project workflow is finalized.",
+    title: "FAQ",
+    description: "Common placeholder questions grouped by topic.",
+    href: "/faq",
+    tag: "Help",
   },
 ];
 
-export const homeFaqs = faqs.slice(0, 5);
+export const gameplayFaqs: FAQ[] = [
+  {
+    question: "What is this wiki prepared to cover?",
+    answer:
+      "This page structure is ready for verified gameplay notes, collection guidance, values, event information, and beginner-facing explanations.",
+  },
+  {
+    question: "Why are some values marked as pending?",
+    answer:
+      "The site is intentionally avoiding unverified facts until reliable data is ready to publish.",
+  },
+  {
+    question: "Will this wiki include strategy pages later?",
+    answer:
+      "Yes. Existing guide routes are prepared for concise strategy content once the data has been checked.",
+  },
+];
+
+export const brainrotFaqs: FAQ[] = [
+  {
+    question: "Where will brainrot costs and income appear?",
+    answer:
+      "The brainrot database and detail templates include fields for verified base cost, base income, rarity, acquisition method, and availability.",
+  },
+  {
+    question: "Why are no brainrot detail pages linked yet?",
+    answer:
+      "Detail pages are only generated when verified production entries exist, preventing fictional entities from appearing on the live site.",
+  },
+  {
+    question: "Can images be added later?",
+    answer:
+      "Yes. The layouts include image placeholder regions so verified artwork or screenshots can be added without redesigning the page.",
+  },
+];
+
+export const traitFaqs: FAQ[] = [
+  {
+    question: "Where will trait multipliers be listed?",
+    answer:
+      "The traits page is prepared for multiplier, category, source, availability, and detail-link columns.",
+  },
+  {
+    question: "Are mutations handled separately from traits?",
+    answer:
+      "The traits page includes a comparison panel so future editors can explain the distinction with verified details.",
+  },
+  {
+    question: "Will trait detail pages be public immediately?",
+    answer:
+      "No. Trait detail pages are generated only for verified trait entries.",
+  },
+];
+
+export const indexFaqs: FAQ[] = [
+  {
+    question: "What is the Index page for?",
+    answer:
+      "It is prepared for collection progress, category completion, reward notes, and missing-entry tracking.",
+  },
+  {
+    question: "Are completion rewards confirmed?",
+    answer:
+      "No. Reward areas are placeholders until the requirements and rewards are verified.",
+  },
+  {
+    question: "Will there be a missing-entry tracker?",
+    answer:
+      "Yes. The page includes a structural placeholder for a tracker that can be populated later.",
+  },
+];
+
+export const eventFaqs: FAQ[] = [
+  {
+    question: "Are event schedules final?",
+    answer:
+      "No. Schedule boxes are intentionally marked pending until event times are checked.",
+  },
+  {
+    question: "Where will event rewards appear?",
+    answer:
+      "Each event page includes dedicated reward containers ready for verified reward data.",
+  },
+  {
+    question: "How should event pages be updated?",
+    answer:
+      "Update the last-checked field, schedule disclaimer, rewards, and preparation guidance after verification.",
+  },
+];
+
+export const allFaqs: FAQ[] = [
+  ...gameplayFaqs,
+  ...brainrotFaqs,
+  ...traitFaqs,
+  ...indexFaqs,
+  ...eventFaqs,
+];
