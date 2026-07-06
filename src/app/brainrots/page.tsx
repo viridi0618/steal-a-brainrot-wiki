@@ -1,65 +1,103 @@
 import type { Metadata } from "next";
-import InfoCard from "@/components/InfoCard";
-import RelatedGuides from "@/components/RelatedGuides";
+import PageHero from "@/components/PageHero";
 import SectionTitle from "@/components/SectionTitle";
-import FAQAccordion from "@/components/FAQAccordion";
-import { brainrots, faqs } from "@/lib/data";
+import {
+  EmptyState,
+  FAQSection,
+  FilterBar,
+  PlaceholderTable,
+  RelatedSection,
+  StatGrid,
+} from "@/components/WikiBlocks";
+import { brainrotFaqs, siteConfig } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Brainrots",
-  description: "Placeholder Steal a Brainrot brainrots list with future stats, values, income, traits, and mutations.",
-  alternates: {
-    canonical: "/brainrots",
+  description:
+    "Steal a Brainrot brainrots database structure prepared for verified rarity, cost, income, acquisition, and availability data.",
+  alternates: { canonical: "/brainrots" },
+  openGraph: {
+    title: "Brainrots | Steal a Brainrot Wiki",
+    description:
+      "Prepared brainrot database layout for verified Steal a Brainrot entries.",
+    url: `${siteConfig.url}/brainrots`,
   },
 };
 
 export default function BrainrotsPage() {
   return (
     <div className="min-h-screen">
-      <section className="py-24 md:py-32 border-b border-[#2a2826]">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h1 className="font-serif text-4xl md:text-6xl text-[#f0ece4]">Brainrots</h1>
-          <p className="mt-5 text-base md:text-lg text-[#8a8884]">
-            Placeholder overview for all Steal a Brainrot entries.
-          </p>
-          <div className="mt-6 h-0.5 w-16 rounded-full mx-auto bg-[#d4af6a]" />
-        </div>
-      </section>
+      <PageHero
+        tag="Database"
+        title="Brainrots"
+        description="A structured database page ready for verified brainrot entries, values, income, acquisition methods, and availability."
+      />
 
       <div className="max-w-7xl mx-auto px-4 py-16 space-y-16">
         <section>
-          <SectionTitle tag="Overview" title="Overview" align="left" />
+          <SectionTitle tag="Overview" title="Brainrot Database Overview" align="left" />
           <p className="mt-6 max-w-3xl text-base leading-relaxed text-[#8a8884]">
-            Placeholder content for the brainrots overview. Add collection notes, value context, and progression details later.
+            This page is prepared to organize verified brainrot data without publishing fictional entries. Future data can be added to the table and detail templates when confirmed.
           </p>
         </section>
 
-        <section>
-          <SectionTitle tag="List" title="All Brainrots" align="left" />
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-            {brainrots.map((brainrot) => (
-              <InfoCard
-                key={brainrot.slug}
-                tag={brainrot.rarity}
-                title={brainrot.name}
-                description={brainrot.description}
-                href={`/brainrots/${brainrot.slug}`}
-              />
-            ))}
-          </div>
-        </section>
+        <StatGrid
+          items={[
+            { label: "Entries", value: "Pending" },
+            { label: "Rarities", value: "Pending" },
+            { label: "Income Data", value: "Pending" },
+            { label: "Availability", value: "Pending" },
+          ]}
+        />
 
         <section>
-          <SectionTitle tag="FAQ" title="Frequently Asked Questions" align="left" />
+          <SectionTitle tag="Tools" title="Search and Filters" align="left" />
           <div className="mt-8">
-            <FAQAccordion faqs={faqs.slice(0, 5)} />
+            <FilterBar
+              searchLabel="Search verified brainrots"
+              filters={["Rarity", "Availability", "Acquisition"]}
+            />
           </div>
         </section>
 
         <section>
-          <SectionTitle tag="Related" title="Related Guides" align="left" />
-          <RelatedGuides excludeHref="/brainrots" />
+          <SectionTitle tag="All Brainrots" title="All Brainrots" align="left" />
+          <div className="mt-8">
+            <PlaceholderTable
+              headers={[
+                "Image",
+                "Name",
+                "Rarity",
+                "Base Cost",
+                "Base Income",
+                "Acquisition",
+                "Availability",
+                "Details",
+              ]}
+              emptyTitle="Brainrot data will be added after verification."
+              emptyDescription="The table supports image, name, rarity, base cost, base income, acquisition method, availability, and detail links."
+            />
+          </div>
         </section>
+
+        <section>
+          <SectionTitle tag="Reference" title="Rarity Explanation" align="left" />
+          <EmptyState
+            title="Rarity notes are pending."
+            description="This section is reserved for verified rarity definitions, rarity ordering, and how rarity affects collection decisions."
+          />
+        </section>
+
+        <section>
+          <SectionTitle tag="Reference" title="Acquisition Methods" align="left" />
+          <EmptyState
+            title="Acquisition method data is pending."
+            description="This section will explain verified sources such as standard acquisition, event availability, or other confirmed methods."
+          />
+        </section>
+
+        <FAQSection faqs={brainrotFaqs} />
+        <RelatedSection currentHref="/brainrots" />
       </div>
     </div>
   );

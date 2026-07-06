@@ -1,35 +1,90 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import PageHero from "@/components/PageHero";
 import FAQAccordion from "@/components/FAQAccordion";
 import RelatedGuides from "@/components/RelatedGuides";
 import SectionTitle from "@/components/SectionTitle";
-import { faqs } from "@/lib/data";
+import {
+  brainrotFaqs,
+  eventFaqs,
+  gameplayFaqs,
+  indexFaqs,
+  siteConfig,
+  traitFaqs,
+} from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "FAQ",
-  description: "Placeholder Steal a Brainrot Wiki FAQ with common questions ready for future verified answers.",
-  alternates: {
-    canonical: "/faq",
+  description:
+    "Steal a Brainrot Wiki FAQ with placeholder categories for gameplay, brainrots, traits, index progress, and events.",
+  alternates: { canonical: "/faq" },
+  openGraph: {
+    title: "FAQ | Steal a Brainrot Wiki",
+    description:
+      "Categorized placeholder FAQ prepared for verified Steal a Brainrot answers.",
+    url: `${siteConfig.url}/faq`,
   },
 };
+
+const categories = [
+  { id: "gameplay", title: "Gameplay FAQ", faqs: gameplayFaqs },
+  { id: "brainrots", title: "Brainrot FAQ", faqs: brainrotFaqs },
+  { id: "traits", title: "Trait FAQ", faqs: traitFaqs },
+  { id: "index", title: "Index FAQ", faqs: indexFaqs },
+  { id: "events", title: "Event FAQ", faqs: eventFaqs },
+];
 
 export default function FAQPage() {
   return (
     <div className="min-h-screen">
-      <section className="py-24 md:py-32 border-b border-[#2a2826]">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h1 className="font-serif text-4xl md:text-6xl text-[#f0ece4]">FAQ</h1>
-          <p className="mt-5 text-base md:text-lg text-[#8a8884]">
-            Placeholder questions and answers for the Steal a Brainrot Wiki.
-          </p>
-          <div className="mt-6 h-0.5 w-16 rounded-full mx-auto bg-[#d4af6a]" />
-        </div>
-      </section>
+      <PageHero
+        tag="Help"
+        title="FAQ"
+        description="Placeholder questions grouped by topic so verified answers can be added without changing the page structure."
+      />
 
       <div className="max-w-4xl mx-auto px-4 py-16 space-y-16">
         <section>
-          <SectionTitle tag="Questions" title="Frequently Asked Questions" align="left" />
-          <div className="mt-8">
-            <FAQAccordion faqs={faqs} />
+          <SectionTitle tag="Categories" title="FAQ Category Navigation" align="left" />
+          <div className="flex flex-wrap gap-3 mt-8">
+            {categories.map((category) => (
+              <a
+                key={category.id}
+                href={`#${category.id}`}
+                className="rounded-full border border-[#2a2826] px-4 py-2 text-sm text-[#d4af6a] hover:border-[#d4af6a] transition-colors"
+              >
+                {category.title}
+              </a>
+            ))}
+          </div>
+        </section>
+
+        {categories.map((category) => (
+          <section key={category.id} id={category.id}>
+            <SectionTitle tag="FAQ" title={category.title} align="left" />
+            <div className="mt-8">
+              <FAQAccordion faqs={category.faqs} />
+            </div>
+          </section>
+        ))}
+
+        <section>
+          <SectionTitle tag="Links" title="Useful Links" align="left" />
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+            {[
+              { label: "Brainrots", href: "/brainrots" },
+              { label: "Traits", href: "/traits" },
+              { label: "Index", href: "/index" },
+              { label: "Events", href: "/admin-abuse" },
+            ].map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="rounded-lg border border-[#2a2826] bg-white/[0.03] p-4 text-sm text-[#f0ece4] hover:border-[#d4af6a] transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
         </section>
 
