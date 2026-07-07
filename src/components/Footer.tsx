@@ -91,7 +91,7 @@ export default function Footer() {
             </h3>
             <div className="space-y-2">
               <p className="text-base font-semibold text-[#f0ece4]">
-                {siteConfig.name}
+                {siteConfig.siteName}
               </p>
               <p className="text-sm text-[#8a8884] leading-relaxed">
                 {siteConfig.description}

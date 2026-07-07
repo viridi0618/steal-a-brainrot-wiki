@@ -23,6 +23,14 @@ export const metadata: Metadata = {
     description:
       "Categorized Steal a Brainrot answers for gameplay, brainrots, traits, index progress, and events.",
     url: `${siteConfig.url}/faq`,
+    images: [siteConfig.defaultSocialImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "FAQ | Steal a Brainrot Guide",
+    description:
+      "Answers for Steal a Brainrot gameplay, Brainrots, Traits, Index progress, and events.",
+    images: [siteConfig.defaultSocialImage],
   },
 };
 

@@ -12,25 +12,25 @@ const adsenseClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: `${siteConfig.name} - Brainrots, Traits, Index & Events`,
-    template: `%s | ${siteConfig.name}`,
+    default: `${siteConfig.siteName} - Brainrots, Traits, Index & Events`,
+    template: `%s | ${siteConfig.siteName}`,
   },
   description: siteConfig.description,
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: `${siteConfig.name} - Brainrots, Traits, Index & Events`,
+    title: `${siteConfig.siteName} - Brainrots, Traits, Index & Events`,
     description: siteConfig.description,
     url: siteConfig.url,
     type: "website",
     locale: "en_US",
-    siteName: siteConfig.name,
+    siteName: siteConfig.siteName,
     images: [siteConfig.defaultSocialImage],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${siteConfig.name} - Brainrots, Traits, Index & Events`,
+    title: `${siteConfig.siteName} - Brainrots, Traits, Index & Events`,
     description: siteConfig.description,
     images: [siteConfig.defaultSocialImage],
   },
@@ -76,7 +76,7 @@ export default function RootLayout({
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebSite",
-            name: siteConfig.name,
+            name: siteConfig.siteName,
             url: siteConfig.url,
             description: siteConfig.description,
             about: {

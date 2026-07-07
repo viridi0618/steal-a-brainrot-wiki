@@ -1,4 +1,13 @@
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Page Not Found",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function NotFound() {
   return (
@@ -11,7 +20,7 @@ export default function NotFound() {
           This page does not exist
         </h1>
         <p className="text-base text-[#8a8884] leading-relaxed mb-8">
-          The requested wiki page is not available. Use the links below to return to a public section of the Steal a Brainrot Wiki.
+          The requested guide page is not available. Use the links below to return to a public section of the Steal a Brainrot Guide.
         </p>
         <div className="flex flex-wrap justify-center gap-3">
           {[

@@ -1,9 +1,9 @@
 import Link from 'next/link';
+import type { ReactNode } from 'react';
 import SectionTitle from './SectionTitle';
 import type { FAQ, InfoItem, PublicRoute } from '@/lib/types';
 import FAQAccordion from './FAQAccordion';
 import RelatedGuides from './RelatedGuides';
-import { lastChecked } from '@/lib/data';
 
 export function Breadcrumbs({
   items,
@@ -153,7 +153,7 @@ export function DataTable({
   emptyDescription,
 }: {
   headers: string[];
-  rows?: string[][];
+  rows?: ReactNode[][];
   emptyTitle?: string;
   emptyDescription?: string;
 }) {
@@ -178,7 +178,7 @@ export function DataTable({
               <tr key={`${row[0]}-${index}`} className="border-t border-[#2a2826]">
                 {row.map((cell, cellIndex) => (
                   <td
-                    key={`${cell}-${cellIndex}`}
+                    key={`${cellIndex}`}
                     className="px-5 py-4 text-sm text-[#f0ece4] align-top"
                   >
                     {cell}
@@ -209,11 +209,13 @@ export function ScheduleBox({
   title,
   description,
   time,
+  checkedAt,
   timezone = "Eastern Time",
 }: {
   title: string;
   description: string;
   time: string;
+  checkedAt: string;
   timezone?: string;
 }) {
   return (
@@ -240,7 +242,7 @@ export function ScheduleBox({
         </div>
         <div className="rounded-md border border-[#2a2826] bg-[#05030c]/60 p-4">
           <span className="block text-xs text-[#8a8884] mb-1">Last Checked</span>
-          <span className="text-[#f0ece4]">{lastChecked}</span>
+          <span className="text-[#f0ece4]">{checkedAt}</span>
         </div>
         <div className="rounded-md border border-[#2a2826] bg-[#05030c]/60 p-4 sm:col-span-2">
           <span className="block text-xs text-[#8a8884] mb-1">Commonly Listed Time</span>

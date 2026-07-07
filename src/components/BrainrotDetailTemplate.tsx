@@ -9,12 +9,16 @@ import {
   RelatedSection,
 } from "./WikiBlocks";
 import { brainrotFaqs } from "@/lib/data";
-import type { Brainrot } from "@/lib/types";
+import type { BrainrotRecord } from "@/lib/types";
 
-export default function BrainrotDetailTemplate({ brainrot }: { brainrot: Brainrot }) {
+function displayValue(value: string | null) {
+  return value ?? "Unknown";
+}
+
+export default function BrainrotDetailTemplate({ brainrot }: { brainrot: BrainrotRecord }) {
   return (
     <div className="min-h-screen">
-      <PageHero tag={brainrot.rarity} title={brainrot.name} description={brainrot.description} />
+      <PageHero tag={brainrot.rarity ?? brainrot.availability} title={brainrot.name} description={brainrot.description} />
       <div className="max-w-7xl mx-auto px-4 py-16 space-y-16">
         <Breadcrumbs items={[{ label: "Brainrots", href: "/brainrots" }, { label: brainrot.name }]} />
 
@@ -28,11 +32,13 @@ export default function BrainrotDetailTemplate({ brainrot }: { brainrot: Brainro
             <QuickFactsPanel
               title="Quick Facts"
               items={[
-                { label: "Rarity", value: brainrot.rarity },
-                { label: "Base Cost", value: brainrot.baseCost },
-                { label: "Base Income", value: brainrot.baseIncome },
+                { label: "Rarity", value: displayValue(brainrot.rarity) },
+                { label: "Base Cost", value: displayValue(brainrot.baseCostDisplay) },
+                { label: "Base Income", value: displayValue(brainrot.baseIncomeDisplay) },
                 { label: "Availability", value: brainrot.availability },
-                { label: "Acquisition", value: brainrot.acquisitionMethod },
+                { label: "Acquisition", value: displayValue(brainrot.acquisitionMethod) },
+                { label: "Last Verified", value: brainrot.verifiedAt },
+                { label: "Confidence", value: brainrot.confidence },
               ]}
             />
           </div>
@@ -49,17 +55,23 @@ export default function BrainrotDetailTemplate({ brainrot }: { brainrot: Brainro
             <DataTable
               headers={["Field", "Verified Value", "Notes"]}
               rows={[
-                ["Value", brainrot.baseCost, "Base purchase cost when verified."],
-                ["Income", brainrot.baseIncome, "Base income value when verified."],
-                ["Rarity", brainrot.rarity, "Shown as listed for this entry."],
+                ["Base Cost", displayValue(brainrot.baseCostDisplay), "Unmodified purchase value only."],
+                ["Base Income", displayValue(brainrot.baseIncomeDisplay), "Unmodified income value only."],
+                ["Indexable", brainrot.indexable === null ? "Unknown" : brainrot.indexable ? "Yes" : "No", "Shown only when supported by sources."],
               ]}
             />
           </div>
         </section>
+        {brainrot.needsReview && brainrot.conflictNote && (
+          <section>
+            <SectionTitle tag="Review" title="Verification Note" align="left" />
+            <EmptyState title="Values need review" description={brainrot.conflictNote} />
+          </section>
+        )}
 
         <section className="grid md:grid-cols-2 gap-6">
-          <EmptyState title="Traits" description="Verified trait interactions for this brainrot will appear here." />
-          <EmptyState title="Mutations" description="Verified mutation notes for this brainrot will appear here." />
+          <EmptyState title="Traits" description="Trait interactions are shown only when the source data supports them." />
+          <EmptyState title="Mutations" description="Mutation notes are tracked separately from Traits." />
         </section>
 
         <section>

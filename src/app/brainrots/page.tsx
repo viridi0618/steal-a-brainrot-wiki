@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import PageHero from "@/components/PageHero";
 import SectionTitle from "@/components/SectionTitle";
 import {
@@ -17,10 +18,18 @@ export const metadata: Metadata = {
     "Steal a Brainrot brainrots database with known entries, rarity, cost, income, acquisition, and availability fields.",
   alternates: { canonical: "/brainrots" },
   openGraph: {
-    title: "Brainrots | Steal a Brainrot Wiki",
+    title: "Brainrots | Steal a Brainrot Guide",
     description:
       "Browse known Steal a Brainrot entries and careful stat notes.",
     url: `${siteConfig.url}/brainrots`,
+    images: [siteConfig.defaultSocialImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Brainrots | Steal a Brainrot Guide",
+    description:
+      "Known Steal a Brainrot records with source-aware stat fields.",
+    images: [siteConfig.defaultSocialImage],
   },
 };
 
@@ -43,10 +52,10 @@ export default function BrainrotsPage() {
 
         <StatGrid
           items={[
-            { label: "Entries", value: `${brainrots.length}` },
-            { label: "Verified Costs", value: "1" },
-            { label: "Verified Income", value: "1" },
-            { label: "Availability", value: "Standard" },
+            { label: "Records", value: `${brainrots.length}` },
+            { label: "Reviewed", value: `${brainrots.filter((item) => !item.needsReview).length}` },
+            { label: "Needs Review", value: `${brainrots.filter((item) => item.needsReview).length}` },
+            { label: "Data Model", value: "Source-aware" },
           ]}
         />
 
@@ -71,14 +80,18 @@ export default function BrainrotsPage() {
                 "Base Income",
                 "Acquisition",
                 "Availability",
+                "Details",
               ]}
               rows={brainrots.map((brainrot) => [
                 brainrot.name,
-                brainrot.rarity,
-                brainrot.baseCost,
-                brainrot.baseIncome,
-                brainrot.acquisitionMethod,
+                brainrot.rarity ?? "Unknown",
+                brainrot.baseCostDisplay ?? "Unknown",
+                brainrot.baseIncomeDisplay ?? "Unknown",
+                brainrot.acquisitionMethod ?? "Unknown",
                 brainrot.availability,
+                <Link key={brainrot.slug} href={`/brainrots/${brainrot.slug}`} className="text-[#d4af6a] hover:text-[#f0ece4]">
+                  View
+                </Link>,
               ])}
             />
           </div>
@@ -96,7 +109,7 @@ export default function BrainrotsPage() {
           <SectionTitle tag="Reference" title="Acquisition Methods" align="left" />
           <EmptyState
             title="Most listed entries come from buying or stealing."
-            description="Standard brainrots can appear through the conveyor rotation, while stealing depends on another player's base access and server timing."
+            description="Common acquisition methods include buying from in-game offers and stealing from another player's base, but each record keeps its current method separate."
           />
         </section>
 

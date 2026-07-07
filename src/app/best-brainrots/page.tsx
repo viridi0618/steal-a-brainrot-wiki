@@ -15,10 +15,18 @@ export const metadata: Metadata = {
     "Steal a Brainrot best brainrots guide with ranking criteria for income, rarity, value, availability, and steal risk.",
   alternates: { canonical: "/best-brainrots" },
   openGraph: {
-    title: "Best Brainrots | Steal a Brainrot Wiki",
+    title: "Best Brainrots | Steal a Brainrot Guide",
     description:
       "Compare Steal a Brainrot entries with clear ranking criteria and no invented stats.",
     url: `${siteConfig.url}/best-brainrots`,
+    images: [siteConfig.defaultSocialImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Best Brainrots | Steal a Brainrot Guide",
+    description:
+      "Ranking criteria for Steal a Brainrot records with disputed values excluded.",
+    images: [siteConfig.defaultSocialImage],
   },
 };
 
@@ -46,7 +54,7 @@ export default function BestBrainrotsPage() {
               ["S Tier", "Reserved for fully verified high-income or high-value entries."],
               ["A Tier", "Strong choices once income, rarity, and availability are confirmed."],
               ["B Tier", "Useful progression entries with clear tradeoffs."],
-              ["Early Game", "Noobini Pizzanini is the verified starter economy reference."],
+              ["Early Game", "Starter picks require cross-checked cost and income data before ranking."],
             ].map(([tier, description]) => (
               <div key={tier} className="grid md:grid-cols-[120px_1fr] rounded-lg overflow-hidden border border-[#2a2826]">
                 <div className="bg-[#d4af6a] text-[#05030c] font-bold px-5 py-4">{tier}</div>
@@ -59,7 +67,7 @@ export default function BestBrainrotsPage() {
         </section>
 
         <section className="grid md:grid-cols-2 gap-6">
-          <EmptyState title="Best Early Game" description="Noobini Pizzanini is a verified low-cost starter with $25 cost and $1/s income." />
+          <EmptyState title="Best Early Game" description="Noobini Pizzanini has a low-confidence starter data record and should be cross-checked before being used in rankings." />
           <EmptyState title="Best Late Game" description="Late-game recommendations require verified high-end income and availability data before ranking." />
           <EmptyState title="Best for Beginners" description="Choose cheap, easy-to-replace brainrots until your base income can support riskier purchases." />
           <EmptyState title="Best Currently Obtainable" description="Standard rotation entries are easier to recommend than event-only or limited entries." />
@@ -71,14 +79,14 @@ export default function BestBrainrotsPage() {
           <DataTable
             headers={["Rank", "Brainrot", "Rarity", "Income", "Availability", "Reason"]}
             rows={[
-              ["Early", "Noobini Pizzanini", "Common", "$1/s", "Standard rotation", "Verified starter economy entry."],
+              ["Unranked", "Noobini Pizzanini", "Common", "1 Cash/s", "Obtainable", "Low-confidence record; excluded from verified rankings."],
               ...brainrots
                 .filter((brainrot) => brainrot.name !== "Noobini Pizzanini")
                 .map((brainrot) => [
                   "Unranked",
                   brainrot.name,
-                  brainrot.rarity,
-                  brainrot.baseIncome,
+                  brainrot.rarity ?? "Unknown",
+                  brainrot.baseIncomeDisplay ?? "Unknown",
                   brainrot.availability,
                   "Needs verified stats before tier placement.",
                 ]),

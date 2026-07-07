@@ -9,12 +9,16 @@ import {
   RelatedSection,
 } from "./WikiBlocks";
 import { traitFaqs } from "@/lib/data";
-import type { Trait } from "@/lib/types";
+import type { TraitRecord } from "@/lib/types";
 
-export default function TraitDetailTemplate({ trait }: { trait: Trait }) {
+function displayValue(value: string | null) {
+  return value ?? "Unknown";
+}
+
+export default function TraitDetailTemplate({ trait }: { trait: TraitRecord }) {
   return (
     <div className="min-h-screen">
-      <PageHero tag={trait.multiplier} title={trait.name} description={trait.description} />
+      <PageHero tag={trait.multiplierDisplay ?? "Unknown"} title={trait.name} description={trait.description} />
       <div className="max-w-7xl mx-auto px-4 py-16 space-y-16">
         <Breadcrumbs items={[{ label: "Traits", href: "/traits" }, { label: trait.name }]} />
 
@@ -28,10 +32,12 @@ export default function TraitDetailTemplate({ trait }: { trait: Trait }) {
             <QuickFactsPanel
               title="Quick Facts"
               items={[
-                { label: "Multiplier", value: trait.multiplier },
-                { label: "Category", value: trait.category },
-                { label: "Source", value: trait.acquisitionSource },
+                { label: "Multiplier", value: displayValue(trait.multiplierDisplay) },
+                { label: "Category", value: displayValue(trait.category) },
+                { label: "Source", value: displayValue(trait.acquisitionMethod) },
                 { label: "Availability", value: trait.availability },
+                { label: "Last Verified", value: trait.verifiedAt },
+                { label: "Confidence", value: trait.confidence },
               ]}
             />
           </div>
@@ -50,19 +56,25 @@ export default function TraitDetailTemplate({ trait }: { trait: Trait }) {
         <section>
           <SectionTitle tag="Details" title="Multiplier Details" align="left" />
           <DataTable
-            headers={["Rule", "Verified Value", "Notes"]}
-            rows={[
-              ["Multiplier", trait.multiplier, "Exact value is shown only when verified."],
-              ["Source", trait.acquisitionSource, "Current obtain method for this entry."],
+              headers={["Rule", "Verified Value", "Notes"]}
+              rows={[
+              ["Multiplier", displayValue(trait.multiplierDisplay), "Exact value is shown only when verified."],
+              ["Source", displayValue(trait.acquisitionMethod), "Current obtain method for this entry."],
               ["Availability", trait.availability, "Event and rotation status."],
             ]}
           />
         </section>
 
         <section className="grid md:grid-cols-2 gap-6">
-          <EmptyState title="Obtain Method" description={trait.acquisitionSource} />
+          <EmptyState title="Obtain Method" description={displayValue(trait.acquisitionMethod)} />
           <EmptyState title="Stacking Information" description="Check the final in-game income display before assuming modifiers stack in a specific order." />
         </section>
+        {trait.needsReview && trait.conflictNote && (
+          <section>
+            <SectionTitle tag="Review" title="Verification Note" align="left" />
+            <EmptyState title="Values need review" description={trait.conflictNote} />
+          </section>
+        )}
 
         <FAQSection faqs={traitFaqs} />
         <RelatedSection currentHref="/traits" />

@@ -8,7 +8,7 @@ import {
   RelatedSection,
   ScheduleBox,
 } from "@/components/WikiBlocks";
-import { eventFaqs, siteConfig } from "@/lib/data";
+import { eventFaqs, eventVerification, siteConfig } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Taco Tuesday",
@@ -20,6 +20,14 @@ export const metadata: Metadata = {
     description:
       "Taco Tuesday schedule notes, Taco Trait context, and preparation guide for Steal a Brainrot.",
     url: `${siteConfig.url}/taco-tuesday`,
+    images: [siteConfig.defaultSocialImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Taco Tuesday | Steal a Brainrot Guide",
+    description:
+      "Taco Tuesday event timing, Taco Trait context, and preparation tips.",
+    images: [siteConfig.defaultSocialImage],
   },
 };
 
@@ -37,6 +45,7 @@ export default function TacoTuesdayPage() {
           title="Taco Tuesday Schedule"
           description="Taco Tuesday is commonly listed as a Tuesday event tied to the Taco Trait. Check the live game near the window because event timing can shift after updates."
           time="Tuesday around 6:00 PM ET"
+          checkedAt={eventVerification.tacoTuesdayVerifiedAt}
         />
 
         <section>
@@ -89,7 +98,7 @@ export default function TacoTuesdayPage() {
         <section>
           <SectionTitle tag="Disclaimer" title="Schedule Disclaimer" align="left" />
           <p className="mt-6 text-sm leading-relaxed text-[#8a8884]">
-            Event timing and mechanics should be checked before publishing exact schedule or multiplier information.
+            Event timing and mechanics can change. Official announcements and the live game take priority over community schedule notes.
           </p>
         </section>
 

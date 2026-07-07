@@ -8,7 +8,7 @@ import {
   RelatedSection,
   ScheduleBox,
 } from "@/components/WikiBlocks";
-import { eventFaqs, siteConfig } from "@/lib/data";
+import { eventFaqs, eventVerification, siteConfig } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Admin Abuse",
@@ -20,6 +20,14 @@ export const metadata: Metadata = {
     description:
       "Admin Abuse schedule notes and preparation guide for Steal a Brainrot.",
     url: `${siteConfig.url}/admin-abuse`,
+    images: [siteConfig.defaultSocialImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Admin Abuse | Steal a Brainrot Guide",
+    description:
+      "Admin Abuse schedule caveats, rewards notes, and preparation tips.",
+    images: [siteConfig.defaultSocialImage],
   },
 };
 
@@ -37,6 +45,7 @@ export default function AdminAbusePage() {
           title="Admin Abuse Schedule"
           description="Admin Abuse is commonly watched around the weekly update window. Treat the time as a planning note because live timing can shift with updates and server activity."
           time="Saturday around 3:00 PM ET, commonly tied to the weekly update window"
+          checkedAt={eventVerification.adminAbuseVerifiedAt}
         />
 
         <section>
@@ -87,7 +96,7 @@ export default function AdminAbusePage() {
         <section>
           <SectionTitle tag="Disclaimer" title="Schedule Disclaimer" align="left" />
           <p className="mt-6 text-sm leading-relaxed text-[#8a8884]">
-            Event times can change. This page should only show schedule details after they have been checked against a reliable source.
+            Event times can change. Official announcements and the live game take priority over community schedule notes.
           </p>
         </section>
 

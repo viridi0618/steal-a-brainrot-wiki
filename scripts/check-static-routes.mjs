@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 const outDir = path.resolve("out");
-const routes = [
+const hubRoutes = [
   "/",
   "/brainrots",
   "/traits",
@@ -13,6 +13,21 @@ const routes = [
   "/taco-tuesday",
   "/faq",
 ];
+
+const requiredFiles = [
+  "index.html",
+  "sitemap.xml",
+  "robots.txt",
+  "og-image.png",
+  "favicon.ico",
+];
+
+const dynamicRoutes = [
+  "/brainrots/noobini-pizzanini",
+  "/traits/taco",
+];
+
+const routes = [...hubRoutes, ...dynamicRoutes];
 
 function resolveFile(urlPath) {
   const clean = urlPath === "/" ? "index" : urlPath.replace(/^\//, "").replace(/\/$/, "");
@@ -42,6 +57,13 @@ const address = server.address();
 const baseUrl = `http://127.0.0.1:${address.port}`;
 
 try {
+  for (const requiredFile of requiredFiles) {
+    const file = path.join(outDir, requiredFile);
+    if (!fs.existsSync(file)) {
+      throw new Error(`Missing generated file: out/${requiredFile}`);
+    }
+  }
+
   for (const route of routes) {
     const response = await fetch(`${baseUrl}${route}`);
     if (response.status !== 200) {
@@ -55,7 +77,17 @@ try {
     throw new Error("Custom 404 route did not return the expected page.");
   }
 
-  console.log(`Verified ${routes.length} public routes and custom 404.`);
+  const invalidBrainrot = await fetch(`${baseUrl}/brainrots/not-a-real-brainrot`);
+  if (invalidBrainrot.status !== 404) {
+    throw new Error("Invalid Brainrot slug did not return 404.");
+  }
+
+  const invalidTrait = await fetch(`${baseUrl}/traits/gold`);
+  if (invalidTrait.status !== 404) {
+    throw new Error("Mutation slug exposed under /traits.");
+  }
+
+  console.log(`Verified ${routes.length} routes, required files, and custom 404 behavior.`);
 } finally {
   server.close();
 }

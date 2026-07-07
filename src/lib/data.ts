@@ -1,18 +1,15 @@
-import type { Brainrot, FAQ, GuideLink, InfoItem, NavItem, PublicRoute, SiteConfig, Trait } from "./types";
+import { brainrots, verifiedBrainrotRecords } from "@/data/brainrots";
+import { checkedAt } from "@/data/sources";
+import { mutations } from "@/data/mutations";
+import { traits, verifiedTraitRecords } from "@/data/traits";
+import { siteConfig } from "./site-config";
+import type { FAQ, GuideLink, InfoItem, NavItem, PublicRoute } from "./types";
 
-const fallbackSiteUrl = "https://stealabrainrot.wiki";
+export { brainrots, mutations, siteConfig, traits, verifiedBrainrotRecords, verifiedTraitRecords };
 
-export const siteConfig: SiteConfig = {
-  name: "Steal a Brainrot Wiki",
-  shortName: "Brainrot Wiki",
-  gameName: "Steal a Brainrot",
-  description:
-    "A fan-made Steal a Brainrot wiki for brainrot entries, trait notes, index progress, event timing, and practical beginner guides.",
-  url: process.env.NEXT_PUBLIC_SITE_URL || fallbackSiteUrl,
-  officialGameUrl:
-    process.env.NEXT_PUBLIC_OFFICIAL_GAME_URL ||
-    "https://www.roblox.com/games/109983668079237/Steal-a-Brainrot",
-  defaultSocialImage: "/og-image.png",
+export const eventVerification = {
+  adminAbuseVerifiedAt: checkedAt.adminAbuse,
+  tacoTuesdayVerifiedAt: checkedAt.tacoTuesday,
 };
 
 export const publicRoutes: { href: PublicRoute; label: string; priority: number }[] = [
@@ -44,136 +41,6 @@ export const navItems: NavItem[] = [
     label: "More",
     href: "/faq",
     submenu: [{ label: "FAQ", href: "/faq" }],
-  },
-];
-
-export const lastChecked = "July 7, 2026";
-
-export const brainrots: Brainrot[] = [
-  {
-    slug: "noobini-pizzanini",
-    name: "Noobini Pizzanini",
-    rarity: "Common",
-    baseCost: "$25",
-    baseIncome: "$1/s",
-    acquisitionMethod: "Buy from the conveyor when it appears",
-    availability: "Standard rotation",
-    traits: ["Unknown"],
-    mutations: ["Unknown"],
-    description:
-      "Noobini Pizzanini is an early Common brainrot used as a starter economy piece. Its low cost and low income make it useful for opening a run, filling index progress, and learning the buy-steal-defend loop before chasing rarer spawns.",
-  },
-  {
-    slug: "lirili-larila",
-    name: "Lirili Larila",
-    rarity: "Unknown",
-    baseCost: "Unknown",
-    baseIncome: "Unknown",
-    acquisitionMethod: "Buy from the conveyor when it appears",
-    availability: "Standard rotation",
-    traits: ["Unknown"],
-    mutations: ["Unknown"],
-    description:
-      "Lirili Larila is a listed brainrot entry. This wiki keeps its cost, income, and rarity marked Unknown until those values are checked directly against an in-game source or a reliable data table.",
-  },
-  {
-    slug: "tralalero-tralala",
-    name: "Tralalero Tralala",
-    rarity: "Unknown",
-    baseCost: "Unknown",
-    baseIncome: "Unknown",
-    acquisitionMethod: "Buy from the conveyor or steal from another base",
-    availability: "Standard rotation",
-    traits: ["Unknown"],
-    mutations: ["Unknown"],
-    description:
-      "Tralalero Tralala is a recognizable brainrot name from the game roster. Exact economy values change the usefulness of a brainrot, so this entry avoids ranking claims until verified numbers are available.",
-  },
-  {
-    slug: "tung-tung-tung-sahur",
-    name: "Tung Tung Tung Sahur",
-    rarity: "Unknown",
-    baseCost: "Unknown",
-    baseIncome: "Unknown",
-    acquisitionMethod: "Buy from the conveyor or steal from another base",
-    availability: "Standard rotation",
-    traits: ["Unknown"],
-    mutations: ["Unknown"],
-    description:
-      "Tung Tung Tung Sahur is tracked as a brainrot collection entry. Players should compare its in-game price and money-per-second value before deciding whether to keep it, protect it, or replace it.",
-  },
-  {
-    slug: "brr-brr-patapim",
-    name: "Brr Brr Patapim",
-    rarity: "Unknown",
-    baseCost: "Unknown",
-    baseIncome: "Unknown",
-    acquisitionMethod: "Buy from the conveyor or steal from another base",
-    availability: "Standard rotation",
-    traits: ["Unknown"],
-    mutations: ["Unknown"],
-    description:
-      "Brr Brr Patapim is included as a known roster name, with economy values left Unknown on this site until verified. That keeps the entry useful without turning unconfirmed stats into guide advice.",
-  },
-  {
-    slug: "cappuccino-assassino",
-    name: "Cappuccino Assassino",
-    rarity: "Unknown",
-    baseCost: "Unknown",
-    baseIncome: "Unknown",
-    acquisitionMethod: "Buy from the conveyor or steal from another base",
-    availability: "Standard rotation",
-    traits: ["Unknown"],
-    mutations: ["Unknown"],
-    description:
-      "Cappuccino Assassino is tracked for future rarity, value, trait, and mutation notes. Until exact stats are verified, it should not be treated as a ranked recommendation.",
-  },
-];
-
-export const traits: Trait[] = [
-  {
-    slug: "gold",
-    name: "Gold",
-    multiplier: "Unknown",
-    category: "Mutation",
-    acquisitionSource: "Appears on brainrots through mutation mechanics",
-    availability: "Game rotation",
-    effect: "Changes the brainrot variant and may affect value or income; exact multiplier is not verified on this site.",
-    description:
-      "Gold is tracked as a mutation-style modifier. The name is useful for filtering and comparison, while exact multiplier behavior remains Unknown until checked against reliable current data.",
-  },
-  {
-    slug: "diamond",
-    name: "Diamond",
-    multiplier: "Unknown",
-    category: "Mutation",
-    acquisitionSource: "Appears on brainrots through mutation mechanics",
-    availability: "Game rotation",
-    effect: "Changes the brainrot variant and may affect value or income; exact multiplier is not verified on this site.",
-    description:
-      "Diamond is a mutation-style modifier used for brainrot variants. This wiki records the trait name and source type without publishing unverified multiplier numbers.",
-  },
-  {
-    slug: "rainbow",
-    name: "Rainbow",
-    multiplier: "Unknown",
-    category: "Mutation",
-    acquisitionSource: "Appears on brainrots through mutation mechanics",
-    availability: "Game rotation",
-    effect: "Changes the brainrot variant and may affect value or income; exact multiplier is not verified on this site.",
-    description:
-      "Rainbow is listed as a mutation-style modifier. Because ranking and value advice depend on exact multipliers, this entry keeps its numerical effect marked Unknown until validated.",
-  },
-  {
-    slug: "taco",
-    name: "Taco",
-    multiplier: "Unknown",
-    category: "Event Trait",
-    acquisitionSource: "Taco Tuesday event",
-    availability: "Weekly event window",
-    effect: "Associated with Taco Tuesday; exact current multiplier should be checked before publishing value advice.",
-    description:
-      "Taco is associated with the Taco Tuesday event. The event source is documented, while the current multiplier remains Unknown here until it is checked against the live game or a reliable current wiki table.",
   },
 ];
 
@@ -262,7 +129,7 @@ export const brainrotFaqs: FAQ[] = [
   {
     question: "Why are some brainrot stats marked Unknown?",
     answer:
-      "Unknown means this site has not verified the current value from a reliable source. Steal a Brainrot updates can change economy balance, event availability, and player demand, so publishing guessed costs or income would make the wiki less useful. Unknown fields are kept visible so future editors know exactly what to check.",
+      "Unknown means the current value is not supported strongly enough to publish as fact. Steal a Brainrot updates can change economy balance, event availability, and player demand, so guessed costs or income are excluded from recommendations and comparison tables.",
   },
   {
     question: "What makes a brainrot valuable?",

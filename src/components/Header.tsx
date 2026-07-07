@@ -43,7 +43,7 @@ export default function Header() {
             href="/"
             className="text-xl sm:text-2xl font-bold tracking-wider text-[#f0ece4] hover:text-[#d4af6a] transition-colors duration-200"
           >
-            {siteConfig.name}
+            {siteConfig.siteName}
           </Link>
 
           <nav className="hidden md:flex items-center gap-1" aria-label="Main navigation">

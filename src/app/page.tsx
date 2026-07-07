@@ -1,38 +1,52 @@
 import type { Metadata } from "next";
-import SectionTitle from "@/components/SectionTitle";
-import InfoCard from "@/components/InfoCard";
 import CTALink from "@/components/CTALink";
 import FAQAccordion from "@/components/FAQAccordion";
+import InfoCard from "@/components/InfoCard";
 import RelatedGuides from "@/components/RelatedGuides";
+import SectionTitle from "@/components/SectionTitle";
+import { DataTable, QuickFactsPanel, StatGrid } from "@/components/WikiBlocks";
 import {
-  DataTable,
-  QuickFactsPanel,
-  StatGrid,
-} from "@/components/WikiBlocks";
-import { allFaqs, brainrots, quickFacts, siteConfig, traits } from "@/lib/data";
+  allFaqs,
+  brainrots,
+  quickFacts,
+  siteConfig,
+  traits,
+  verifiedBrainrotRecords,
+  verifiedTraitRecords,
+} from "@/lib/data";
+import { absoluteUrl } from "@/lib/site-config";
 
 export const metadata: Metadata = {
-  title: "Steal a Brainrot Wiki - Brainrots, Traits, Index & Event Guides",
+  title: "Steal a Brainrot Guide - Brainrots, Traits, Index & Events",
   description:
-    "Steal a Brainrot Wiki homepage with concise brainrot entries, trait notes, event guides, index help, and FAQs.",
+    "Steal a Brainrot Guide homepage with Brainrot records, Trait notes, event guides, Index help, and FAQs.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "Steal a Brainrot Wiki",
-    description:
-      "A fan-made Steal a Brainrot wiki for brainrots, traits, events, index progress, and practical game guidance.",
+    title: "Steal a Brainrot Guide",
+    description: siteConfig.description,
     url: siteConfig.url,
+    images: [siteConfig.defaultSocialImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Steal a Brainrot Guide",
+    description: siteConfig.description,
+    images: [siteConfig.defaultSocialImage],
   },
 };
 
 export default function Home() {
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: siteConfig.name,
+    "@type": "WebSite",
+    name: siteConfig.siteName,
     url: siteConfig.url,
     description: siteConfig.description,
-    applicationCategory: "GameApplication",
-    operatingSystem: "Web",
+    about: {
+      "@type": "VideoGame",
+      name: siteConfig.gameName,
+      url: siteConfig.officialGameUrl,
+    },
   };
 
   return (
@@ -59,13 +73,13 @@ export default function Home() {
         />
         <div className="relative z-10 max-w-5xl mx-auto px-4 text-center">
           <span className="inline-block text-xs font-medium tracking-[0.2em] uppercase mb-6 text-[#d4af6a]">
-            {siteConfig.name}
+            {siteConfig.siteName}
           </span>
           <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight mb-6">
-            Steal a Brainrot Wiki
+            Steal a Brainrot Guide
           </h1>
           <p className="text-base md:text-lg max-w-2xl mx-auto mb-10 leading-relaxed text-[#8a8884]">
-            Track brainrots, trait sources, event windows, Index progress, and beginner decisions for the Roblox game Steal a Brainrot.
+            Track Brainrot records, Trait sources, event windows, Index progress, and beginner decisions for the Roblox game Steal a Brainrot.
           </p>
           <div className="flex flex-wrap justify-center gap-4 mb-16">
             <CTALink href="/brainrots" variant="primary">
@@ -80,12 +94,16 @@ export default function Home() {
           </div>
           <StatGrid
             items={[
-              { label: "Brainrots", value: `${brainrots.length}` },
-              { label: "Traits", value: `${traits.length}` },
-              { label: "Index Guide", value: "1" },
+              { label: "Brainrot Records", value: `${brainrots.length}` },
+              { label: "Trait Records", value: `${traits.length}` },
+              {
+                label: "Reviewed Records",
+                value: `${verifiedBrainrotRecords.length + verifiedTraitRecords.length}`,
+              },
               { label: "Event Guides", value: "2" },
             ]}
           />
+          <span className="sr-only">Canonical domain: {absoluteUrl("/")}</span>
         </div>
       </section>
 
@@ -95,10 +113,10 @@ export default function Home() {
           <div className="grid md:grid-cols-5 gap-8 mt-10">
             <div className="md:col-span-3 space-y-4">
               <p className="text-base leading-relaxed text-[#f0ece4]">
-                Steal a Brainrot is a Roblox tycoon and collection game about buying brainrots, earning cash from them, stealing stronger ones from other players, and protecting your own base.
+                Steal a Brainrot is a Roblox tycoon and collection game about buying Brainrots, earning cash from them, stealing stronger ones from other players, and protecting your own base.
               </p>
               <p className="text-base leading-relaxed text-[#8a8884]">
-                This wiki focuses on concise reference pages: known brainrot entries, trait and mutation notes, event schedules, Index guidance, and practical tips that avoid invented numbers.
+                This guide focuses on concise reference pages: Brainrot records, Trait notes, Mutation comparisons, event schedule caveats, Index guidance, and practical tips that avoid invented numbers.
               </p>
             </div>
             <div className="md:col-span-2">
@@ -114,8 +132,8 @@ export default function Home() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
             {[
               { title: "Brainrots", href: "/brainrots", tag: "Database", description: "Known entries with rarity, cost, income, acquisition, and availability fields." },
-              { title: "Traits", href: "/traits", tag: "Database", description: "Mutation and event-trait notes with multiplier fields marked carefully." },
-              { title: "Index", href: "/index", tag: "Reference", description: "Collection progress help for owned, missing, and event-linked brainrots." },
+              { title: "Traits", href: "/traits", tag: "Database", description: "Actual Traits only, with Mutations handled separately for comparison." },
+              { title: "Index", href: "/index", tag: "Reference", description: "Collection progress help for owned, missing, and event-linked Brainrots." },
               { title: "Best Brainrots", href: "/best-brainrots", tag: "Guide", description: "Ranking criteria based on income, rarity, access, and steal risk." },
             ].map((item) => (
               <InfoCard key={item.href} tag={item.tag} title={item.title} description={item.description} href={item.href} />
@@ -126,15 +144,15 @@ export default function Home() {
 
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4">
-          <SectionTitle tag="Popular Brainrots" title="Popular Brainrots" align="left" />
+          <SectionTitle tag="Popular Brainrots" title="Brainrot Records" align="left" />
           <div className="mt-8">
             <DataTable
               headers={["Name", "Rarity", "Base Cost", "Base Income", "Availability"]}
               rows={brainrots.slice(0, 5).map((brainrot) => [
                 brainrot.name,
-                brainrot.rarity,
-                brainrot.baseCost,
-                brainrot.baseIncome,
+                brainrot.rarity ?? "Unknown",
+                brainrot.baseCostDisplay ?? "Unknown",
+                brainrot.baseIncomeDisplay ?? "Unknown",
                 brainrot.availability,
               ])}
             />
@@ -144,14 +162,14 @@ export default function Home() {
 
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4">
-          <SectionTitle tag="Popular Traits" title="Popular Traits" align="left" />
+          <SectionTitle tag="Popular Traits" title="Trait Records" align="left" />
           <div className="mt-8">
             <DataTable
               headers={["Trait", "Multiplier", "Source", "Availability"]}
               rows={traits.map((trait) => [
                 trait.name,
-                trait.multiplier,
-                trait.acquisitionSource,
+                trait.multiplierDisplay ?? "Unknown",
+                trait.acquisitionMethod ?? "Unknown",
                 trait.availability,
               ])}
             />
@@ -178,7 +196,7 @@ export default function Home() {
               { title: "Index Guide", href: "/index", tag: "Reference", description: "How collection progress is organized." },
               { title: "Admin Abuse", href: "/admin-abuse", tag: "Event", description: "Schedule notes and preparation advice." },
               { title: "Taco Tuesday", href: "/taco-tuesday", tag: "Event", description: "Taco Trait context and event timing." },
-              { title: "Traits Guide", href: "/traits", tag: "Guide", description: "Trait categories, sources, and unknown values." },
+              { title: "Traits Guide", href: "/traits", tag: "Guide", description: "Trait categories, sources, and Mutation comparison." },
             ].map((guide) => (
               <InfoCard key={guide.href} tag={guide.tag} title={guide.title} description={guide.description} href={guide.href} />
             ))}
@@ -190,9 +208,9 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4">
           <SectionTitle tag="Resources" title="Useful Resources" />
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
-            <InfoCard title="Brainrots" description="Browse known brainrot entries and stat fields." href="/brainrots" />
-            <InfoCard title="Traits" description="Review mutation and event trait notes." href="/traits" />
-            <InfoCard title="Index" description="Open the collection index page." href="/index" />
+            <InfoCard title="Brainrots" description="Browse known Brainrot entries and stat fields." href="/brainrots" />
+            <InfoCard title="Traits" description="Review Trait records and Mutation differences." href="/traits" />
+            <InfoCard title="Index" description="Open the collection Index page." href="/index" />
             <InfoCard title="FAQ" description="Read short answers by topic." href="/faq" />
           </div>
         </div>
@@ -225,7 +243,7 @@ export default function Home() {
             Build Your Collection With Checked Notes
           </h2>
           <p className="text-base mb-8 max-w-lg mx-auto text-[#2a2826]">
-            Start with the brainrot list, compare trait notes, then use event pages to plan around weekly activity.
+            Start with the Brainrot list, compare Trait notes, then use event pages to plan around weekly activity.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <CTALink href="/brainrots" variant="primary">

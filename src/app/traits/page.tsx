@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import PageHero from "@/components/PageHero";
 import SectionTitle from "@/components/SectionTitle";
 import {
@@ -9,18 +10,26 @@ import {
   RelatedSection,
   StatGrid,
 } from "@/components/WikiBlocks";
-import { siteConfig, traitFaqs, traits } from "@/lib/data";
+import { mutations, siteConfig, traitFaqs, traits } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Traits",
   description:
-    "Steal a Brainrot traits page with mutation notes, event-trait sources, multipliers, availability, and usage guidance.",
+    "Steal a Brainrot Traits page with Mutation notes, event Trait sources, multipliers, availability, and usage guidance.",
   alternates: { canonical: "/traits" },
   openGraph: {
-    title: "Traits | Steal a Brainrot Wiki",
+    title: "Traits | Steal a Brainrot Guide",
     description:
       "Review Steal a Brainrot trait sources, categories, and multiplier fields.",
     url: `${siteConfig.url}/traits`,
+    images: [siteConfig.defaultSocialImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Traits | Steal a Brainrot Guide",
+    description:
+      "Trait records separated from Mutations for Steal a Brainrot.",
+    images: [siteConfig.defaultSocialImage],
   },
 };
 
@@ -44,15 +53,15 @@ export default function TraitsPage() {
         <section>
           <SectionTitle tag="Comparison" title="Traits vs Mutations" align="left" />
           <div className="grid md:grid-cols-2 gap-6 mt-8">
-            <EmptyState title="Traits" description="Event or modifier labels tied to source, availability, and potential value changes." />
-            <EmptyState title="Mutations" description="Variant-style modifiers such as Gold, Diamond, and Rainbow that can affect how a brainrot is evaluated." />
+            <EmptyState title="Traits" description="Traits may be applied through events or special mechanics and are tracked separately from Mutations." />
+            <EmptyState title="Mutations" description="Mutations are a separate modification system. Gold, Diamond, and Rainbow are not counted as Traits." />
           </div>
         </section>
 
         <StatGrid
           items={[
-            { label: "Traits", value: `${traits.length}` },
-            { label: "Categories", value: "2" },
+            { label: "Trait Records", value: `${traits.length}` },
+            { label: "Mutation Records", value: `${mutations.length}` },
             { label: "Multipliers", value: "Unknown" },
             { label: "Event Trait", value: "Taco" },
           ]}
@@ -72,13 +81,16 @@ export default function TraitsPage() {
           <SectionTitle tag="All Traits" title="Traits List" align="left" />
           <div className="mt-8">
             <DataTable
-              headers={["Trait", "Multiplier", "Category", "Source", "Availability"]}
+              headers={["Trait", "Multiplier", "Category", "Source", "Availability", "Details"]}
               rows={traits.map((trait) => [
                 trait.name,
-                trait.multiplier,
-                trait.category,
-                trait.acquisitionSource,
+                trait.multiplierDisplay ?? "Unknown",
+                trait.category ?? "Unknown",
+                trait.acquisitionMethod ?? "Unknown",
                 trait.availability,
+                <Link key={trait.slug} href={`/traits/${trait.slug}`} className="text-[#d4af6a] hover:text-[#f0ece4]">
+                  View
+                </Link>,
               ])}
             />
           </div>
@@ -93,10 +105,15 @@ export default function TraitsPage() {
         </section>
 
         <section>
-          <SectionTitle tag="Sources" title="Acquisition Sources" align="left" />
-          <EmptyState
-            title="Sources depend on rotation and events."
-            description="Standard mutation-style modifiers are tracked separately from event traits such as Taco, which is associated with Taco Tuesday."
+          <SectionTitle tag="Comparison" title="Mutation Comparison" align="left" />
+          <DataTable
+            headers={["Mutation", "Multiplier", "Availability", "Note"]}
+            rows={mutations.map((mutation) => [
+              mutation.name,
+              mutation.multiplierDisplay ?? "Unknown",
+              mutation.availability,
+              "Mutation record, not a Trait.",
+            ])}
           />
         </section>
 

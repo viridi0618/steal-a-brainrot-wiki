@@ -21,6 +21,14 @@ export const metadata: Metadata = {
     description:
       "Track Steal a Brainrot collection progress and known Index categories.",
     url: `${siteConfig.url}/index`,
+    images: [siteConfig.defaultSocialImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Complete Brainrot Index | Steal a Brainrot Guide",
+    description:
+      "Index guide for tracked, missing, and event-linked Brainrot records.",
+    images: [siteConfig.defaultSocialImage],
   },
 };
 
@@ -73,9 +81,9 @@ export default function IndexPage() {
             headers={["Brainrot", "Rarity", "Availability", "Index Note"]}
             rows={brainrots.map((brainrot) => [
               brainrot.name,
-              brainrot.rarity,
+              brainrot.rarity ?? "Unknown",
               brainrot.availability,
-              brainrot.baseIncome === "Unknown"
+              brainrot.baseIncomeDisplay === null
                 ? "Entry tracked; economy values need a current check."
                 : "Entry tracked with verified early economy values.",
             ])}
