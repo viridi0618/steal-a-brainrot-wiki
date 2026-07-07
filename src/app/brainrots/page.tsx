@@ -2,24 +2,24 @@ import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
 import SectionTitle from "@/components/SectionTitle";
 import {
+  DataTable,
   EmptyState,
   FAQSection,
   FilterBar,
-  PlaceholderTable,
   RelatedSection,
   StatGrid,
 } from "@/components/WikiBlocks";
-import { brainrotFaqs, siteConfig } from "@/lib/data";
+import { brainrotFaqs, brainrots, siteConfig } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Brainrots",
   description:
-    "Steal a Brainrot brainrots database structure prepared for verified rarity, cost, income, acquisition, and availability data.",
+    "Steal a Brainrot brainrots database with known entries, rarity, cost, income, acquisition, and availability fields.",
   alternates: { canonical: "/brainrots" },
   openGraph: {
     title: "Brainrots | Steal a Brainrot Wiki",
     description:
-      "Prepared brainrot database layout for verified Steal a Brainrot entries.",
+      "Browse known Steal a Brainrot entries and careful stat notes.",
     url: `${siteConfig.url}/brainrots`,
   },
 };
@@ -30,23 +30,23 @@ export default function BrainrotsPage() {
       <PageHero
         tag="Database"
         title="Brainrots"
-        description="A structured database page ready for verified brainrot entries, values, income, acquisition methods, and availability."
+        description="Known brainrot entries with rarity, value, income, acquisition, and availability fields kept accurate or marked Unknown."
       />
 
       <div className="max-w-7xl mx-auto px-4 py-16 space-y-16">
         <section>
           <SectionTitle tag="Overview" title="Brainrot Database Overview" align="left" />
           <p className="mt-6 max-w-3xl text-base leading-relaxed text-[#8a8884]">
-            This page is prepared to organize verified brainrot data without publishing fictional entries. Future data can be added to the table and detail templates when confirmed.
+            Brainrots are the core collectibles and income generators in Steal a Brainrot. Use this page to compare known names, early verified stats, obtain methods, and open data fields before deciding what to buy, steal, or protect.
           </p>
         </section>
 
         <StatGrid
           items={[
-            { label: "Entries", value: "Pending" },
-            { label: "Rarities", value: "Pending" },
-            { label: "Income Data", value: "Pending" },
-            { label: "Availability", value: "Pending" },
+            { label: "Entries", value: `${brainrots.length}` },
+            { label: "Verified Costs", value: "1" },
+            { label: "Verified Income", value: "1" },
+            { label: "Availability", value: "Standard" },
           ]}
         />
 
@@ -63,19 +63,23 @@ export default function BrainrotsPage() {
         <section>
           <SectionTitle tag="All Brainrots" title="All Brainrots" align="left" />
           <div className="mt-8">
-            <PlaceholderTable
+            <DataTable
               headers={[
-                "Image",
                 "Name",
                 "Rarity",
                 "Base Cost",
                 "Base Income",
                 "Acquisition",
                 "Availability",
-                "Details",
               ]}
-              emptyTitle="Brainrot data will be added after verification."
-              emptyDescription="The table supports image, name, rarity, base cost, base income, acquisition method, availability, and detail links."
+              rows={brainrots.map((brainrot) => [
+                brainrot.name,
+                brainrot.rarity,
+                brainrot.baseCost,
+                brainrot.baseIncome,
+                brainrot.acquisitionMethod,
+                brainrot.availability,
+              ])}
             />
           </div>
         </section>
@@ -83,16 +87,16 @@ export default function BrainrotsPage() {
         <section>
           <SectionTitle tag="Reference" title="Rarity Explanation" align="left" />
           <EmptyState
-            title="Rarity notes are pending."
-            description="This section is reserved for verified rarity definitions, rarity ordering, and how rarity affects collection decisions."
+            title="Rarity affects both demand and risk."
+            description="Rarer brainrots are usually more attractive targets, so compare rarity with income and how easily you can defend the base."
           />
         </section>
 
         <section>
           <SectionTitle tag="Reference" title="Acquisition Methods" align="left" />
           <EmptyState
-            title="Acquisition method data is pending."
-            description="This section will explain verified sources such as standard acquisition, event availability, or other confirmed methods."
+            title="Most listed entries come from buying or stealing."
+            description="Standard brainrots can appear through the conveyor rotation, while stealing depends on another player's base access and server timing."
           />
         </section>
 

@@ -2,9 +2,9 @@ import PageHero from "./PageHero";
 import SectionTitle from "./SectionTitle";
 import {
   Breadcrumbs,
+  DataTable,
   EmptyState,
   FAQSection,
-  PlaceholderTable,
   QuickFactsPanel,
   RelatedSection,
 } from "./WikiBlocks";
@@ -21,7 +21,7 @@ export default function TraitDetailTemplate({ trait }: { trait: Trait }) {
         <section className="grid lg:grid-cols-5 gap-8">
           <div className="lg:col-span-2">
             <div className="rounded-lg border border-[#2a2826] bg-white/[0.03] aspect-square flex items-center justify-center text-[#8a8884]">
-              Image placeholder
+              Image unavailable
             </div>
           </div>
           <div className="lg:col-span-3">
@@ -44,21 +44,24 @@ export default function TraitDetailTemplate({ trait }: { trait: Trait }) {
 
         <section className="grid md:grid-cols-2 gap-6">
           <EmptyState title="Effect" description={trait.effect} />
-          <EmptyState title="Best Uses" description="Verified best-use guidance will be added after testing." />
+          <EmptyState title="Best Uses" description="Use this modifier on brainrots whose final income, rarity, and steal risk justify protecting them." />
         </section>
 
         <section>
           <SectionTitle tag="Details" title="Multiplier Details" align="left" />
-          <PlaceholderTable
+          <DataTable
             headers={["Rule", "Verified Value", "Notes"]}
-            emptyTitle="Multiplier details are pending."
-            emptyDescription="This area is prepared for verified multiplier ranges and stacking rules."
+            rows={[
+              ["Multiplier", trait.multiplier, "Exact value is shown only when verified."],
+              ["Source", trait.acquisitionSource, "Current obtain method for this entry."],
+              ["Availability", trait.availability, "Event and rotation status."],
+            ]}
           />
         </section>
 
         <section className="grid md:grid-cols-2 gap-6">
           <EmptyState title="Obtain Method" description={trait.acquisitionSource} />
-          <EmptyState title="Stacking Information" description="Verified stacking behavior will appear here." />
+          <EmptyState title="Stacking Information" description="Check the final in-game income display before assuming modifiers stack in a specific order." />
         </section>
 
         <FAQSection faqs={traitFaqs} />

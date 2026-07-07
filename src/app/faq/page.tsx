@@ -16,12 +16,12 @@ import {
 export const metadata: Metadata = {
   title: "FAQ",
   description:
-    "Steal a Brainrot Wiki FAQ with placeholder categories for gameplay, brainrots, traits, index progress, and events.",
+    "Steal a Brainrot Wiki FAQ for gameplay, brainrots, traits, index progress, Admin Abuse, and Taco Tuesday.",
   alternates: { canonical: "/faq" },
   openGraph: {
     title: "FAQ | Steal a Brainrot Wiki",
     description:
-      "Categorized placeholder FAQ prepared for verified Steal a Brainrot answers.",
+      "Categorized Steal a Brainrot answers for gameplay, brainrots, traits, index progress, and events.",
     url: `${siteConfig.url}/faq`,
   },
 };
@@ -40,7 +40,7 @@ export default function FAQPage() {
       <PageHero
         tag="Help"
         title="FAQ"
-        description="Placeholder questions grouped by topic so verified answers can be added without changing the page structure."
+        description="Short answers for Steal a Brainrot gameplay, brainrots, traits, the Index, Admin Abuse, and Taco Tuesday."
       />
 
       <div className="max-w-4xl mx-auto px-4 py-16 space-y-16">

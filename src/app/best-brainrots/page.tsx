@@ -2,22 +2,22 @@ import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
 import SectionTitle from "@/components/SectionTitle";
 import {
+  DataTable,
   EmptyState,
   FAQSection,
-  PlaceholderTable,
   RelatedSection,
 } from "@/components/WikiBlocks";
-import { brainrotFaqs, siteConfig } from "@/lib/data";
+import { brainrotFaqs, brainrots, siteConfig } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Best Brainrots",
   description:
-    "Steal a Brainrot ranking page prepared for verified methodology, tier lists, income comparisons, beginner picks, and obtainable entries.",
+    "Steal a Brainrot best brainrots guide with ranking criteria for income, rarity, value, availability, and steal risk.",
   alternates: { canonical: "/best-brainrots" },
   openGraph: {
     title: "Best Brainrots | Steal a Brainrot Wiki",
     description:
-      "Ranking structure prepared for verified Steal a Brainrot comparison data.",
+      "Compare Steal a Brainrot entries with clear ranking criteria and no invented stats.",
     url: `${siteConfig.url}/best-brainrots`,
   },
 };
@@ -28,25 +28,30 @@ export default function BestBrainrotsPage() {
       <PageHero
         tag="Guide"
         title="Best Brainrots"
-        description="A ranking guide structure prepared for verified data, comparison methodology, and future tier-list content."
+        description="Ranking criteria and current tracked picks for choosing brainrots without inventing unverified values."
       />
 
       <div className="max-w-7xl mx-auto px-4 py-16 space-y-16">
         <section>
           <SectionTitle tag="Methodology" title="Ranking Methodology" align="left" />
           <p className="mt-6 max-w-3xl text-base leading-relaxed text-[#8a8884]">
-            Rankings will be based on verified value, income, availability, event status, and practical use. No ranking slots are populated until data is checked.
+            The strongest brainrots are judged by income, rarity, cost efficiency, availability, event status, and how hard they are to protect. Unknown values are not used to force a fake tier position.
           </p>
         </section>
 
         <section>
-          <SectionTitle tag="Tier List" title="Tier-List Visual Container" align="left" />
+          <SectionTitle tag="Tier List" title="Tier List" align="left" />
           <div className="space-y-3 mt-8">
-            {["S Tier", "A Tier", "B Tier", "Situational"].map((tier) => (
+            {[
+              ["S Tier", "Reserved for fully verified high-income or high-value entries."],
+              ["A Tier", "Strong choices once income, rarity, and availability are confirmed."],
+              ["B Tier", "Useful progression entries with clear tradeoffs."],
+              ["Early Game", "Noobini Pizzanini is the verified starter economy reference."],
+            ].map(([tier, description]) => (
               <div key={tier} className="grid md:grid-cols-[120px_1fr] rounded-lg overflow-hidden border border-[#2a2826]">
                 <div className="bg-[#d4af6a] text-[#05030c] font-bold px-5 py-4">{tier}</div>
                 <div className="bg-white/[0.03] px-5 py-4 text-[#8a8884]">
-                  Empty ranking slots reserved for verified brainrots.
+                  {description}
                 </div>
               </div>
             ))}
@@ -54,19 +59,30 @@ export default function BestBrainrotsPage() {
         </section>
 
         <section className="grid md:grid-cols-2 gap-6">
-          <EmptyState title="Best Overall" description="Verified overall picks will appear here." />
-          <EmptyState title="Best for Income" description="Verified income-focused picks will appear here." />
-          <EmptyState title="Best for Beginners" description="Verified beginner-friendly picks will appear here." />
-          <EmptyState title="Best Currently Obtainable" description="Verified obtainable picks will appear here." />
-          <EmptyState title="Limited or Event" description="Verified limited and event notes will appear here." />
+          <EmptyState title="Best Early Game" description="Noobini Pizzanini is a verified low-cost starter with $25 cost and $1/s income." />
+          <EmptyState title="Best Late Game" description="Late-game recommendations require verified high-end income and availability data before ranking." />
+          <EmptyState title="Best for Beginners" description="Choose cheap, easy-to-replace brainrots until your base income can support riskier purchases." />
+          <EmptyState title="Best Currently Obtainable" description="Standard rotation entries are easier to recommend than event-only or limited entries." />
+          <EmptyState title="Limited or Event" description="Event picks should be ranked only after the active event source and rewards are checked." />
         </section>
 
         <section>
           <SectionTitle tag="Comparison" title="Full Comparison Table" align="left" />
-          <PlaceholderTable
+          <DataTable
             headers={["Rank", "Brainrot", "Rarity", "Income", "Availability", "Reason"]}
-            emptyTitle="Comparison data is pending."
-            emptyDescription="This table is ready for verified brainrot comparisons without fictional rankings."
+            rows={[
+              ["Early", "Noobini Pizzanini", "Common", "$1/s", "Standard rotation", "Verified starter economy entry."],
+              ...brainrots
+                .filter((brainrot) => brainrot.name !== "Noobini Pizzanini")
+                .map((brainrot) => [
+                  "Unranked",
+                  brainrot.name,
+                  brainrot.rarity,
+                  brainrot.baseIncome,
+                  brainrot.availability,
+                  "Needs verified stats before tier placement.",
+                ]),
+            ]}
           />
         </section>
 

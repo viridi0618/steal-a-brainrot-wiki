@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && node scripts/sync-out-to-public.mjs",
+    "build": "node scripts/clean-public-export.mjs && next build && node scripts/sync-out-to-public.mjs",
     "start": "next start",
     "lint": "eslint",
     "check:links": "node scripts/check-internal-links.mjs",

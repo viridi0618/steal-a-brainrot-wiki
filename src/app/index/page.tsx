@@ -3,23 +3,23 @@ import PageHero from "@/components/PageHero";
 import InfoCard from "@/components/InfoCard";
 import SectionTitle from "@/components/SectionTitle";
 import {
+  DataTable,
   EmptyState,
   FAQSection,
-  PlaceholderTable,
   RelatedSection,
   StatGrid,
 } from "@/components/WikiBlocks";
-import { indexFaqs, siteConfig } from "@/lib/data";
+import { brainrots, indexFaqs, siteConfig } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Complete Brainrot Index",
   description:
-    "Steal a Brainrot Index page prepared for collection progress, category cards, completion requirements, rewards, and missing-entry tracking.",
+    "Steal a Brainrot Index guide for collection progress, known entries, missing brainrots, and completion planning.",
   alternates: { canonical: "/index" },
   openGraph: {
     title: "Complete Brainrot Index | Steal a Brainrot Wiki",
     description:
-      "Collection index structure prepared for verified progress and reward data.",
+      "Track Steal a Brainrot collection progress and known Index categories.",
     url: `${siteConfig.url}/index`,
   },
 };
@@ -30,25 +30,25 @@ export default function IndexPage() {
       <PageHero
         tag="Collection"
         title="Complete Brainrot Index"
-        description="A dedicated collection index page prepared for progress tracking, requirements, rewards, and missing-entry notes."
+        description="Collection progress help for brainrots you own, entries you still need, and event-linked availability notes."
       />
 
       <div className="max-w-7xl mx-auto px-4 py-16 space-y-16">
         <section>
           <SectionTitle tag="Overview" title="What the Index Is" align="left" />
           <p className="mt-6 max-w-3xl text-base leading-relaxed text-[#8a8884]">
-            This page is reserved for verified in-game collection Index information. It is intentionally separate from the brainrot database so progress, rewards, and completion requirements can be documented clearly.
+            The Index is the collection reference for Steal a Brainrot. Use it to track which brainrots have been obtained, which names still need checking, and which entries may depend on events or rotations.
           </p>
         </section>
 
         <section>
-          <SectionTitle tag="Progress" title="Collection Progress Placeholder" align="left" />
+          <SectionTitle tag="Progress" title="Collection Progress" align="left" />
           <StatGrid
             items={[
-              { label: "Collected", value: "Pending" },
-              { label: "Missing", value: "Pending" },
-              { label: "Rewards", value: "Pending" },
-              { label: "Base Skins", value: "Pending" },
+              { label: "Tracked Entries", value: `${brainrots.length}` },
+              { label: "Verified Values", value: "1" },
+              { label: "Event Guide Pages", value: "2" },
+              { label: "Open Fields", value: "Unknown" },
             ]}
           />
         </section>
@@ -59,45 +59,51 @@ export default function IndexPage() {
             {["Rarity Groups", "Availability", "Event Entries", "Rewards"].map((title) => (
               <InfoCard
                 key={title}
-                tag="Pending"
+                tag="Index"
                 title={title}
-                description="This category card is ready for verified collection data."
+                description="Use this category to separate standard entries, event-linked entries, and rewards once checked."
               />
             ))}
           </div>
         </section>
 
         <section>
-          <SectionTitle tag="Requirements" title="Completion Requirements" align="left" />
-          <PlaceholderTable
-            headers={["Requirement", "Verified Criteria", "Reward", "Notes"]}
-            emptyTitle="Completion requirements are pending."
-            emptyDescription="This table is prepared for verified index requirements and reward conditions."
+          <SectionTitle tag="Index" title="Complete Brainrot Index" align="left" />
+          <DataTable
+            headers={["Brainrot", "Rarity", "Availability", "Index Note"]}
+            rows={brainrots.map((brainrot) => [
+              brainrot.name,
+              brainrot.rarity,
+              brainrot.availability,
+              brainrot.baseIncome === "Unknown"
+                ? "Entry tracked; economy values need a current check."
+                : "Entry tracked with verified early economy values.",
+            ])}
           />
         </section>
 
         <section>
           <SectionTitle tag="Rewards" title="Reward Cards" align="left" />
           <div className="grid md:grid-cols-3 gap-6 mt-8">
-            <EmptyState title="Reward Slot" description="Verified reward details will appear here." />
-            <EmptyState title="Base Skin Reward" description="Base Skin reward information is pending verification." />
-            <EmptyState title="Completion Bonus" description="Completion bonus details will be added after verification." />
+            <EmptyState title="Index Rewards" description="Record reward names only after the requirement and reward are checked in game." />
+            <EmptyState title="Base Skins" description="If Index progress unlocks base skins, list the exact requirement and skin name here." />
+            <EmptyState title="Completion Bonuses" description="Use this area for verified completion bonuses, not guesses from older versions." />
           </div>
         </section>
 
         <section>
           <SectionTitle tag="Tracker" title="Missing-Entry Tracker" align="left" />
           <EmptyState
-            title="Tracker is waiting for verified entries."
-            description="This area can later list missing index entries, filters, and completion notes."
+            title="Track missing entries by name."
+            description="Compare your in-game Index with the table above, then mark unowned standard, event, or limited entries separately."
           />
         </section>
 
         <section>
           <SectionTitle tag="Tips" title="Completion Tips" align="left" />
           <EmptyState
-            title="Completion tips are pending."
-            description="Concise verified tips can be added here once Index mechanics are confirmed."
+            title="Prioritize obtainable entries first."
+            description="Standard rotation brainrots are easier to chase than event-linked entries. Fill reliable gaps before waiting for limited windows."
           />
         </section>
 

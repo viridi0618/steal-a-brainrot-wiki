@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
 import SectionTitle from "@/components/SectionTitle";
 import {
+  DataTable,
   EmptyState,
   FAQSection,
-  PlaceholderTable,
   RelatedSection,
   ScheduleBox,
 } from "@/components/WikiBlocks";
@@ -13,12 +13,12 @@ import { eventFaqs, siteConfig } from "@/lib/data";
 export const metadata: Metadata = {
   title: "Taco Tuesday",
   description:
-    "Steal a Brainrot Taco Tuesday event page prepared for verified schedules, Taco Trait notes, rewards, mechanics, and preparation tips.",
+    "Steal a Brainrot Taco Tuesday event guide with schedule notes, Taco Trait context, rewards, and preparation tips.",
   alternates: { canonical: "/taco-tuesday" },
   openGraph: {
     title: "Taco Tuesday | Steal a Brainrot Wiki",
     description:
-      "Event guide structure prepared for verified Taco Tuesday schedule, rewards, and mechanics.",
+      "Taco Tuesday schedule notes, Taco Trait context, and preparation guide for Steal a Brainrot.",
     url: `${siteConfig.url}/taco-tuesday`,
   },
 };
@@ -29,54 +29,60 @@ export default function TacoTuesdayPage() {
       <PageHero
         tag="Event Guide"
         title="Taco Tuesday"
-        description="A dedicated weekly event structure for verified schedule details, Taco Trait information, rewards, and preparation notes."
+        description="Weekly event notes for Taco Tuesday, including the Taco Trait source, schedule caveats, and preparation advice."
       />
 
       <div className="max-w-7xl mx-auto px-4 py-16 space-y-16">
         <ScheduleBox
           title="Taco Tuesday Schedule"
-          description="Schedule information is pending verification. Add confirmed timing, timezone, and last-checked information here."
+          description="Taco Tuesday is commonly listed as a Tuesday event tied to the Taco Trait. Check the live game near the window because event timing can shift after updates."
+          time="Tuesday around 6:00 PM ET"
         />
 
         <section>
           <SectionTitle tag="Overview" title="Event Overview" align="left" />
           <p className="mt-6 max-w-3xl text-base leading-relaxed text-[#8a8884]">
-            This section is prepared for a concise explanation of Taco Tuesday once mechanics, timing, and reward behavior are verified.
+            Taco Tuesday is the weekly event page for players tracking Taco-related mechanics. It is especially useful for checking whether the Taco Trait is currently obtainable and whether event activity changes the best time to join.
           </p>
         </section>
 
         <section>
           <SectionTitle tag="Trait" title="Taco Trait Information" align="left" />
           <EmptyState
-            title="Taco Trait details are pending."
-            description="Verified effect, multiplier, source, and availability details can be added here later."
+            title="Taco Trait"
+            description="The Taco Trait is associated with Taco Tuesday. The current multiplier is marked Unknown here until verified against live game data."
           />
         </section>
 
         <section>
           <SectionTitle tag="Mechanics" title="Event Mechanics" align="left" />
           <div className="grid md:grid-cols-3 gap-6 mt-8">
-            <EmptyState title="Mechanic Slot" description="Verified event mechanic details will appear here." />
-            <EmptyState title="Participation" description="Verified participation notes will appear here." />
-            <EmptyState title="Availability" description="Verified availability notes will appear here." />
+            <EmptyState title="Event Window" description="Use the listed Tuesday time as a reminder, then confirm the event in game." />
+            <EmptyState title="Participation" description="Join early enough to load in, secure your base, and watch for trait opportunities." />
+            <EmptyState title="Availability" description="Taco-related availability should be treated as event-linked, not always active." />
           </div>
         </section>
 
         <section>
-          <SectionTitle tag="Rewards" title="Possible Rewards" align="left" />
-          <PlaceholderTable
-            headers={["Reward", "Source", "Availability", "Verification Status"]}
-            emptyTitle="Reward data is pending."
-            emptyDescription="Verified Taco Tuesday reward information can be added to this table."
+          <SectionTitle tag="Rewards" title="Rewards" align="left" />
+          <DataTable
+            headers={["Reward", "Source", "Availability", "Notes"]}
+            rows={[
+              ["Taco Trait", "Taco Tuesday", "Weekly event window", "Multiplier shown as Unknown until checked."],
+              ["Event rewards", "Live event activity", "Varies by event state", "Record names only after the active event confirms them."],
+            ]}
           />
         </section>
 
         <section>
           <SectionTitle tag="Preparation" title="Preparation Checklist" align="left" />
-          <PlaceholderTable
-            headers={["Step", "Purpose", "Verification Status"]}
-            emptyTitle="Preparation steps are pending."
-            emptyDescription="Verified preparation checklist items can be added after event behavior is confirmed."
+          <DataTable
+            headers={["Step", "Purpose", "Notes"]}
+            rows={[
+              ["Check the event window", "Avoid waiting at the wrong time", "Use Eastern Time as the listed reference."],
+              ["Secure high-value brainrots", "Busy event servers increase steal risk", "Defend before chasing event activity."],
+              ["Keep cash available", "React to useful spawns or purchases", "Avoid using all cash before the event starts."],
+            ]}
           />
         </section>
 

@@ -3,6 +3,7 @@ import SectionTitle from './SectionTitle';
 import type { FAQ, InfoItem, PublicRoute } from '@/lib/types';
 import FAQAccordion from './FAQAccordion';
 import RelatedGuides from './RelatedGuides';
+import { lastChecked } from '@/lib/data';
 
 export function Breadcrumbs({
   items,
@@ -121,7 +122,9 @@ export function FilterBar({
         <input
           type="search"
           disabled
-          placeholder={searchLabel}
+          aria-label={searchLabel}
+          value=""
+          readOnly
           className="w-full rounded-md border border-[#2a2826] bg-[#05030c] px-3 py-2 text-sm text-[#8a8884]"
         />
       </label>
@@ -135,7 +138,7 @@ export function FilterBar({
             className="w-full rounded-md border border-[#2a2826] bg-[#05030c] px-3 py-2 text-sm text-[#8a8884]"
             defaultValue=""
           >
-            <option value="">Pending data</option>
+            <option value="">All</option>
           </select>
         </label>
       ))}
@@ -143,14 +146,16 @@ export function FilterBar({
   );
 }
 
-export function PlaceholderTable({
+export function DataTable({
   headers,
+  rows = [],
   emptyTitle,
   emptyDescription,
 }: {
   headers: string[];
-  emptyTitle: string;
-  emptyDescription: string;
+  rows?: string[][];
+  emptyTitle?: string;
+  emptyDescription?: string;
 }) {
   return (
     <div className="overflow-x-auto rounded-lg border border-[#2a2826]">
@@ -168,11 +173,32 @@ export function PlaceholderTable({
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td colSpan={headers.length} className="p-0">
-              <EmptyState title={emptyTitle} description={emptyDescription} />
-            </td>
-          </tr>
+          {rows.length > 0 ? (
+            rows.map((row, index) => (
+              <tr key={`${row[0]}-${index}`} className="border-t border-[#2a2826]">
+                {row.map((cell, cellIndex) => (
+                  <td
+                    key={`${cell}-${cellIndex}`}
+                    className="px-5 py-4 text-sm text-[#f0ece4] align-top"
+                  >
+                    {cell}
+                  </td>
+                ))}
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={headers.length} className="p-0">
+                <EmptyState
+                  title={emptyTitle || "No verified rows"}
+                  description={
+                    emptyDescription ||
+                    "Rows are shown only after the values are checked against current game information."
+                  }
+                />
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>
@@ -182,9 +208,13 @@ export function PlaceholderTable({
 export function ScheduleBox({
   title,
   description,
+  time,
+  timezone = "Eastern Time",
 }: {
   title: string;
   description: string;
+  time: string;
+  timezone?: string;
 }) {
   return (
     <div
@@ -195,7 +225,7 @@ export function ScheduleBox({
       }}
     >
       <span className="text-xs uppercase tracking-[0.2em] text-[#d4af6a]">
-        Schedule Placeholder
+        Schedule Note
       </span>
       <h2 className="font-serif text-2xl md:text-3xl text-[#f0ece4] mt-2 mb-3">
         {title}
@@ -206,11 +236,15 @@ export function ScheduleBox({
       <div className="grid gap-3 sm:grid-cols-2 mt-6">
         <div className="rounded-md border border-[#2a2826] bg-[#05030c]/60 p-4">
           <span className="block text-xs text-[#8a8884] mb-1">Timezone</span>
-          <span className="text-[#f0ece4]">Pending verification</span>
+          <span className="text-[#f0ece4]">{timezone}</span>
         </div>
         <div className="rounded-md border border-[#2a2826] bg-[#05030c]/60 p-4">
           <span className="block text-xs text-[#8a8884] mb-1">Last Checked</span>
-          <span className="text-[#f0ece4]">Not yet verified</span>
+          <span className="text-[#f0ece4]">{lastChecked}</span>
+        </div>
+        <div className="rounded-md border border-[#2a2826] bg-[#05030c]/60 p-4 sm:col-span-2">
+          <span className="block text-xs text-[#8a8884] mb-1">Commonly Listed Time</span>
+          <span className="text-[#f0ece4]">{time}</span>
         </div>
       </div>
     </div>

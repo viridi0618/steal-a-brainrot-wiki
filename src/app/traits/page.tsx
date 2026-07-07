@@ -2,24 +2,24 @@ import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
 import SectionTitle from "@/components/SectionTitle";
 import {
+  DataTable,
   EmptyState,
   FAQSection,
   FilterBar,
-  PlaceholderTable,
   RelatedSection,
   StatGrid,
 } from "@/components/WikiBlocks";
-import { siteConfig, traitFaqs } from "@/lib/data";
+import { siteConfig, traitFaqs, traits } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Traits",
   description:
-    "Steal a Brainrot traits page prepared for verified multipliers, categories, acquisition sources, availability, and usage notes.",
+    "Steal a Brainrot traits page with mutation notes, event-trait sources, multipliers, availability, and usage guidance.",
   alternates: { canonical: "/traits" },
   openGraph: {
     title: "Traits | Steal a Brainrot Wiki",
     description:
-      "Prepared trait database layout for verified Steal a Brainrot multipliers and sources.",
+      "Review Steal a Brainrot trait sources, categories, and multiplier fields.",
     url: `${siteConfig.url}/traits`,
   },
 };
@@ -30,31 +30,31 @@ export default function TraitsPage() {
       <PageHero
         tag="Database"
         title="Traits"
-        description="A dedicated structure for verified trait effects, multipliers, sources, availability, and best-use notes."
+        description="Trait and mutation notes for Steal a Brainrot, with unverified multipliers kept clearly marked as Unknown."
       />
 
       <div className="max-w-7xl mx-auto px-4 py-16 space-y-16">
         <section>
           <SectionTitle tag="Overview" title="Trait System Overview" align="left" />
           <p className="mt-6 max-w-3xl text-base leading-relaxed text-[#8a8884]">
-            This page is ready to document verified trait behavior and avoid mixing unconfirmed multipliers with production wiki content.
+            Traits and mutations can change how a brainrot is valued, compared, or prioritized. Exact multipliers matter, so this page separates known sources from values that still need a current check.
           </p>
         </section>
 
         <section>
           <SectionTitle tag="Comparison" title="Traits vs Mutations" align="left" />
           <div className="grid md:grid-cols-2 gap-6 mt-8">
-            <EmptyState title="Traits" description="Reserved for verified trait definitions, sources, and multiplier rules." />
-            <EmptyState title="Mutations" description="Reserved for verified mutation definitions and how they differ from traits." />
+            <EmptyState title="Traits" description="Event or modifier labels tied to source, availability, and potential value changes." />
+            <EmptyState title="Mutations" description="Variant-style modifiers such as Gold, Diamond, and Rainbow that can affect how a brainrot is evaluated." />
           </div>
         </section>
 
         <StatGrid
           items={[
-            { label: "Traits", value: "Pending" },
-            { label: "Categories", value: "Pending" },
-            { label: "Multipliers", value: "Pending" },
-            { label: "Sources", value: "Pending" },
+            { label: "Traits", value: `${traits.length}` },
+            { label: "Categories", value: "2" },
+            { label: "Multipliers", value: "Unknown" },
+            { label: "Event Trait", value: "Taco" },
           ]}
         />
 
@@ -71,10 +71,15 @@ export default function TraitsPage() {
         <section>
           <SectionTitle tag="All Traits" title="Traits List" align="left" />
           <div className="mt-8">
-            <PlaceholderTable
-              headers={["Image", "Trait", "Multiplier", "Category", "Source", "Availability", "Details"]}
-              emptyTitle="Trait data will be added after verification."
-              emptyDescription="The table supports images, trait names, multipliers, categories, acquisition sources, availability, and detail links."
+            <DataTable
+              headers={["Trait", "Multiplier", "Category", "Source", "Availability"]}
+              rows={traits.map((trait) => [
+                trait.name,
+                trait.multiplier,
+                trait.category,
+                trait.acquisitionSource,
+                trait.availability,
+              ])}
             />
           </div>
         </section>
@@ -82,16 +87,16 @@ export default function TraitsPage() {
         <section>
           <SectionTitle tag="Comparison" title="Multiplier Comparison" align="left" />
           <EmptyState
-            title="Multiplier comparison is pending."
-            description="This area is prepared for verified multiplier ranges, stacking notes, and comparison guidance."
+            title="Compare the final in-game income."
+            description="When a multiplier is Unknown, use the unit's displayed income and base value before making ranking or trade decisions."
           />
         </section>
 
         <section>
           <SectionTitle tag="Sources" title="Acquisition Sources" align="left" />
           <EmptyState
-            title="Acquisition source notes are pending."
-            description="Verified sources can be added here once trait availability and obtain methods are confirmed."
+            title="Sources depend on rotation and events."
+            description="Standard mutation-style modifiers are tracked separately from event traits such as Taco, which is associated with Taco Tuesday."
           />
         </section>
 

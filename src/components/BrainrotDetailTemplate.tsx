@@ -2,9 +2,9 @@ import PageHero from "./PageHero";
 import SectionTitle from "./SectionTitle";
 import {
   Breadcrumbs,
+  DataTable,
   EmptyState,
   FAQSection,
-  PlaceholderTable,
   QuickFactsPanel,
   RelatedSection,
 } from "./WikiBlocks";
@@ -21,7 +21,7 @@ export default function BrainrotDetailTemplate({ brainrot }: { brainrot: Brainro
         <section className="grid lg:grid-cols-5 gap-8">
           <div className="lg:col-span-2">
             <div className="rounded-lg border border-[#2a2826] bg-white/[0.03] aspect-square flex items-center justify-center text-[#8a8884]">
-              Image placeholder
+              Image unavailable
             </div>
           </div>
           <div className="lg:col-span-3">
@@ -46,10 +46,13 @@ export default function BrainrotDetailTemplate({ brainrot }: { brainrot: Brainro
         <section>
           <SectionTitle tag="Stats" title="Stats Table" align="left" />
           <div className="mt-8">
-            <PlaceholderTable
+            <DataTable
               headers={["Field", "Verified Value", "Notes"]}
-              emptyTitle="Additional stat rows are pending."
-              emptyDescription="This area is prepared for verified value, income, rarity, and availability notes."
+              rows={[
+                ["Value", brainrot.baseCost, "Base purchase cost when verified."],
+                ["Income", brainrot.baseIncome, "Base income value when verified."],
+                ["Rarity", brainrot.rarity, "Shown as listed for this entry."],
+              ]}
             />
           </div>
         </section>
@@ -62,8 +65,8 @@ export default function BrainrotDetailTemplate({ brainrot }: { brainrot: Brainro
         <section>
           <SectionTitle tag="Tips" title="Practical Tips" align="left" />
           <EmptyState
-            title="Tips are pending verification."
-            description="This section is reserved for concise, checked usage notes once gameplay data is available."
+            title="Use verified stats before ranking."
+            description="Compare the in-game cost, income, rarity, and steal risk before treating this brainrot as a long-term keeper."
           />
         </section>
 
