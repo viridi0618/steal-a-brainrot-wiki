@@ -9,7 +9,7 @@ const hubRoutes = [
   "/brainrots",
   "/traits",
   "/mutations",
-  "/index",
+  "/brainrot-index",
   "/best-brainrots",
   "/admin-abuse",
   "/taco-tuesday",

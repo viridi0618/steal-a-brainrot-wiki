@@ -16,9 +16,11 @@ import {
 import { absoluteUrl } from "@/lib/site-config";
 
 export const metadata: Metadata = {
-  title: "Steal a Brainrot Guide - Brainrots, Traits, Index & Events",
+  title: {
+    absolute: "Steal a Brainrot Guide – Brainrots, Traits, Mutations & Events",
+  },
   description:
-    "Complete Steal a Brainrot wiki with 69 brainrot stats, trait multipliers, mutation guides, event walkthroughs, and FAQs.",
+    "A fan-made Steal a Brainrot guide with documented brainrot stats, trait multipliers, mutations, collection help, and event guides.",
   alternates: { canonical: "/" },
   openGraph: {
     title: "Steal a Brainrot Guide",

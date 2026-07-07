@@ -44,8 +44,7 @@ export default function TacoTuesdayPage() {
             "@type": "BreadcrumbList",
             itemListElement: [
               { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
-              { "@type": "ListItem", position: 2, name: "Events", item: absoluteUrl("/taco-tuesday") },
-              { "@type": "ListItem", position: 3, name: "Taco Tuesday", item: absoluteUrl("/taco-tuesday") },
+              { "@type": "ListItem", position: 2, name: "Taco Tuesday", item: absoluteUrl("/taco-tuesday") },
             ],
           }),
         }}

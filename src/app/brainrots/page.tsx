@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Brainrots | Steal a Brainrot Guide",
     description:
-      "Browse all 69 Steal a Brainrot brainrots with verified stats, income, cost, and rarity.",
+      "Browse 69 documented Steal a Brainrot records with cost, income, rarity, availability, and source notes.",
     images: [siteConfig.defaultSocialImage],
   },
 };
@@ -37,7 +37,7 @@ export default function BrainrotsPage() {
       <PageHero
         tag="Database"
         title="Brainrots"
-        description="Browse all 69 brainrots with cost, income, rarity, and acquisition details."
+        description="Browse 69 documented brainrots with cost, income, rarity, and source-backed details."
       />
 
       <div className="max-w-7xl mx-auto px-4 py-16 space-y-16">
