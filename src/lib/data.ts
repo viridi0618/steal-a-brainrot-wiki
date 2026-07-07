@@ -30,7 +30,7 @@ export const publicRoutes: { href: PublicRoute; label: string; priority: number 
   { href: "/brainrots", label: "Brainrots", priority: 0.9 },
   { href: "/traits", label: "Traits", priority: 0.9 },
   { href: "/mutations", label: "Mutations", priority: 0.9 },
-  { href: "/index", label: "Index", priority: 0.8 },
+  { href: "/brainrot-index", label: "Index", priority: 0.8 },
   { href: "/best-brainrots", label: "Best Brainrots", priority: 0.8 },
   { href: "/admin-abuse", label: "Admin Abuse", priority: 0.8 },
   { href: "/taco-tuesday", label: "Taco Tuesday", priority: 0.8 },
@@ -46,7 +46,7 @@ export const navItems: NavItem[] = [
       { label: "Brainrots", href: "/brainrots" },
       { label: "Traits", href: "/traits" },
       { label: "Mutations", href: "/mutations" },
-      { label: "Index", href: "/index" },
+      { label: "Index", href: "/brainrot-index" },
     ],
   },
   {
@@ -97,7 +97,7 @@ export const relatedGuides: GuideLink[] = [
   {
     title: "Index",
     description: "Understand how the collection Index helps track owned and missing brainrots.",
-    href: "/index",
+    href: "/brainrot-index",
     tag: "Reference",
   },
   {

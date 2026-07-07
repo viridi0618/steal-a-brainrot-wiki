@@ -132,7 +132,7 @@ export default function Home() {
               { title: "Brainrots", href: "/brainrots", tag: "Database", description: "Published entries with rarity, cost, income, acquisition, and availability fields." },
               { title: "Traits", href: "/traits", tag: "Database", description: "Trait multipliers, categories, obtain methods, and availability." },
               { title: "Mutations", href: "/mutations", tag: "Database", description: "Mutation multipliers, availability, obtain methods, and spawn rate notes." },
-              { title: "Index", href: "/index", tag: "Reference", description: "Collection progress help for owned, missing, and event-linked Brainrots." },
+              { title: "Index", href: "/brainrot-index", tag: "Reference", description: "Collection progress help for owned, missing, and event-linked Brainrots." },
               { title: "Best Brainrots", href: "/best-brainrots", tag: "Guide", description: "Ranking criteria based on income, rarity, access, and steal risk." },
             ].map((item) => (
               <InfoCard key={item.href} tag={item.tag} title={item.title} description={item.description} href={item.href} />
@@ -192,7 +192,7 @@ export default function Home() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6 mt-10">
             {[
               { title: "Best Brainrots", href: "/best-brainrots", tag: "Guide", description: "Compare income, rarity, and risk to pick your next purchase." },
-              { title: "Index Guide", href: "/index", tag: "Reference", description: "Track your collection and earn permanent income boosts." },
+              { title: "Index Guide", href: "/brainrot-index", tag: "Reference", description: "Track your collection and earn permanent income boosts." },
               { title: "Admin Abuse", href: "/admin-abuse", tag: "Event", description: "Saturday event schedule, luck boosts, and mutation farming." },
               { title: "Taco Tuesday", href: "/taco-tuesday", tag: "Event", description: "Tuesday event: Taco Trait, Fat Sammy, and taco-themed brainrots." },
               { title: "Traits Guide", href: "/traits", tag: "Guide", description: "Trait multipliers, categories, and how they stack with mutations." },
@@ -210,7 +210,7 @@ export default function Home() {
             <InfoCard title="Brainrots" description="Browse all 69 brainrots with stats, income, and acquisition details." href="/brainrots" />
             <InfoCard title="Traits" description="24 traits with multipliers, categories, and how to get them." href="/traits" />
             <InfoCard title="Mutations" description="Compare Mutation multipliers and obtain methods." href="/mutations" />
-            <InfoCard title="Index" description="Open the collection Index page." href="/index" />
+            <InfoCard title="Index" description="Open the collection Index page." href="/brainrot-index" />
           </div>
         </div>
       </section>

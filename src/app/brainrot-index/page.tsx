@@ -15,12 +15,12 @@ export const metadata: Metadata = {
   title: "Complete Brainrot Index",
   description:
     "Steal a Brainrot Index guide: collection progress, Index rewards, mutation index types, and completion planning.",
-  alternates: { canonical: "/index" },
+  alternates: { canonical: "/brainrot-index" },
   openGraph: {
     title: "Complete Brainrot Index | Steal a Brainrot Guide",
     description:
       "Complete Index guide: collection progress, rewards, and completion requirements for Steal a Brainrot.",
-    url: `${siteConfig.url}/index`,
+    url: `${siteConfig.url}/brainrot-index`,
     images: [siteConfig.defaultSocialImage],
   },
   twitter: {
@@ -118,7 +118,7 @@ export default function IndexPage() {
         </section>
 
         <FAQSection faqs={indexFaqs} />
-        <RelatedSection currentHref="/index" />
+        <RelatedSection currentHref="/brainrot-index" />
       </div>
     </div>
   );

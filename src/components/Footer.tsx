@@ -8,7 +8,7 @@ const footerColumns = [
       { label: 'Brainrots', href: '/brainrots' },
       { label: 'Traits', href: '/traits' },
       { label: 'Mutations', href: '/mutations' },
-      { label: 'Index', href: '/index' },
+      { label: 'Index', href: '/brainrot-index' },
       { label: 'FAQ', href: '/faq' },
     ],
   },

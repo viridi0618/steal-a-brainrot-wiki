@@ -101,7 +101,7 @@ export default function FAQPage() {
             {[
               { label: "Brainrots", href: "/brainrots" },
               { label: "Traits", href: "/traits" },
-              { label: "Index", href: "/index" },
+              { label: "Index", href: "/brainrot-index" },
               { label: "Events", href: "/admin-abuse" },
             ].map((link) => (
               <Link
