@@ -80,7 +80,13 @@ export default function TraitExplorer({ records }: { records: TraitRecord[] }) {
           Reset
         </button>
       </div>
-      <div className="mt-6 overflow-x-auto">
+      {filtered.length === 0 ? (
+        <div className="mt-6 rounded-lg border border-[#2a2826] p-6 text-center text-[#8a8884]">
+          No Traits match these filters. <button type="button" onClick={reset} className="text-[#d4af6a] underline">Reset filters</button>.
+        </div>
+      ) : (
+        <>
+      <div className="mt-6 hidden md:block overflow-x-auto">
         <table className="w-full text-sm">
           <thead className="bg-[#d4af6a] text-[#05030c]">
             <tr>
@@ -88,7 +94,7 @@ export default function TraitExplorer({ records }: { records: TraitRecord[] }) {
               <th className="px-4 py-3 text-left">Multiplier</th>
               <th className="px-4 py-3 text-left">Category</th>
               <th className="px-4 py-3 text-left">Availability</th>
-              <th className="px-4 py-3 text-left">Source</th>
+              <th className="px-4 py-3 text-left">Obtain Method</th>
             </tr>
           </thead>
           <tbody>
@@ -104,6 +110,21 @@ export default function TraitExplorer({ records }: { records: TraitRecord[] }) {
           </tbody>
         </table>
       </div>
+      <div className="mt-6 grid gap-3 md:hidden">
+        {filtered.map((record) => (
+          <Link key={record.slug} href={`/traits/${record.slug}`} className="rounded-lg border border-[#2a2826] bg-[#05030c]/70 p-4">
+            <span className="text-[#d4af6a] font-semibold">{record.name}</span>
+            <span className="mt-3 grid grid-cols-2 gap-2 text-sm text-[#8a8884]">
+              <span>{record.multiplierDisplay ?? "Unknown"}</span>
+              <span>{record.category ?? "Unknown"}</span>
+              <span>{record.availability}</span>
+              <span className="break-words">{record.acquisitionMethod ?? "Unknown"}</span>
+            </span>
+          </Link>
+        ))}
+      </div>
+        </>
+      )}
     </ExplorerShell>
   );
 }

@@ -5,18 +5,32 @@ import SourceList from "./SourceList";
 import {
   Breadcrumbs,
   DataTable,
-  FAQSection,
   QuickFactsPanel,
   RelatedSection,
 } from "./WikiBlocks";
-import { brainrotFaqs } from "@/lib/data";
 import type { BrainrotRecord } from "@/lib/types";
 
 function displayValue(value: string | null) {
   return value ?? "Unknown";
 }
 
+function publicTips(brainrot: BrainrotRecord) {
+  const hasEldoradoSource = brainrot.sources.some((source) =>
+    source.name.toLowerCase().includes("eldorado")
+  );
+
+  return brainrot.tips.filter((tip) => {
+    if (tip.toLowerCase().includes("check eldorado") && !hasEldoradoSource) {
+      return false;
+    }
+
+    return true;
+  });
+}
+
 export default function BrainrotDetailTemplate({ brainrot }: { brainrot: BrainrotRecord }) {
+  const tips = publicTips(brainrot);
+
   return (
     <div className="min-h-screen">
       <PageHero tag={brainrot.rarity ?? brainrot.availability} title={brainrot.name} description={brainrot.description} />
@@ -65,15 +79,10 @@ export default function BrainrotDetailTemplate({ brainrot }: { brainrot: Brainro
           </section>
         )}
 
-        <section className="grid md:grid-cols-2 gap-6">
-          <DataNote title="Traits" description="Trait interactions are shown only when the source data supports them." />
-          <DataNote title="Mutations" description="Mutation notes are tracked separately from Traits." />
-        </section>
-
         <section>
           <SectionTitle tag="Tips" title="Practical Tips" align="left" />
           <ul className="mt-6 grid gap-3 text-sm text-[#8a8884]">
-            {brainrot.tips.map((tip) => (
+            {tips.map((tip) => (
               <li key={tip} className="rounded-lg border border-[#2a2826] bg-white/[0.03] p-4">
                 {tip}
               </li>
@@ -86,7 +95,6 @@ export default function BrainrotDetailTemplate({ brainrot }: { brainrot: Brainro
           <SourceList sources={brainrot.sources} />
         </section>
 
-        <FAQSection faqs={brainrotFaqs} />
         <RelatedSection currentHref="/brainrots" />
       </div>
     </div>

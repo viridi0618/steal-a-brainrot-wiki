@@ -10,7 +10,9 @@
     "check:data": "node scripts/check-data-integrity.mjs",
     "check:links": "node scripts/check-internal-links.mjs",
     "check:routes": "node scripts/check-static-routes.mjs",
-    "check:ui": "node scripts/check-public-ui.mjs"
+    "check:ui": "node scripts/check-public-ui.mjs",
+    "serve:out": "node scripts/serve-out.mjs",
+    "test:e2e": "node scripts/run-e2e.mjs"
   },
   "dependencies": {
     "lucide-react": "^1.21.0",
@@ -19,6 +21,7 @@
     "react-dom": "19.2.4"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

@@ -99,7 +99,7 @@ export default function Footer() {
                 {siteConfig.description}
               </p>
               <p className="text-xs text-[#8a8884] pt-2">
-                &copy; {new Date().getFullYear()} {siteConfig.shortName}. Fan-made site. Not affiliated with the game developers unless stated.
+                Copyright {new Date().getFullYear()} {siteConfig.shortName}. Fan-made site. Not affiliated with the game developers unless stated.
               </p>
             </div>
           </div>

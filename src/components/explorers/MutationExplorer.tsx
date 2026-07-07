@@ -73,7 +73,13 @@ export default function MutationExplorer({ records }: { records: MutationRecord[
           Reset
         </button>
       </div>
-      <div className="mt-6 overflow-x-auto">
+      {filtered.length === 0 ? (
+        <div className="mt-6 rounded-lg border border-[#2a2826] p-6 text-center text-[#8a8884]">
+          No Mutations match these filters. <button type="button" onClick={reset} className="text-[#d4af6a] underline">Reset filters</button>.
+        </div>
+      ) : (
+        <>
+      <div className="mt-6 hidden md:block overflow-x-auto">
         <table className="w-full text-sm">
           <thead className="bg-[#d4af6a] text-[#05030c]">
             <tr>
@@ -97,6 +103,21 @@ export default function MutationExplorer({ records }: { records: MutationRecord[
           </tbody>
         </table>
       </div>
+      <div className="mt-6 grid gap-3 md:hidden">
+        {filtered.map((record) => (
+          <div key={record.slug} className="rounded-lg border border-[#2a2826] bg-[#05030c]/70 p-4">
+            <span className="text-[#d4af6a] font-semibold">{record.name}</span>
+            <span className="mt-3 grid grid-cols-2 gap-2 text-sm text-[#8a8884]">
+              <span>{record.multiplierDisplay ?? "Unknown"}</span>
+              <span>{record.spawnRateDisplay ?? "Event or Unknown"}</span>
+              <span>{record.availability}</span>
+              <span className="break-words">{record.acquisitionMethod ?? "Unknown"}</span>
+            </span>
+          </div>
+        ))}
+      </div>
+        </>
+      )}
     </ExplorerShell>
   );
 }

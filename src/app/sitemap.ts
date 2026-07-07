@@ -1,6 +1,9 @@
 import type { MetadataRoute } from "next";
-import { brainrots, publicRoutes, traits } from "@/lib/data";
-import { isIndexableBrainrot, isIndexableTrait } from "@/lib/route-quality";
+import { publicRoutes } from "@/lib/data";
+import {
+  publishedBrainrots,
+  publishedTraits,
+} from "@/lib/published-data";
 import { absoluteUrl } from "@/lib/site-config";
 
 export const dynamic = "force-static";
@@ -13,8 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: route.priority,
   }));
 
-  const brainrotRoutes = brainrots
-    .filter(isIndexableBrainrot)
+  const brainrotRoutes = publishedBrainrots
     .map((brainrot) => ({
       url: absoluteUrl(`/brainrots/${brainrot.slug}`),
       lastModified: new Date(brainrot.updatedAt || brainrot.verifiedAt),
@@ -22,8 +24,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.6,
     }));
 
-  const traitRoutes = traits
-    .filter(isIndexableTrait)
+  const traitRoutes = publishedTraits
     .map((trait) => ({
       url: absoluteUrl(`/traits/${trait.slug}`),
       lastModified: new Date(trait.updatedAt || trait.verifiedAt),

@@ -100,52 +100,6 @@ export function EmptyState({
   );
 }
 
-export function FilterBar({
-  searchLabel,
-  filters,
-}: {
-  searchLabel: string;
-  filters: string[];
-}) {
-  return (
-    <div
-      className="grid gap-4 md:grid-cols-4 rounded-lg p-4"
-      style={{
-        backgroundColor: 'rgba(255,255,255,0.03)',
-        border: '1px solid #2a2826',
-      }}
-    >
-      <label className="md:col-span-2">
-        <span className="block text-xs uppercase tracking-wider text-[#d4af6a] mb-2">
-          Search
-        </span>
-        <input
-          type="search"
-          disabled
-          aria-label={searchLabel}
-          value=""
-          readOnly
-          className="w-full rounded-md border border-[#2a2826] bg-[#05030c] px-3 py-2 text-sm text-[#8a8884]"
-        />
-      </label>
-      {filters.map((filter) => (
-        <label key={filter}>
-          <span className="block text-xs uppercase tracking-wider text-[#d4af6a] mb-2">
-            {filter}
-          </span>
-          <select
-            disabled
-            className="w-full rounded-md border border-[#2a2826] bg-[#05030c] px-3 py-2 text-sm text-[#8a8884]"
-            defaultValue=""
-          >
-            <option value="">All</option>
-          </select>
-        </label>
-      ))}
-    </div>
-  );
-}
-
 export function DataTable({
   headers,
   rows = [],

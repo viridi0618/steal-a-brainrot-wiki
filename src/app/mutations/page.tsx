@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import DataNote from "@/components/DataNote";
 import MutationExplorer from "@/components/explorers/MutationExplorer";
 import PageHero from "@/components/PageHero";
 import SectionTitle from "@/components/SectionTitle";
 import {
   DataTable,
-  EmptyState,
   FAQSection,
   RelatedSection,
   StatGrid,
@@ -50,7 +50,7 @@ export default function MutationsPage() {
         <section>
           <SectionTitle tag="Overview" title="Mutation System Overview" align="left" />
           <p className="mt-6 max-w-3xl text-base leading-relaxed text-[#8a8884]">
-            Mutations modify a brainrot separately from Traits. This page keeps the known mutation list, multiplier fields, availability status, and obtain method in one searchable table.
+            Mutations modify a brainrot separately from Traits. This page keeps the mutation list, multiplier fields, availability status, and obtain method in one searchable table.
           </p>
         </section>
 
@@ -73,8 +73,8 @@ export default function MutationsPage() {
         <section>
           <SectionTitle tag="Reference" title="Traits vs Mutations" align="left" />
           <div className="grid md:grid-cols-2 gap-6 mt-8">
-            <EmptyState title="Mutations" description="Mutations are tracked here with multiplier, availability, obtain method, and spawn rate fields when those rates are already present in the dataset." />
-            <EmptyState title="Traits" description="Traits remain on the Traits page because they use a separate data model and detail route." />
+            <DataNote title="Mutations" description="Mutations are tracked here with multiplier, availability, obtain method, and spawn rate fields when those rates are present in the dataset." />
+            <DataNote title="Traits" description="Traits remain on the Traits page because they use a separate data model and detail route." />
           </div>
           <p className="mt-6 text-sm text-[#8a8884]">
             Open the <Link href="/traits" className="text-[#d4af6a] hover:text-[#f0ece4]">Traits page</Link> for trait-specific effects and detail pages.

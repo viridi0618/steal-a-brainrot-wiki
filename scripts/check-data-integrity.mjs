@@ -126,9 +126,35 @@ for (const record of brainrots) {
       throw new Error(`Brainrot ${record.slug} missing ${required}`);
     }
   }
-  const expectedOverview = `${record.name} is a ${record.rarity} brainrot in Steal a Brainrot, generating ${record.baseIncomeDisplay} at ${record.baseCostDisplay}.`;
-  if (record.overview !== expectedOverview) {
-    throw new Error(`Brainrot ${record.slug} overview does not match its own stats.`);
+  const otherName = brainrots.find((other) => (
+    other.slug !== record.slug &&
+    other.name &&
+    record.overview?.includes(other.name) &&
+    !record.name?.includes(other.name)
+  ));
+  if (otherName) {
+    throw new Error(`Brainrot ${record.slug} overview contains another Brainrot name: ${otherName.name}`);
+  }
+  if (/\bCash\b/.test(record.overview ?? "") && !record.overview?.includes(record.baseCostDisplay ?? "")) {
+    throw new Error(`Brainrot ${record.slug} overview mentions cost but not its own baseCostDisplay.`);
+  }
+  if (/Cash\/s/.test(record.overview ?? "") && !record.overview?.includes(record.baseIncomeDisplay ?? "")) {
+    throw new Error(`Brainrot ${record.slug} overview mentions income but not its own baseIncomeDisplay.`);
+  }
+  const duplicateOverview = brainrots.find((other) => (
+    other.slug !== record.slug &&
+    other.overview === record.overview
+  ));
+  if (duplicateOverview) {
+    throw new Error(`Brainrot ${record.slug} duplicates overview from ${duplicateOverview.slug}.`);
+  }
+  const duplicateDescription = brainrots.find((other) => (
+    other.slug !== record.slug &&
+    other.description === record.description &&
+    !record.description?.includes(record.name ?? "")
+  ));
+  if (duplicateDescription) {
+    throw new Error(`Brainrot ${record.slug} duplicates description from ${duplicateDescription.slug}.`);
   }
   if (!record.source.includes("tips: [")) {
     throw new Error(`Brainrot ${record.slug} missing tips array.`);

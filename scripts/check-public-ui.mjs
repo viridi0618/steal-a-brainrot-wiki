@@ -50,6 +50,11 @@ for (const file of htmlFiles) {
   }
 
   const canonical = html.match(/<link rel="canonical" href="([^"]+)"/);
+  const title = html.match(/<title>([^<]+)<\/title>/);
+  if (title && /Steal a Brainrot Guide.*Steal a Brainrot Guide/.test(title[1])) {
+    failures.push(`${rel}: duplicate site name in title`);
+  }
+
   if (canonical && rel !== "404.html" && rel !== "_not-found.html") {
     const existing = canonicalUrls.get(canonical[1]);
     if (existing) {

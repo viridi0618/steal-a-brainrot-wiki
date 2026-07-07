@@ -5,11 +5,9 @@ import SourceList from "./SourceList";
 import {
   Breadcrumbs,
   DataTable,
-  FAQSection,
   QuickFactsPanel,
   RelatedSection,
 } from "./WikiBlocks";
-import { traitFaqs } from "@/lib/data";
 import type { TraitRecord } from "@/lib/types";
 
 function displayValue(value: string | null) {
@@ -41,9 +39,9 @@ export default function TraitDetailTemplate({ trait }: { trait: TraitRecord }) {
           <p className="mt-6 text-base leading-relaxed text-[#8a8884]">{trait.description}</p>
         </section>
 
-        <section className="grid md:grid-cols-2 gap-6">
-          <DataNote title="Effect" description={trait.effect} />
-          <DataNote title="Best Uses" description="Use this modifier on brainrots whose final income, rarity, and steal risk justify protecting them." />
+        <section>
+          <SectionTitle tag="Effect" title="Effect" align="left" />
+          <p className="mt-6 max-w-3xl text-base leading-relaxed text-[#8a8884]">{trait.effect}</p>
         </section>
 
         <section>
@@ -58,9 +56,9 @@ export default function TraitDetailTemplate({ trait }: { trait: TraitRecord }) {
           />
         </section>
 
-        <section className="grid md:grid-cols-2 gap-6">
-          <DataNote title="Obtain Method" description={displayValue(trait.acquisitionMethod)} />
-          <DataNote title="Stacking Information" description="Check the final in-game income display before assuming modifiers stack in a specific order." />
+        <section>
+          <SectionTitle tag="Obtain Method" title="How to Obtain" align="left" />
+          <p className="mt-6 max-w-3xl text-base leading-relaxed text-[#8a8884]">{displayValue(trait.acquisitionMethod)}</p>
         </section>
         {trait.conflictNote && (
           <section>
@@ -73,7 +71,6 @@ export default function TraitDetailTemplate({ trait }: { trait: TraitRecord }) {
           <SourceList sources={trait.sources} />
         </section>
 
-        <FAQSection faqs={traitFaqs} />
         <RelatedSection currentHref="/traits" />
       </div>
     </div>

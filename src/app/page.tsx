@@ -7,13 +7,11 @@ import SectionTitle from "@/components/SectionTitle";
 import { DataTable, QuickFactsPanel, StatGrid } from "@/components/WikiBlocks";
 import {
   allFaqs,
-  brainrots,
   mutations,
+  publishedBrainrots,
+  publishedTraits,
   quickFacts,
   siteConfig,
-  traits,
-  verifiedBrainrotRecords,
-  verifiedTraitRecords,
 } from "@/lib/data";
 import { absoluteUrl } from "@/lib/site-config";
 
@@ -37,6 +35,8 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
+  const rarityTiers = new Set(publishedBrainrots.map((brainrot) => brainrot.rarity).filter(Boolean));
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -95,13 +95,10 @@ export default function Home() {
           </div>
           <StatGrid
             items={[
-              { label: "Brainrot Records", value: `${brainrots.length}` },
-              { label: "Trait Records", value: `${traits.length}` },
+              { label: "Brainrot Records", value: `${publishedBrainrots.length}` },
+              { label: "Trait Records", value: `${publishedTraits.length}` },
               { label: "Mutation Records", value: `${mutations.length}` },
-              {
-                label: "Detail Routes",
-                value: `${verifiedBrainrotRecords.length + verifiedTraitRecords.length}`,
-              },
+              { label: "Rarity Tiers", value: `${rarityTiers.size}` },
             ]}
           />
           <span className="sr-only">Canonical domain: {absoluteUrl("/")}</span>
@@ -132,8 +129,8 @@ export default function Home() {
           <SectionTitle tag="Wiki Categories" title="Core Wiki Categories" />
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
             {[
-              { title: "Brainrots", href: "/brainrots", tag: "Database", description: "Known entries with rarity, cost, income, acquisition, and availability fields." },
-              { title: "Traits", href: "/traits", tag: "Database", description: "Actual Traits only, with Mutations handled separately for comparison." },
+              { title: "Brainrots", href: "/brainrots", tag: "Database", description: "Published entries with rarity, cost, income, acquisition, and availability fields." },
+              { title: "Traits", href: "/traits", tag: "Database", description: "Trait multipliers, categories, obtain methods, and availability." },
               { title: "Mutations", href: "/mutations", tag: "Database", description: "Mutation multipliers, availability, obtain methods, and spawn rate notes." },
               { title: "Index", href: "/index", tag: "Reference", description: "Collection progress help for owned, missing, and event-linked Brainrots." },
               { title: "Best Brainrots", href: "/best-brainrots", tag: "Guide", description: "Ranking criteria based on income, rarity, access, and steal risk." },
@@ -150,7 +147,7 @@ export default function Home() {
           <div className="mt-8">
             <DataTable
               headers={["Name", "Rarity", "Base Cost", "Base Income", "Availability"]}
-              rows={brainrots.slice(0, 5).map((brainrot) => [
+              rows={publishedBrainrots.slice(0, 5).map((brainrot) => [
                 brainrot.name,
                 brainrot.rarity ?? "Unknown",
                 brainrot.baseCostDisplay ?? "Unknown",
@@ -168,7 +165,7 @@ export default function Home() {
           <div className="mt-8">
             <DataTable
               headers={["Trait", "Multiplier", "Source", "Availability"]}
-              rows={traits.map((trait) => [
+              rows={publishedTraits.slice(0, 8).map((trait) => [
                 trait.name,
                 trait.multiplierDisplay ?? "Unknown",
                 trait.acquisitionMethod ?? "Unknown",
@@ -210,8 +207,8 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4">
           <SectionTitle tag="Resources" title="Useful Resources" />
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
-            <InfoCard title="Brainrots" description="Browse known Brainrot entries and stat fields." href="/brainrots" />
-            <InfoCard title="Traits" description="Review Trait records and Mutation differences." href="/traits" />
+            <InfoCard title="Brainrots" description="Browse published Brainrot entries and stat fields." href="/brainrots" />
+            <InfoCard title="Traits" description="Review Trait multipliers and Mutation differences." href="/traits" />
             <InfoCard title="Mutations" description="Compare Mutation multipliers and obtain methods." href="/mutations" />
             <InfoCard title="Index" description="Open the collection Index page." href="/index" />
           </div>

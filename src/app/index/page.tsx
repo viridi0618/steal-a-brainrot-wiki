@@ -9,7 +9,7 @@ import {
   RelatedSection,
   StatGrid,
 } from "@/components/WikiBlocks";
-import { brainrots, indexFaqs, siteConfig } from "@/lib/data";
+import { indexFaqs, publishedBrainrots, siteConfig } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Complete Brainrot Index",
@@ -33,9 +33,9 @@ export const metadata: Metadata = {
 };
 
 export default function IndexPage() {
-  const obtainable = brainrots.filter((brainrot) => brainrot.availability === "Obtainable");
-  const limited = brainrots.filter((brainrot) => brainrot.availability === "Limited");
-  const removed = brainrots.filter((brainrot) => brainrot.availability === "Removed" || brainrot.availability === "Unobtainable");
+  const obtainable = publishedBrainrots.filter((brainrot) => brainrot.availability === "Obtainable");
+  const limited = publishedBrainrots.filter((brainrot) => brainrot.availability === "Limited");
+  const removed = publishedBrainrots.filter((brainrot) => brainrot.availability === "Removed" || brainrot.availability === "Unobtainable");
 
   return (
     <div className="min-h-screen">
@@ -59,7 +59,7 @@ export default function IndexPage() {
           <SectionTitle tag="Stats" title="Collection Stats" align="left" />
           <StatGrid
             items={[
-              { label: "Tracked Brainrots", value: `${brainrots.length}` },
+              { label: "Tracked Brainrots", value: `${publishedBrainrots.length}` },
               { label: "Obtainable", value: `${obtainable.length}` },
               { label: "Limited/Event", value: `${limited.length}` },
               { label: "Removed/Unobtainable", value: `${removed.length}` },
@@ -103,7 +103,7 @@ export default function IndexPage() {
         <section>
           <SectionTitle tag="Table" title="Complete Index Tracker" align="left" />
           <div className="mt-8">
-            <BrainrotExplorer records={brainrots} compact />
+            <BrainrotExplorer records={publishedBrainrots} compact />
           </div>
         </section>
 

@@ -1,23 +1,26 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import TraitDetailTemplate from "@/components/TraitDetailTemplate";
-import { siteConfig, traits } from "@/lib/data";
+import { siteConfig } from "@/lib/data";
+import {
+  getPublishedTraitBySlug,
+  publishedTraits,
+} from "@/lib/published-data";
 import { absoluteUrl } from "@/lib/site-config";
-import { getTraitBySlug } from "@/data/traits";
 
 interface TraitPageProps {
   params: Promise<{ slug: string }>;
 }
 
 export function generateStaticParams() {
-  return traits.map((trait) => ({ slug: trait.slug }));
+  return publishedTraits.map((trait) => ({ slug: trait.slug }));
 }
 
 export async function generateMetadata({
   params,
 }: TraitPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const trait = getTraitBySlug(slug);
+  const trait = getPublishedTraitBySlug(slug);
 
   if (!trait) {
     return {
@@ -26,7 +29,7 @@ export async function generateMetadata({
     };
   }
 
-  const title = `${trait.name} Trait | Steal a Brainrot Guide`;
+  const title = `${trait.name} Trait`;
   const description = `${trait.name} Trait record with multiplier, source, availability, verification status, and source notes.`;
 
   return {
@@ -50,7 +53,7 @@ export async function generateMetadata({
 
 export default async function TraitPage({ params }: TraitPageProps) {
   const { slug } = await params;
-  const trait = getTraitBySlug(slug);
+  const trait = getPublishedTraitBySlug(slug);
 
   if (!trait) {
     notFound();

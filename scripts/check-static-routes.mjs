@@ -1,6 +1,7 @@
 import http from "node:http";
 import fs from "node:fs";
 import path from "node:path";
+import { loadPublishedManifest } from "./published-manifest.mjs";
 
 const outDir = path.resolve("out");
 const hubRoutes = [
@@ -30,30 +31,11 @@ function read(file) {
   return fs.readFileSync(path.resolve(file), "utf8");
 }
 
-function extractSlugs(file, exportName) {
-  const source = read(file);
-  const start = source.indexOf(`export const ${exportName}`);
-  if (start === -1) throw new Error(`Missing export ${exportName}`);
-  const assignment = source.indexOf("=", start);
-  const open = source.indexOf("[", assignment);
-  let depth = 0;
-  let array = "";
-  for (let index = open; index < source.length; index += 1) {
-    const char = source[index];
-    array += char;
-    if (char === "[") depth += 1;
-    if (char === "]") depth -= 1;
-    if (depth === 0) break;
-  }
-  return [...array.matchAll(/slug:\s*"([^"]+)"/g)].map((match) => match[1]);
-}
-
-const brainrotSlugs = extractSlugs("src/data/brainrots.ts", "brainrots");
-const traitSlugs = extractSlugs("src/data/traits.ts", "traits");
+const manifest = await loadPublishedManifest();
 const routes = [
   ...hubRoutes,
-  ...brainrotSlugs.map((slug) => `/brainrots/${slug}`),
-  ...traitSlugs.map((slug) => `/traits/${slug}`),
+  ...manifest.brainrots.map((record) => record.href),
+  ...manifest.traits.map((record) => record.href),
 ];
 
 function resolveFile(urlPath) {
@@ -107,6 +89,16 @@ try {
   const sitemapUrls = [...sitemap.matchAll(/<loc>/g)].length;
   if (sitemapUrls !== routes.length) {
     throw new Error(`Sitemap URL count expected ${routes.length}, found ${sitemapUrls}`);
+  }
+  const sitemapLocs = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
+  for (const loc of sitemapLocs) {
+    if (!loc.startsWith("https://stealabrainrotguide.wiki")) {
+      throw new Error(`Sitemap URL does not use production domain: ${loc}`);
+    }
+    const pathname = new URL(loc).pathname || "/";
+    if (!resolveFile(pathname)) {
+      throw new Error(`Sitemap URL has no generated static file: ${loc}`);
+    }
   }
 
   const missing = await fetch(`${baseUrl}/missing-test-route`);

@@ -1,23 +1,26 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import BrainrotDetailTemplate from "@/components/BrainrotDetailTemplate";
-import { brainrots, siteConfig } from "@/lib/data";
+import { siteConfig } from "@/lib/data";
+import {
+  getPublishedBrainrotBySlug,
+  publishedBrainrots,
+} from "@/lib/published-data";
 import { absoluteUrl } from "@/lib/site-config";
-import { getBrainrotBySlug } from "@/data/brainrots";
 
 interface BrainrotPageProps {
   params: Promise<{ slug: string }>;
 }
 
 export function generateStaticParams() {
-  return brainrots.map((brainrot) => ({ slug: brainrot.slug }));
+  return publishedBrainrots.map((brainrot) => ({ slug: brainrot.slug }));
 }
 
 export async function generateMetadata({
   params,
 }: BrainrotPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const brainrot = getBrainrotBySlug(slug);
+  const brainrot = getPublishedBrainrotBySlug(slug);
 
   if (!brainrot) {
     return {
@@ -26,7 +29,7 @@ export async function generateMetadata({
     };
   }
 
-  const title = `${brainrot.name} | Steal a Brainrot Guide`;
+  const title = brainrot.name;
   const description = `${brainrot.name} Brainrot record with rarity, base cost, base income, availability, verification status, and source notes.`;
 
   return {
@@ -50,7 +53,7 @@ export async function generateMetadata({
 
 export default async function BrainrotPage({ params }: BrainrotPageProps) {
   const { slug } = await params;
-  const brainrot = getBrainrotBySlug(slug);
+  const brainrot = getPublishedBrainrotBySlug(slug);
 
   if (!brainrot) {
     notFound();

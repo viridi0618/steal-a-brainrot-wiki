@@ -2,10 +2,23 @@ import { brainrots, verifiedBrainrotRecords } from "@/data/brainrots";
 import { checkedAt } from "@/data/sources";
 import { mutations } from "@/data/mutations";
 import { traits, verifiedTraitRecords } from "@/data/traits";
+import {
+  publishedBrainrots,
+  publishedTraits,
+} from "@/lib/published-data";
 import { siteConfig } from "./site-config";
 import type { FAQ, GuideLink, InfoItem, NavItem, PublicRoute } from "./types";
 
-export { brainrots, mutations, siteConfig, traits, verifiedBrainrotRecords, verifiedTraitRecords };
+export {
+  brainrots,
+  mutations,
+  publishedBrainrots,
+  publishedTraits,
+  siteConfig,
+  traits,
+  verifiedBrainrotRecords,
+  verifiedTraitRecords,
+};
 
 export const eventVerification = {
   adminAbuseVerifiedAt: checkedAt.adminAbuse,
@@ -65,19 +78,19 @@ export const quickFacts: InfoItem[] = [
 export const relatedGuides: GuideLink[] = [
   {
     title: "Brainrots",
-    description: "Browse known brainrot names, verified early stats, acquisition notes, and open value fields.",
+    description: "Browse published brainrot records with rarity, income, cost, acquisition, and availability.",
     href: "/brainrots",
     tag: "Database",
   },
   {
     title: "Traits",
-    description: "Review mutation and event trait notes with current multipliers marked only when verified.",
+    description: "Review published trait records with multipliers, categories, obtain methods, and availability.",
     href: "/traits",
     tag: "Database",
   },
   {
     title: "Mutations",
-    description: "Compare mutation multipliers, availability, obtain methods, and structured spawn rate notes.",
+    description: "Compare mutation multipliers, availability, obtain methods, and structured spawn-rate notes.",
     href: "/mutations",
     tag: "Database",
   },
@@ -122,7 +135,7 @@ export const gameplayFaqs: FAQ[] = [
   {
     question: "How do players earn money?",
     answer:
-      "Brainrots generate cash over time after they are placed in your base. Higher-value brainrots are usually more important because they can improve income faster, but they also become targets for other players. This wiki separates verified stats from Unknown values so players can judge income choices without relying on guessed numbers.",
+      "Brainrots generate cash over time after they are placed in your base. Higher-value brainrots are usually more important because they can improve income faster, but they also become targets for other players. This wiki keeps record sources and data notes attached to each detail page so players can judge income choices with context.",
   },
   {
     question: "Can other players steal my brainrots?",
@@ -163,7 +176,7 @@ export const traitFaqs: FAQ[] = [
   {
     question: "What are traits and mutations?",
     answer:
-      "Traits and mutations are modifiers attached to brainrots. They can change the way a brainrot is valued, displayed, or compared. Exact effects are important, so this wiki lists the source and category first, then leaves the multiplier Unknown unless it has been checked against current game data.",
+      "Traits and mutations are modifiers attached to brainrots. They can change the way a brainrot is valued, displayed, or compared. Traits and Mutations use separate pages so their multipliers, categories, obtain methods, and availability do not get mixed together.",
   },
   {
     question: "Does a higher multiplier always mean the best choice?",
@@ -173,7 +186,7 @@ export const traitFaqs: FAQ[] = [
   {
     question: "How do I get the Taco Trait?",
     answer:
-      "The Taco Trait is associated with Taco Tuesday. Because event behavior and timing can change, players should check the live game and the Taco Tuesday page before relying on a specific method or multiplier. This wiki treats the source as known but keeps current numerical effects marked Unknown until verified.",
+      "The Taco Trait is associated with Taco Tuesday. Because event behavior and timing can change, players should check the live game and the Taco Tuesday page before relying on a specific method.",
   },
   {
     question: "Can multiple modifiers affect one brainrot?",
