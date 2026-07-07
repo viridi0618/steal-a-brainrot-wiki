@@ -12,7 +12,7 @@ const adsenseClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: `${siteConfig.siteName} - Brainrots, Traits, Index & Events`,
+    default: `${siteConfig.siteName} - Brainrots, Traits, Collection & Events`,
     template: `%s | ${siteConfig.siteName}`,
   },
   description: siteConfig.description,
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: `${siteConfig.siteName} - Brainrots, Traits, Index & Events`,
+    title: `${siteConfig.siteName} - Brainrots, Traits, Collection & Events`,
     description: siteConfig.description,
     url: siteConfig.url,
     type: "website",
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${siteConfig.siteName} - Brainrots, Traits, Index & Events`,
+    title: `${siteConfig.siteName} - Brainrots, Traits, Collection & Events`,
     description: siteConfig.description,
     images: [siteConfig.defaultSocialImage],
   },

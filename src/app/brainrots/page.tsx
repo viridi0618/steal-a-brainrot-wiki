@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Brainrots | Steal a Brainrot Guide",
     description:
-      "Published Steal a Brainrot records with source-backed stat fields.",
+      "Browse all 69 Steal a Brainrot brainrots with verified stats, income, cost, and rarity.",
     images: [siteConfig.defaultSocialImage],
   },
 };

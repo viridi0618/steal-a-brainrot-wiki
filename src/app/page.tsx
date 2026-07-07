@@ -18,7 +18,7 @@ import { absoluteUrl } from "@/lib/site-config";
 export const metadata: Metadata = {
   title: "Steal a Brainrot Guide - Brainrots, Traits, Index & Events",
   description:
-    "Steal a Brainrot Guide homepage with Brainrot records, Trait notes, event guides, Index help, and FAQs.",
+    "Complete Steal a Brainrot wiki with 69 brainrot stats, trait multipliers, mutation guides, event walkthroughs, and FAQs.",
   alternates: { canonical: "/" },
   openGraph: {
     title: "Steal a Brainrot Guide",
@@ -114,7 +114,7 @@ export default function Home() {
                 Steal a Brainrot is a Roblox tycoon and collection game about buying Brainrots, earning cash from them, stealing stronger ones from other players, and protecting your own base.
               </p>
               <p className="text-base leading-relaxed text-[#8a8884]">
-                This guide focuses on concise reference pages: Brainrot records, Trait notes, Mutation comparisons, event schedule caveats, Index guidance, and practical tips that avoid invented numbers.
+                Detailed guides, verified stats, and practical tips for every brainrot, trait, mutation, and event.
               </p>
             </div>
             <div className="md:col-span-2">

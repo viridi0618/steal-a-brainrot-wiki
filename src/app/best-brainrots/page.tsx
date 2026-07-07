@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Best Brainrots | Steal a Brainrot Guide",
     description:
-      "Ranking criteria for Steal a Brainrot records using the published dataset.",
+      "Rank Steal a Brainrot brainrots by income, rarity, and cost efficiency with our data-backed tier lists.",
     images: [siteConfig.defaultSocialImage],
   },
 };
