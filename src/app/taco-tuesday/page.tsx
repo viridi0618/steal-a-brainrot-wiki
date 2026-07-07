@@ -8,6 +8,7 @@ import {
   ScheduleBox,
 } from "@/components/WikiBlocks";
 import { eventFaqs, eventVerification, siteConfig } from "@/lib/data";
+import { absoluteUrl } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "Taco Tuesday",
@@ -19,6 +20,8 @@ export const metadata: Metadata = {
     description:
       "Complete Taco Tuesday guide: Tuesday 6 PM ET schedule, Taco Trait details, Fat Sammy mechanics, and event preparation.",
     url: `${siteConfig.url}/taco-tuesday`,
+    type: "article",
+    locale: "en_US",
     images: [siteConfig.defaultSocialImage],
   },
   twitter: {
@@ -32,6 +35,21 @@ export const metadata: Metadata = {
 
 export default function TacoTuesdayPage() {
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
+              { "@type": "ListItem", position: 2, name: "Events", item: absoluteUrl("/taco-tuesday") },
+              { "@type": "ListItem", position: 3, name: "Taco Tuesday", item: absoluteUrl("/taco-tuesday") },
+            ],
+          }),
+        }}
+      />
     <div className="min-h-screen">
       <PageHero
         tag="Event Guide"
@@ -129,5 +147,6 @@ export default function TacoTuesdayPage() {
         <RelatedSection currentHref="/taco-tuesday" />
       </div>
     </div>
+    </>
   );
 }

@@ -8,6 +8,7 @@ import {
   ScheduleBox,
 } from "@/components/WikiBlocks";
 import { eventFaqs, eventVerification, siteConfig } from "@/lib/data";
+import { absoluteUrl } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "Admin Abuse",
@@ -19,6 +20,8 @@ export const metadata: Metadata = {
     description:
       "Complete Admin Abuse guide for Steal a Brainrot: Saturday schedule, boosted spawns, event mutations list, and farming tips.",
     url: `${siteConfig.url}/admin-abuse`,
+    type: "article",
+    locale: "en_US",
     images: [siteConfig.defaultSocialImage],
   },
   twitter: {
@@ -32,6 +35,21 @@ export const metadata: Metadata = {
 
 export default function AdminAbusePage() {
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
+              { "@type": "ListItem", position: 2, name: "Events", item: absoluteUrl("/admin-abuse") },
+              { "@type": "ListItem", position: 3, name: "Admin Abuse", item: absoluteUrl("/admin-abuse") },
+            ],
+          }),
+        }}
+      />
     <div className="min-h-screen">
       <PageHero
         tag="Event Guide"
@@ -150,5 +168,6 @@ export default function AdminAbusePage() {
         <RelatedSection currentHref="/admin-abuse" />
       </div>
     </div>
+    </>
   );
 }

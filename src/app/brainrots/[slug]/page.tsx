@@ -30,22 +30,27 @@ export async function generateMetadata({
   }
 
   const title = brainrot.name;
-  const description = `${brainrot.name} Brainrot record with rarity, base cost, base income, availability, verification status, and source notes.`;
+  const overviewSnippet = brainrot.overview
+    ? brainrot.overview.replace(/`/g, '').slice(0, 150) + (brainrot.overview.length > 150 ? '…' : '')
+    : `${brainrot.name} — ${brainrot.rarity || 'Brainrot'} in Steal a Brainrot. Cost: ${brainrot.baseCostDisplay || 'N/A'}, Income: ${brainrot.baseIncomeDisplay || 'N/A'}.`;
 
   return {
+    metadataBase: new URL(siteConfig.url),
     title,
-    description,
+    description: overviewSnippet,
     alternates: { canonical: `/brainrots/${brainrot.slug}` },
     openGraph: {
       title,
-      description,
+      description: overviewSnippet,
       url: absoluteUrl(`/brainrots/${brainrot.slug}`),
+      type: "article",
+      locale: "en_US",
       images: [siteConfig.defaultSocialImage],
     },
     twitter: {
       card: "summary_large_image",
       title,
-      description,
+      description: overviewSnippet,
       images: [siteConfig.defaultSocialImage],
     },
   };

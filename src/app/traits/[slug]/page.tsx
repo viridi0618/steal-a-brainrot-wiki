@@ -30,22 +30,27 @@ export async function generateMetadata({
   }
 
   const title = `${trait.name} Trait`;
-  const description = `${trait.name} Trait record with multiplier, source, availability, verification status, and source notes.`;
+  const descSnippet = trait.effect
+    ? `${trait.name}: ${trait.multiplierDisplay} multiplier${trait.category ? ` (${trait.category} trait)` : ''}. ${trait.effect.replace(/`/g, '').slice(0, 120)}`
+    : `${trait.name} Trait — ${trait.multiplierDisplay} multiplier in Steal a Brainrot. Category: ${trait.category || 'N/A'}.`;
 
   return {
+    metadataBase: new URL(siteConfig.url),
     title,
-    description,
+    description: descSnippet,
     alternates: { canonical: `/traits/${trait.slug}` },
     openGraph: {
       title,
-      description,
+      description: descSnippet,
       url: absoluteUrl(`/traits/${trait.slug}`),
+      type: "article",
+      locale: "en_US",
       images: [siteConfig.defaultSocialImage],
     },
     twitter: {
       card: "summary_large_image",
       title,
-      description,
+      description: descSnippet,
       images: [siteConfig.defaultSocialImage],
     },
   };
