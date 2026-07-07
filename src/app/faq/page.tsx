@@ -5,6 +5,7 @@ import FAQAccordion from "@/components/FAQAccordion";
 import RelatedGuides from "@/components/RelatedGuides";
 import SectionTitle from "@/components/SectionTitle";
 import {
+  allFaqs,
   brainrotFaqs,
   eventFaqs,
   gameplayFaqs,
@@ -12,6 +13,7 @@ import {
   siteConfig,
   traitFaqs,
 } from "@/lib/data";
+import { absoluteUrl } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "FAQ",
@@ -43,8 +45,26 @@ const categories = [
 ];
 
 export default function FAQPage() {
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: allFaqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  };
+
   return (
-    <div className="min-h-screen">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <div className="min-h-screen">
       <PageHero
         tag="Help"
         title="FAQ"
@@ -102,5 +122,6 @@ export default function FAQPage() {
         </section>
       </div>
     </div>
+    </>
   );
 }
