@@ -72,6 +72,8 @@ export interface BrainrotRecord {
   confidence: ConfidenceLevel;
   sources: SourceReference[];
   needsReview: boolean;
+  overview: string;
+  tips: string[];
   conflictNote: string | null;
   description: string;
 }
