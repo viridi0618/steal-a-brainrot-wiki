@@ -43,7 +43,7 @@ export default function MutationsPage() {
       <PageHero
         tag="Database"
         title="Mutations"
-        description="Mutation records for Steal a Brainrot, separated from Traits so multipliers, event availability, and spawn notes can be checked cleanly."
+        description="14 mutations from Default (1x) to Phantom (12x), including event-exclusive variants."
       />
 
       <div className="max-w-7xl mx-auto px-4 py-16 space-y-16">

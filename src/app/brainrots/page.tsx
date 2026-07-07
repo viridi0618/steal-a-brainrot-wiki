@@ -37,7 +37,7 @@ export default function BrainrotsPage() {
       <PageHero
         tag="Database"
         title="Brainrots"
-        description="Published brainrot entries with rarity, value, income, acquisition, and availability fields."
+        description="Browse all 69 brainrots with cost, income, rarity, and acquisition details."
       />
 
       <div className="max-w-7xl mx-auto px-4 py-16 space-y-16">

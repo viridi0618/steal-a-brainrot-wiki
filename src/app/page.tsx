@@ -80,7 +80,7 @@ export default function Home() {
             Steal a Brainrot Guide
           </h1>
           <p className="text-base md:text-lg max-w-2xl mx-auto mb-10 leading-relaxed text-[#8a8884]">
-            Track Brainrot records, Trait sources, event windows, Index progress, and beginner decisions for the Roblox game Steal a Brainrot.
+            Your complete guide to Brainrot stats, Traits, Mutations, events, and collection progress.
           </p>
           <div className="flex flex-wrap justify-center gap-4 mb-16">
             <CTALink href="/brainrots" variant="primary">
@@ -180,8 +180,8 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4">
           <SectionTitle tag="Events" title="Event Guides" />
           <div className="grid md:grid-cols-2 gap-6 mt-10">
-            <InfoCard tag="Event" title="Admin Abuse" description="A commonly watched event window around the weekly update period." href="/admin-abuse" />
-            <InfoCard tag="Event" title="Taco Tuesday" description="A weekly Taco Trait event reference with schedule caveats and prep tips." href="/taco-tuesday" />
+            <InfoCard tag="Event" title="Admin Abuse" description="Weekly Saturday event: boosted spawns, event mutations, and trait farming." href="/admin-abuse" />
+            <InfoCard tag="Event" title="Taco Tuesday" description="Weekly Tuesday event: Taco Trait (3x), Fat Sammy feeding, and limited brainrots." href="/taco-tuesday" />
           </div>
         </div>
       </section>
@@ -191,11 +191,11 @@ export default function Home() {
           <SectionTitle tag="Featured" title="Featured Guides" />
           <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6 mt-10">
             {[
-              { title: "Best Brainrots", href: "/best-brainrots", tag: "Guide", description: "How to compare income, rarity, and risk." },
-              { title: "Index Guide", href: "/index", tag: "Reference", description: "How collection progress is organized." },
-              { title: "Admin Abuse", href: "/admin-abuse", tag: "Event", description: "Schedule notes and preparation advice." },
-              { title: "Taco Tuesday", href: "/taco-tuesday", tag: "Event", description: "Taco Trait context and event timing." },
-              { title: "Traits Guide", href: "/traits", tag: "Guide", description: "Trait categories, sources, and Mutation comparison." },
+              { title: "Best Brainrots", href: "/best-brainrots", tag: "Guide", description: "Compare income, rarity, and risk to pick your next purchase." },
+              { title: "Index Guide", href: "/index", tag: "Reference", description: "Track your collection and earn permanent income boosts." },
+              { title: "Admin Abuse", href: "/admin-abuse", tag: "Event", description: "Saturday event schedule, luck boosts, and mutation farming." },
+              { title: "Taco Tuesday", href: "/taco-tuesday", tag: "Event", description: "Tuesday event: Taco Trait, Fat Sammy, and taco-themed brainrots." },
+              { title: "Traits Guide", href: "/traits", tag: "Guide", description: "Trait multipliers, categories, and how they stack with mutations." },
             ].map((guide) => (
               <InfoCard key={guide.href} tag={guide.tag} title={guide.title} description={guide.description} href={guide.href} />
             ))}
@@ -207,8 +207,8 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4">
           <SectionTitle tag="Resources" title="Useful Resources" />
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
-            <InfoCard title="Brainrots" description="Browse published Brainrot entries and stat fields." href="/brainrots" />
-            <InfoCard title="Traits" description="Review Trait multipliers and Mutation differences." href="/traits" />
+            <InfoCard title="Brainrots" description="Browse all 69 brainrots with stats, income, and acquisition details." href="/brainrots" />
+            <InfoCard title="Traits" description="24 traits with multipliers, categories, and how to get them." href="/traits" />
             <InfoCard title="Mutations" description="Compare Mutation multipliers and obtain methods." href="/mutations" />
             <InfoCard title="Index" description="Open the collection Index page." href="/index" />
           </div>

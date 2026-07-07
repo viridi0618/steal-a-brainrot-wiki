@@ -76,9 +76,10 @@ export default function Header() {
                   </button>
                   {desktopDropdown === link.label && (
                     <div
-                      className="absolute top-full left-0 mt-1 w-48 bg-[#05030c] border border-[#2a2826] rounded-md shadow-xl py-2 z-50"
+                      className="absolute top-full left-0 pt-1 z-50"
                       role="menu"
                     >
+                      <div className="w-48 bg-[#05030c] border border-[#2a2826] rounded-md shadow-xl py-2">
                       {link.submenu.map((sub) => (
                         <Link
                           key={sub.href}
@@ -89,6 +90,7 @@ export default function Header() {
                           {sub.label}
                         </Link>
                       ))}
+                      </div>
                     </div>
                   )}
                 </div>
