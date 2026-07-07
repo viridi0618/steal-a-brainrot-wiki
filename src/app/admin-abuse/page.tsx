@@ -71,7 +71,7 @@ export default function AdminAbusePage() {
               ["20x", "Valentine's Day Admin Abuse", "Seasonal"],
             ]}
           />
-          <p className="mt-4 text-sm text-[#8a8884]">Higher luck dramatically improves Red Carpet spawn rates. With 12x luck, Strawberry Elephant's spawn chance improves from ~1-in-6B to ~1-in-508M.</p>
+          <p className="mt-4 text-sm text-[#8a8884]">Higher luck dramatically improves Red Carpet spawn rates. With 12x luck, Strawberry Elephant&apos;s spawn chance improves from ~1-in-6B to ~1-in-508M.</p>
         </section>
 
         <section>
@@ -119,9 +119,9 @@ export default function AdminAbusePage() {
             headers={["Step", "Purpose", "Notes"]}
             rows={[
               ["Use a private server", "Avoid competition and theft from randoms", "Private servers let you control the farming environment."],
-              ["Join 5-10 min early", "Servers fill fast; don't miss the start", "Event window is short (30-45 min)."],
+              ["Join 5-10 min early", "Servers fill fast; do not miss the start", "Event window is short (30-45 min)."],
               ["Protect top brainrots", "High activity = high steal risk", "Stay near your most valuable units."],
-              ["Stack cash reserves", "Buy expensive spawns immediately", "Don't spend to zero before the event."],
+              ["Stack cash reserves", "Buy expensive spawns immediately", "Do not spend to zero before the event."],
               ["Prepare ritual brainrots", "Ritual events may trigger unpredictably", "Have backup copies of ritual-required brainrots."],
               ["Activate luck boosters", "Maximize spawn rate during the window", "Use highest available luck multiplier."],
               ["Set up trait farming", "Position best brainrots for trait application", "Farm traits on high-rarity brainrots only."],

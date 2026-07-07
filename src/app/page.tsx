@@ -8,6 +8,7 @@ import { DataTable, QuickFactsPanel, StatGrid } from "@/components/WikiBlocks";
 import {
   allFaqs,
   brainrots,
+  mutations,
   quickFacts,
   siteConfig,
   traits,
@@ -96,11 +97,11 @@ export default function Home() {
             items={[
               { label: "Brainrot Records", value: `${brainrots.length}` },
               { label: "Trait Records", value: `${traits.length}` },
+              { label: "Mutation Records", value: `${mutations.length}` },
               {
-                label: "Reviewed Records",
+                label: "Detail Routes",
                 value: `${verifiedBrainrotRecords.length + verifiedTraitRecords.length}`,
               },
-              { label: "Event Guides", value: "2" },
             ]}
           />
           <span className="sr-only">Canonical domain: {absoluteUrl("/")}</span>
@@ -133,6 +134,7 @@ export default function Home() {
             {[
               { title: "Brainrots", href: "/brainrots", tag: "Database", description: "Known entries with rarity, cost, income, acquisition, and availability fields." },
               { title: "Traits", href: "/traits", tag: "Database", description: "Actual Traits only, with Mutations handled separately for comparison." },
+              { title: "Mutations", href: "/mutations", tag: "Database", description: "Mutation multipliers, availability, obtain methods, and spawn rate notes." },
               { title: "Index", href: "/index", tag: "Reference", description: "Collection progress help for owned, missing, and event-linked Brainrots." },
               { title: "Best Brainrots", href: "/best-brainrots", tag: "Guide", description: "Ranking criteria based on income, rarity, access, and steal risk." },
             ].map((item) => (
@@ -210,8 +212,8 @@ export default function Home() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
             <InfoCard title="Brainrots" description="Browse known Brainrot entries and stat fields." href="/brainrots" />
             <InfoCard title="Traits" description="Review Trait records and Mutation differences." href="/traits" />
+            <InfoCard title="Mutations" description="Compare Mutation multipliers and obtain methods." href="/mutations" />
             <InfoCard title="Index" description="Open the collection Index page." href="/index" />
-            <InfoCard title="FAQ" description="Read short answers by topic." href="/faq" />
           </div>
         </div>
       </section>

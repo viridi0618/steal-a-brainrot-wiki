@@ -1,5 +1,5 @@
 import type { TraitRecord } from "@/lib/types";
-import { tacoTuesdayWikiSource, traitsWikiSource } from "./sources";
+import { traitsWikiSource } from "./sources";
 
 export const traits: TraitRecord[] = [
   {
@@ -173,7 +173,7 @@ export const traits: TraitRecord[] = [
     description: `Brazil is a 6x country trait applied when a laser beam hits your brainrot during the Brazil event in Admin Abuse.`,
   },
   {
-    slug: ":3",
+    slug: "colon-three",
     name: ":3",
     multiplierValue: 5.5,
     multiplierDisplay: "5.5x",

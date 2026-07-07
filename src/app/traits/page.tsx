@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import TraitExplorer from "@/components/explorers/TraitExplorer";
 import PageHero from "@/components/PageHero";
 import SectionTitle from "@/components/SectionTitle";
 import {
   DataTable,
   EmptyState,
   FAQSection,
-  FilterBar,
   RelatedSection,
   StatGrid,
 } from "@/components/WikiBlocks";
@@ -68,31 +68,9 @@ export default function TraitsPage() {
         />
 
         <section>
-          <SectionTitle tag="Tools" title="Search and Filters" align="left" />
+          <SectionTitle tag="Traits List" title="Searchable Trait Explorer" align="left" />
           <div className="mt-8">
-            <FilterBar
-              searchLabel="Search verified traits"
-              filters={["Category", "Availability"]}
-            />
-          </div>
-        </section>
-
-        <section>
-          <SectionTitle tag="All Traits" title="Traits List" align="left" />
-          <div className="mt-8">
-            <DataTable
-              headers={["Trait", "Multiplier", "Category", "Source", "Availability", "Details"]}
-              rows={traits.map((trait) => [
-                trait.name,
-                trait.multiplierDisplay ?? "Unknown",
-                trait.category ?? "Unknown",
-                trait.acquisitionMethod ?? "Unknown",
-                trait.availability,
-                <Link key={trait.slug} href={`/traits/${trait.slug}`} className="text-[#d4af6a] hover:text-[#f0ece4]">
-                  View
-                </Link>,
-              ])}
-            />
+            <TraitExplorer records={traits} />
           </div>
         </section>
 
@@ -105,16 +83,21 @@ export default function TraitsPage() {
         </section>
 
         <section>
-          <SectionTitle tag="Comparison" title="Mutation Comparison" align="left" />
-          <DataTable
-            headers={["Mutation", "Multiplier", "Availability", "Note"]}
-            rows={mutations.map((mutation) => [
-              mutation.name,
-              mutation.multiplierDisplay ?? "Unknown",
-              mutation.availability,
-              "Mutation record, not a Trait.",
-            ])}
-          />
+          <SectionTitle tag="Comparison" title="Mutation Preview" align="left" />
+          <div className="mt-8">
+            <DataTable
+              headers={["Mutation", "Multiplier", "Availability", "Note"]}
+              rows={mutations.slice(0, 5).map((mutation) => [
+                mutation.name,
+                mutation.multiplierDisplay ?? "Unknown",
+                mutation.availability,
+                "Mutation record, not a Trait.",
+              ])}
+            />
+          </div>
+          <p className="mt-4 text-sm text-[#8a8884]">
+            See the complete mutation list on the <Link href="/mutations" className="text-[#d4af6a] hover:text-[#f0ece4]">Mutations page</Link>.
+          </p>
         </section>
 
         <FAQSection faqs={traitFaqs} />

@@ -13,7 +13,6 @@ import {
   siteConfig,
   traitFaqs,
 } from "@/lib/data";
-import { absoluteUrl } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "FAQ",

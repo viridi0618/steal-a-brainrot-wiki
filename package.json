@@ -7,8 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "check:data": "node scripts/check-data-integrity.mjs",
     "check:links": "node scripts/check-internal-links.mjs",
-    "check:routes": "node scripts/check-static-routes.mjs"
+    "check:routes": "node scripts/check-static-routes.mjs",
+    "check:ui": "node scripts/check-public-ui.mjs"
   },
   "dependencies": {
     "lucide-react": "^1.21.0",

@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import BrainrotExplorer from "@/components/explorers/BrainrotExplorer";
 import PageHero from "@/components/PageHero";
 import SectionTitle from "@/components/SectionTitle";
 import {
-  DataTable,
   EmptyState,
   FAQSection,
-  FilterBar,
   RelatedSection,
   StatGrid,
 } from "@/components/WikiBlocks";
@@ -34,6 +32,10 @@ export const metadata: Metadata = {
 };
 
 export default function BrainrotsPage() {
+  const rarityCount = new Set(brainrots.map((item) => item.rarity).filter(Boolean)).size;
+  const obtainableCount = brainrots.filter((item) => item.availability === "Obtainable").length;
+  const limitedOrRemovedCount = brainrots.filter((item) => ["Limited", "Removed", "Unobtainable"].includes(item.availability)).length;
+
   return (
     <div className="min-h-screen">
       <PageHero
@@ -53,47 +55,16 @@ export default function BrainrotsPage() {
         <StatGrid
           items={[
             { label: "Records", value: `${brainrots.length}` },
-            { label: "Reviewed", value: `${brainrots.filter((item) => !item.needsReview).length}` },
-            { label: "Needs Review", value: `${brainrots.filter((item) => item.needsReview).length}` },
-            { label: "Data Model", value: "Source-aware" },
+            { label: "Rarity Tiers", value: `${rarityCount}` },
+            { label: "Obtainable", value: `${obtainableCount}` },
+            { label: "Limited/Removed", value: `${limitedOrRemovedCount}` },
           ]}
         />
 
         <section>
-          <SectionTitle tag="Tools" title="Search and Filters" align="left" />
+          <SectionTitle tag="All Brainrots" title="Searchable Brainrot Explorer" align="left" />
           <div className="mt-8">
-            <FilterBar
-              searchLabel="Search verified brainrots"
-              filters={["Rarity", "Availability", "Acquisition"]}
-            />
-          </div>
-        </section>
-
-        <section>
-          <SectionTitle tag="All Brainrots" title="All Brainrots" align="left" />
-          <div className="mt-8">
-            <DataTable
-              headers={[
-                "Name",
-                "Rarity",
-                "Base Cost",
-                "Base Income",
-                "Acquisition",
-                "Availability",
-                "Details",
-              ]}
-              rows={brainrots.map((brainrot) => [
-                brainrot.name,
-                brainrot.rarity ?? "Unknown",
-                brainrot.baseCostDisplay ?? "Unknown",
-                brainrot.baseIncomeDisplay ?? "Unknown",
-                brainrot.acquisitionMethod ?? "Unknown",
-                brainrot.availability,
-                <Link key={brainrot.slug} href={`/brainrots/${brainrot.slug}`} className="text-[#d4af6a] hover:text-[#f0ece4]">
-                  View
-                </Link>,
-              ])}
-            />
+            <BrainrotExplorer records={brainrots} />
           </div>
         </section>
 

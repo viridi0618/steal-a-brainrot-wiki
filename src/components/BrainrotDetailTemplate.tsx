@@ -1,9 +1,10 @@
+import DataNote from "./DataNote";
 import PageHero from "./PageHero";
 import SectionTitle from "./SectionTitle";
+import SourceList from "./SourceList";
 import {
   Breadcrumbs,
   DataTable,
-  EmptyState,
   FAQSection,
   QuickFactsPanel,
   RelatedSection,
@@ -22,31 +23,27 @@ export default function BrainrotDetailTemplate({ brainrot }: { brainrot: Brainro
       <div className="max-w-7xl mx-auto px-4 py-16 space-y-16">
         <Breadcrumbs items={[{ label: "Brainrots", href: "/brainrots" }, { label: brainrot.name }]} />
 
-        <section className="grid lg:grid-cols-5 gap-8">
-          <div className="lg:col-span-2">
-            <div className="rounded-lg border border-[#2a2826] bg-white/[0.03] aspect-square flex items-center justify-center text-[#8a8884]">
-              Image unavailable
-            </div>
-          </div>
-          <div className="lg:col-span-3">
-            <QuickFactsPanel
-              title="Quick Facts"
-              items={[
-                { label: "Rarity", value: displayValue(brainrot.rarity) },
-                { label: "Base Cost", value: displayValue(brainrot.baseCostDisplay) },
-                { label: "Base Income", value: displayValue(brainrot.baseIncomeDisplay) },
-                { label: "Availability", value: brainrot.availability },
-                { label: "Acquisition", value: displayValue(brainrot.acquisitionMethod) },
-                { label: "Last Verified", value: brainrot.verifiedAt },
-                { label: "Confidence", value: brainrot.confidence },
-              ]}
-            />
-          </div>
+        <section>
+          <QuickFactsPanel
+            title="Quick Facts"
+            items={[
+              { label: "Rarity", value: displayValue(brainrot.rarity) },
+              { label: "Base Cost", value: displayValue(brainrot.baseCostDisplay) },
+              { label: "Base Income", value: displayValue(brainrot.baseIncomeDisplay) },
+              { label: "Availability", value: brainrot.availability },
+              { label: "Acquisition", value: displayValue(brainrot.acquisitionMethod) },
+              { label: "Indexable", value: brainrot.indexable === null ? "Unknown" : brainrot.indexable ? "Yes" : "No" },
+              { label: "Last Verified", value: brainrot.verifiedAt },
+            ]}
+          />
         </section>
 
         <section>
           <SectionTitle tag="Overview" title="Overview" align="left" />
-          <p className="mt-6 text-base leading-relaxed text-[#8a8884]">{brainrot.description}</p>
+          <div className="mt-6 max-w-3xl space-y-4 text-base leading-relaxed text-[#8a8884]">
+            <p>{brainrot.overview}</p>
+            <p>{brainrot.description}</p>
+          </div>
         </section>
 
         <section>
@@ -62,24 +59,31 @@ export default function BrainrotDetailTemplate({ brainrot }: { brainrot: Brainro
             />
           </div>
         </section>
-        {brainrot.needsReview && brainrot.conflictNote && (
+        {brainrot.conflictNote && (
           <section>
-            <SectionTitle tag="Review" title="Verification Note" align="left" />
-            <EmptyState title="Values need review" description={brainrot.conflictNote} />
+            <DataNote title="Data Note" description={brainrot.conflictNote} />
           </section>
         )}
 
         <section className="grid md:grid-cols-2 gap-6">
-          <EmptyState title="Traits" description="Trait interactions are shown only when the source data supports them." />
-          <EmptyState title="Mutations" description="Mutation notes are tracked separately from Traits." />
+          <DataNote title="Traits" description="Trait interactions are shown only when the source data supports them." />
+          <DataNote title="Mutations" description="Mutation notes are tracked separately from Traits." />
         </section>
 
         <section>
           <SectionTitle tag="Tips" title="Practical Tips" align="left" />
-          <EmptyState
-            title="Use verified stats before ranking."
-            description="Compare the in-game cost, income, rarity, and steal risk before treating this brainrot as a long-term keeper."
-          />
+          <ul className="mt-6 grid gap-3 text-sm text-[#8a8884]">
+            {brainrot.tips.map((tip) => (
+              <li key={tip} className="rounded-lg border border-[#2a2826] bg-white/[0.03] p-4">
+                {tip}
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section>
+          <SectionTitle tag="Sources" title="Sources" align="left" />
+          <SourceList sources={brainrot.sources} />
         </section>
 
         <FAQSection faqs={brainrotFaqs} />

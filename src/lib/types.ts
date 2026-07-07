@@ -101,6 +101,8 @@ export interface MutationRecord {
   name: string;
   multiplierValue: number | null;
   multiplierDisplay: string | null;
+  spawnRateValue: number | null;
+  spawnRateDisplay: string | null;
   acquisitionMethod: string | null;
   availability: AvailabilityStatus;
   verifiedAt: string;
@@ -116,6 +118,7 @@ export type PublicRoute =
   | "/"
   | "/brainrots"
   | "/traits"
+  | "/mutations"
   | "/index"
   | "/best-brainrots"
   | "/admin-abuse"

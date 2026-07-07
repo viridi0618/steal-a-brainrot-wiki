@@ -16,6 +16,7 @@ export const publicRoutes: { href: PublicRoute; label: string; priority: number 
   { href: "/", label: "Home", priority: 1 },
   { href: "/brainrots", label: "Brainrots", priority: 0.9 },
   { href: "/traits", label: "Traits", priority: 0.9 },
+  { href: "/mutations", label: "Mutations", priority: 0.9 },
   { href: "/index", label: "Index", priority: 0.8 },
   { href: "/best-brainrots", label: "Best Brainrots", priority: 0.8 },
   { href: "/admin-abuse", label: "Admin Abuse", priority: 0.8 },
@@ -25,23 +26,32 @@ export const publicRoutes: { href: PublicRoute; label: string; priority: number 
 
 export const navItems: NavItem[] = [
   { label: "Home", href: "/" },
-  { label: "Brainrots", href: "/brainrots" },
-  { label: "Traits", href: "/traits" },
-  { label: "Index", href: "/index" },
+  {
+    label: "Database",
+    href: "/brainrots",
+    submenu: [
+      { label: "Brainrots", href: "/brainrots" },
+      { label: "Traits", href: "/traits" },
+      { label: "Mutations", href: "/mutations" },
+      { label: "Index", href: "/index" },
+    ],
+  },
   {
     label: "Guides",
     href: "/best-brainrots",
     submenu: [
       { label: "Best Brainrots", href: "/best-brainrots" },
+    ],
+  },
+  {
+    label: "Events",
+    href: "/admin-abuse",
+    submenu: [
       { label: "Admin Abuse", href: "/admin-abuse" },
       { label: "Taco Tuesday", href: "/taco-tuesday" },
     ],
   },
-  {
-    label: "More",
-    href: "/faq",
-    submenu: [{ label: "FAQ", href: "/faq" }],
-  },
+  { label: "FAQ", href: "/faq" },
 ];
 
 export const quickFacts: InfoItem[] = [
@@ -63,6 +73,12 @@ export const relatedGuides: GuideLink[] = [
     title: "Traits",
     description: "Review mutation and event trait notes with current multipliers marked only when verified.",
     href: "/traits",
+    tag: "Database",
+  },
+  {
+    title: "Mutations",
+    description: "Compare mutation multipliers, availability, obtain methods, and structured spawn rate notes.",
+    href: "/mutations",
     tag: "Database",
   },
   {

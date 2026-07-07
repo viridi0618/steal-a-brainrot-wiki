@@ -50,7 +50,7 @@ export default function TacoTuesdayPage() {
         <section>
           <SectionTitle tag="Overview" title="What is Taco Tuesday?" align="left" />
           <div className="mt-6 max-w-3xl space-y-3 text-base leading-relaxed text-[#8a8884]">
-            <p>Taco Tuesday is a weekly event that introduces taco-themed content to Steal a Brainrot. It is one of the two main weekly events alongside Saturday's Admin Abuse.</p>
+            <p>Taco Tuesday is a weekly event that introduces taco-themed content to Steal a Brainrot. It is one of the two main weekly events alongside Saturday&apos;s Admin Abuse.</p>
             <p>During Taco Tuesday, <strong className="text-[#f0ece4]">taco-themed brainrots</strong> (Capi Taco, Tipi Topi Taco, Gattito Tacoto, Chihuanini Taconini, etc.) have increased spawn rates on the Red Carpet.</p>
             <p>The <strong className="text-[#f0ece4]">Taco Trait (3x)</strong> becomes available — random brainrots can gain the Taco trait, multiplying their income by 3x with a taco visual effect.</p>
             <p><strong className="text-[#f0ece4]">Fat Sammy</strong> appears during the event. Feeding him specific taco-themed brainrots can reward special items or craft limited brainrots.</p>
@@ -98,8 +98,8 @@ export default function TacoTuesdayPage() {
           <DataTable
             headers={["Step", "Purpose", "Notes"]}
             rows={[
-              ["Check the schedule", "Don't miss the window", "Tuesday ~6:00 PM ET. Confirm in-game."],
-              ["Save taco brainrots", "Have 3 ready for Fat Sammy", "Don't accidentally sell or fuse them."],
+              ["Check the schedule", "Do not miss the window", "Tuesday ~6:00 PM ET. Confirm in-game."],
+              ["Save taco brainrots", "Have 3 ready for Fat Sammy", "Do not accidentally sell or fuse them."],
               ["Secure your base", "Event servers get busy", "High-value brainrots become steal targets."],
               ["Keep cash available", "Buy taco brainrots from Red Carpet", "Spiked spawn rates are temporary."],
               ["Use a private server", "Avoid competition for spawns", "Better for controlled feeding/trait farming."],
