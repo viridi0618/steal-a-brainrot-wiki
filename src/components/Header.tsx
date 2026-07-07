@@ -41,9 +41,15 @@ export default function Header() {
         <div className="flex items-center justify-between h-16">
           <Link
             href="/"
-            className="text-xl sm:text-2xl font-bold tracking-wider text-[#f0ece4] hover:text-[#d4af6a] transition-colors duration-200"
+            className="flex items-center gap-3 text-xl sm:text-2xl font-bold tracking-wider text-[#f0ece4] hover:text-[#d4af6a] transition-colors duration-200"
           >
-            {siteConfig.siteName}
+            <img
+              src="/icon.png"
+              alt={siteConfig.gameName}
+              className="w-8 h-8 rounded-lg object-cover"
+            />
+            <span className="hidden sm:inline">{siteConfig.siteName}</span>
+            <span className="sm:hidden">SAB Guide</span>
           </Link>
 
           <nav className="hidden md:flex items-center gap-1" aria-label="Main navigation">

@@ -35,13 +35,16 @@ for (const file of htmlFiles) {
   const hrefs = [...html.matchAll(/\shref="([^"]+)"/g)].map((match) => match[1]);
 
   for (const rawHref of hrefs) {
+    // Check if it's a static asset (image, font, etc.) rather than an HTML page
+    const staticExts = [".png", ".jpg", ".jpeg", ".webp", ".svg", ".ico", ".woff", ".woff2", ".ttf", ".eot", ".json", ".xml", ".txt", ".css", ".js", ".map"];
     if (
       rawHref.startsWith("http") ||
       rawHref.startsWith("mailto:") ||
       rawHref.startsWith("tel:") ||
       rawHref.startsWith("_next/") ||
       rawHref.startsWith("/_next/") ||
-      rawHref.startsWith("#")
+      rawHref.startsWith("#") ||
+      staticExts.some((ext) => rawHref.toLowerCase().endsWith(ext))
     ) {
       continue;
     }
