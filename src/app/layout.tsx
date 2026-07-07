@@ -5,7 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { siteConfig } from "@/lib/data";
 
-const gaId = process.env.NEXT_PUBLIC_GA_ID;
+const gaId = process.env.NEXT_PUBLIC_GA_ID || "G-2651W0CWCV";
 const clarityId = process.env.NEXT_PUBLIC_CLARITY_ID;
 const adsenseClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
 
