@@ -16,6 +16,7 @@ function targetExists(href) {
   if (href === "/") return fs.existsSync(path.join(outDir, "index.html"));
   const clean = href.replace(/\/$/, "").replace(/^\//, "");
   return [
+    path.join(outDir, clean),
     path.join(outDir, clean, "index.html"),
     path.join(outDir, `${clean}.html`),
   ].some((candidate) => fs.existsSync(candidate));

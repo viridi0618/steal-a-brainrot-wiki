@@ -12,6 +12,7 @@ import {
   indexFaqs,
   siteConfig,
   traitFaqs,
+  tradeSafetyFaqs,
 } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -41,6 +42,7 @@ const categories = [
   { id: "traits", title: "Trait FAQ", faqs: traitFaqs },
   { id: "index", title: "Index FAQ", faqs: indexFaqs },
   { id: "events", title: "Event FAQ", faqs: eventFaqs },
+  { id: "trade-safety", title: "Trade / Safety FAQ", faqs: tradeSafetyFaqs },
 ];
 
 export default function FAQPage() {

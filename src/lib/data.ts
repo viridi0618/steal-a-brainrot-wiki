@@ -147,6 +147,21 @@ export const gameplayFaqs: FAQ[] = [
     answer:
       "Beginners should build steady cash flow before chasing expensive targets. Cheap brainrots help start the economy, but every purchase should be compared with the income it adds. Once income is stable, the next goals are filling the Index, learning common steal routes, and saving for stronger brainrots or event opportunities.",
   },
+  {
+    question: "What is the fastest way to make money in Steal a Brainrot?",
+    answer:
+      "The fastest income comes from stacking high-rarity brainrots with high-multiplier mutations and traits. A Mythic or Secret brainrot with Rainbow mutation and multiple stacked traits can generate much more income than a plain version. During normal grinding, focus on brainrots with stronger base income instead of rarity alone. The largest income spikes usually happen during events, when rare modifiers and boosted opportunities may appear.",
+  },
+  {
+    question: "How does Rebirth work in Steal a Brainrot?",
+    answer:
+      "Rebirth resets your current cash and brainrots in exchange for permanent progression bonuses such as movement, wallet, or spawn-related improvements. Each rebirth level can require specific cash and brainrot goals. Before rebirthing, plan around what will be lost, keep important trade decisions separate from the reset, and confirm the current in-game requirements because rebirth balance can change after updates.",
+  },
+  {
+    question: "Should I collect brainrots or focus on rebirth first?",
+    answer:
+      "Most players should make rebirth progress before treating rare collecting as the main goal. Rebirth resets can remove brainrots, so building a permanent collection too early can waste effort. Use accessible brainrots to meet rebirth requirements, protect anything especially valuable, and start serious collecting once the rebirth grind is no longer interrupting your base.",
+  },
 ];
 
 export const brainrotFaqs: FAQ[] = [
@@ -170,6 +185,21 @@ export const brainrotFaqs: FAQ[] = [
     answer:
       "Buying is safer and predictable when the conveyor offers a useful entry. Stealing can be faster, especially if another player owns a stronger brainrot, but it carries more risk and depends on timing. New players should learn both methods, then decide based on base security, server activity, and the value of the target.",
   },
+  {
+    question: "How do I get Strawberry Elephant?",
+    answer:
+      "Strawberry Elephant is treated as an extremely rare OG brainrot. The practical options are watching high-luck Red Carpet sessions, joining busy event windows when rare spawns are more likely, running multiple attempts over time, or trading for it if waiting is not realistic. Because exact spawn rates can change, confirm the current in-game behavior before planning around a fixed probability.",
+  },
+  {
+    question: "How do I get good brainrots quickly as a beginner?",
+    answer:
+      "Start with the Red Carpet and buy low-cost brainrots that improve your cash flow. Chain upgrades from Common into higher rarities as your income grows, then look for mid-tier brainrots that add better money per second. Join Admin Abuse and other event windows when possible because boosted spawns can make stronger brainrots easier to find. Avoid spending premium currency early unless you understand the value tradeoff.",
+  },
+  {
+    question: "What's the difference between a trait and a mutation?",
+    answer:
+      "Mutations usually change a brainrot's appearance and income multiplier, while traits are additional modifiers that can stack on top of the base brainrot and mutation. For example, a strong mutation plus strong traits can multiply income far beyond the plain version. The exact stacking and availability rules should always be checked in game because events and updates can change how modifiers appear.",
+  },
 ];
 
 export const traitFaqs: FAQ[] = [
@@ -192,6 +222,21 @@ export const traitFaqs: FAQ[] = [
     question: "Can multiple modifiers affect one brainrot?",
     answer:
       "Some brainrots may appear with modifier-style variants, but exact stacking rules should be checked before making value claims. The safest approach is to compare the final in-game income shown for the unit instead of assuming that two labels combine in a specific way. This keeps trading and ranking advice grounded.",
+  },
+  {
+    question: "Can you add traits to brainrots you already have in your base?",
+    answer:
+      "In most cases, traits and mutations need to appear before the brainrot is safely placed in your base. Once a brainrot reaches the collection zone, it may no longer have the same chance to receive new event modifiers. This is why players often pay attention to timing on the Red Carpet during Admin Abuse instead of buying too early.",
+  },
+  {
+    question: "How do I farm traits efficiently during Admin Abuse?",
+    answer:
+      "Join early, keep enough cash ready, and focus on brainrots that stay exposed to event effects long enough to receive traits. Some players coordinate with a friend or alternate account to keep a target moving through buying and trading patterns, but the safest solo habit is to watch the Red Carpet carefully and buy only when the risk and timing make sense.",
+  },
+  {
+    question: "What are the best traits in Steal a Brainrot?",
+    answer:
+      "The best traits are usually the ones with the strongest multipliers, especially when placed on a high-value brainrot. Event-only traits such as Strawberry, Meowl, and John Pork are often discussed as top targets, while regular strong traits can still be useful for progression. A trait's real value depends on the base brainrot, mutation, stack, and current demand.",
   },
 ];
 
@@ -234,6 +279,34 @@ export const eventFaqs: FAQ[] = [
     answer:
       "Yes. Event timing, rewards, and mechanics can shift after updates. A wiki should record when a schedule was checked and avoid promising exact behavior unless the source is current. For this reason, the event pages use short schedule notes, caveats, and practical preparation steps rather than permanent guarantees.",
   },
+  {
+    question: "When is Admin Abuse and what time should I join?",
+    answer:
+      "Admin Abuse is commonly discussed around the Saturday update window, and Taco Tuesday is associated with Tuesday evening Eastern Time. Join 5 to 10 minutes early so you have time to enter a server before it fills. Always confirm the current schedule in game or from official channels because event timing can change.",
+  },
+  {
+    question: "What actually happens during Admin Abuse?",
+    answer:
+      "Admin Abuse can include server-wide effects such as boosted Red Carpet spawns, special mutations, Admin Lucky Blocks, and trait application events. The exact mix depends on the current update and developer activity. Treat the event as the best window for rare modifier hunting, but check the live server before assuming every reward or effect is active.",
+  },
+  {
+    question: "Is Taco Tuesday different from Saturday Admin Abuse?",
+    answer:
+      "Taco Tuesday is a recurring Tuesday event associated with Taco-themed rewards and the Taco Trait, while Saturday Admin Abuse is usually treated as the larger weekly event window. Both can involve boosted opportunities, but the rewards, length, and activity level may differ. Check the Taco Tuesday page and the live game before planning around a specific reward.",
+  },
+];
+
+export const tradeSafetyFaqs: FAQ[] = [
+  {
+    question: "How do I trade safely without getting scammed?",
+    answer:
+      "Use the official Trade Machine when it is available because it reduces trust-trade risk. For high-value trades outside a protected system, use a verified middleman from a trusted community source and avoid rushing. Never go first in trust trades, never click links promising free Robux or free VIP servers, and never share your Roblox login details.",
+  },
+  {
+    question: "What is a brainrot worth in trading?",
+    answer:
+      "Brainrot values change constantly with updates, availability, mutations, traits, and player demand. Common through Epic brainrots usually have lower trade value, while Legendary, Mythic, Brainrot God, Secret, and OG entries can be much more important. Mutation and trait stacks can dramatically change value, so check current community value references before making a major trade.",
+  },
 ];
 
 export const allFaqs: FAQ[] = [
@@ -242,4 +315,5 @@ export const allFaqs: FAQ[] = [
   ...traitFaqs,
   ...indexFaqs,
   ...eventFaqs,
+  ...tradeSafetyFaqs,
 ];
