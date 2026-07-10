@@ -32,6 +32,7 @@ export const publicRoutes: { href: PublicRoute; label: string; priority: number 
   { href: "/mutations", label: "Mutations", priority: 0.9 },
   { href: "/brainrot-index", label: "Index", priority: 0.8 },
   { href: "/best-brainrots", label: "Best Brainrots", priority: 0.8 },
+  { href: "/unblocked", label: "Unblocked Guide", priority: 0.8 },
   { href: "/admin-abuse", label: "Admin Abuse", priority: 0.8 },
   { href: "/taco-tuesday", label: "Taco Tuesday", priority: 0.8 },
   { href: "/faq", label: "FAQ", priority: 0.7 },
@@ -54,6 +55,7 @@ export const navItems: NavItem[] = [
     href: "/best-brainrots",
     submenu: [
       { label: "Best Brainrots", href: "/best-brainrots" },
+      { label: "Unblocked Guide", href: "/unblocked" },
     ],
   },
   {
@@ -104,6 +106,12 @@ export const relatedGuides: GuideLink[] = [
     title: "Best Brainrots",
     description: "Compare brainrots by income, availability, value, and usefulness without fake rankings.",
     href: "/best-brainrots",
+    tag: "Guide",
+  },
+  {
+    title: "Unblocked Guide",
+    description: "Understand safe options when Roblox is blocked and use the wiki to plan your next run.",
+    href: "/unblocked",
     tag: "Guide",
   },
   {

@@ -16,6 +16,7 @@ const footerColumns = [
     title: 'Guides',
     links: [
       { label: 'Best Brainrots', href: '/best-brainrots' },
+      { label: 'Unblocked Guide', href: '/unblocked' },
       { label: 'Admin Abuse', href: '/admin-abuse' },
       { label: 'Taco Tuesday', href: '/taco-tuesday' },
     ],

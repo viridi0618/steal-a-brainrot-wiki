@@ -11,6 +11,7 @@ const hubRoutes = [
   "/mutations",
   "/brainrot-index",
   "/best-brainrots",
+  "/unblocked",
   "/admin-abuse",
   "/taco-tuesday",
   "/faq",
