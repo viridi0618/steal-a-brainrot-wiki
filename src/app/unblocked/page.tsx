@@ -16,9 +16,10 @@ import {
   siteConfig,
 } from "@/lib/data";
 
-const pageTitle = "How to Play Steal a Brainrot Unblocked at School - No Download Guide";
+const pageTitle = "How to Play Steal a Brainrot Unblocked at School – No Download Guide";
 const pageDescription =
   "Want to play Steal a Brainrot at school but Roblox is blocked? Learn why it may be blocked, safe access options, and use our brainrot stats and strategy guides while you wait.";
+const pageUrl = `${siteConfig.url}/unblocked/`;
 
 const faqItems = [
   {
@@ -51,11 +52,14 @@ const faqItems = [
 export const metadata: Metadata = {
   title: { absolute: pageTitle },
   description: pageDescription,
-  alternates: { canonical: "/unblocked" },
+  alternates: { canonical: pageUrl },
   openGraph: {
     title: pageTitle,
     description: pageDescription,
-    url: `${siteConfig.url}/unblocked`,
+    url: pageUrl,
+    siteName: siteConfig.siteName,
+    locale: "en_US",
+    type: "article",
     images: [siteConfig.defaultSocialImage],
   },
   twitter: {
@@ -105,12 +109,47 @@ export default function UnblockedPage() {
       },
     })),
   };
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: `${siteConfig.url}/`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Unblocked Guide",
+        item: pageUrl,
+      },
+    ],
+  };
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: pageTitle,
+    description: pageDescription,
+    mainEntityOfPage: pageUrl,
+    about: siteConfig.gameName,
+    inLanguage: "en-US",
+  };
 
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
 
       <section className="relative min-h-[78vh] flex items-center justify-center overflow-hidden pt-16 border-b border-[#2a2826]">
