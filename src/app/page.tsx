@@ -191,13 +191,14 @@ export default function Home() {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4">
           <SectionTitle tag="Featured" title="Featured Guides" />
-          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6 mt-10">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
             {[
               { title: "Best Brainrots", href: "/best-brainrots", tag: "Guide", description: "Compare income, rarity, and risk to pick your next purchase." },
               { title: "Index Guide", href: "/brainrot-index", tag: "Reference", description: "Track your collection and earn permanent income boosts." },
               { title: "Admin Abuse", href: "/admin-abuse", tag: "Event", description: "Saturday event schedule, luck boosts, and mutation farming." },
               { title: "Taco Tuesday", href: "/taco-tuesday", tag: "Event", description: "Tuesday event: Taco Trait, Fat Sammy, and taco-themed brainrots." },
               { title: "Traits Guide", href: "/traits", tag: "Guide", description: "Trait multipliers, categories, and how they stack with mutations." },
+              { title: "Unblocked Guide", href: "/unblocked", tag: "Guide", description: "Play Steal a Brainrot at school or work — safe options, no download needed." },
             ].map((guide) => (
               <InfoCard key={guide.href} tag={guide.tag} title={guide.title} description={guide.description} href={guide.href} />
             ))}
