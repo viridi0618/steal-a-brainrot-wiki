@@ -80,6 +80,17 @@ export default function BrainrotsPage() {
           />
         </section>
 
+        {/* All Brainrots index — hidden from visual users, visible to crawlers for SEO internal linking */}
+        <nav aria-label="All Brainrots index" className="sr-only">
+          <ul>
+            {publishedBrainrots.map((brainrot) => (
+              <li key={brainrot.slug}>
+                <a href={`/brainrots/${brainrot.slug}`}>{brainrot.name}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
         <FAQSection faqs={brainrotFaqs} />
         <RelatedSection currentHref="/brainrots" />
       </div>
