@@ -18,7 +18,7 @@ import {
 
 const pageTitle = "How to Play Steal a Brainrot Unblocked at School – No Download Guide";
 const pageDescription =
-  "Want to play Steal a Brainrot at school but Roblox is blocked? Learn why it may be blocked, safe access options, and use our brainrot stats and strategy guides while you wait.";
+  "Want to play Steal a Brainrot at school but Roblox is blocked? Learn why networks block it, safe access options, and study strategy guides while you wait.";
 const pageUrl = `${siteConfig.url}/unblocked`;
 
 const faqItems = [

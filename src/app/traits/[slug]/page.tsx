@@ -30,9 +30,13 @@ export async function generateMetadata({
   }
 
   const title = `${trait.name} Trait`;
-  const descSnippet = trait.effect
-    ? `${trait.name}: ${trait.multiplierDisplay} multiplier${trait.category ? ` (${trait.category} trait)` : ''}. ${trait.effect.replace(/`/g, '').slice(0, 120)}`
-    : `${trait.name} Trait — ${trait.multiplierDisplay} multiplier in Steal a Brainrot. Category: ${trait.category || 'N/A'}.`;
+  const shortFallback = `${trait.name} ${trait.multiplierDisplay} ${trait.category || 'multiplier'} trait for Steal a Brainrot — full details on how to obtain, availability, and stacking with other multipliers.`;
+  const rawDesc = trait.description || trait.effect || shortFallback;
+  const suffix = ' Full details on obtain method, availability, and stacking with other multipliers.';
+  const descSnippet =
+    rawDesc.replace(/`/g, '').length < 130
+      ? (rawDesc.replace(/`/g, '') + suffix).slice(0, 158)
+      : rawDesc.replace(/`/g, '').slice(0, 158).trim() + (rawDesc.length > 158 ? '…' : '');
 
   return {
     metadataBase: new URL(siteConfig.url),

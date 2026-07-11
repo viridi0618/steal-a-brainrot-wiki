@@ -30,9 +30,13 @@ export async function generateMetadata({
   }
 
   const title = brainrot.name;
-  const overviewSnippet = brainrot.overview
-    ? brainrot.overview.replace(/`/g, '').slice(0, 150) + (brainrot.overview.length > 150 ? '…' : '')
-    : `${brainrot.name} — ${brainrot.rarity || 'Brainrot'} in Steal a Brainrot. Cost: ${brainrot.baseCostDisplay || 'N/A'}, Income: ${brainrot.baseIncomeDisplay || 'N/A'}.`;
+  const shortFallback = `${brainrot.name} is a ${brainrot.rarity || 'brainrot'} in Steal a Brainrot, generating ${brainrot.baseIncomeDisplay || 'N/A'}/s at ${brainrot.baseCostDisplay || 'N/A'} Cash.`;
+  const rawDesc = brainrot.description || brainrot.overview || shortFallback;
+  const suffix = ' Read our guide for full stats, obtain methods, tips, and more.';
+  const overviewSnippet =
+    rawDesc.replace(/`/g, '').length < 130
+      ? (rawDesc.replace(/`/g, '') + suffix).slice(0, 158)
+      : rawDesc.replace(/`/g, '').slice(0, 158).trim() + (rawDesc.length > 158 ? '…' : '');
 
   return {
     metadataBase: new URL(siteConfig.url),
