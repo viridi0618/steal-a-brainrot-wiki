@@ -99,9 +99,14 @@ export default function Footer() {
               <p className="text-sm text-[#8a8884] leading-relaxed">
                 {siteConfig.description}
               </p>
-              <p className="text-xs text-[#8a8884] pt-2">
-                Copyright {new Date().getFullYear()} {siteConfig.shortName}. Fan-made site. Not affiliated with the game developers unless stated.
-              </p>
+              <div className="pt-2 space-y-1">
+                <p className="text-xs text-[#8a8884]">More game guides:</p>
+                <a href="https://moonlightpeaksguide.wiki" target="_blank" rel="noopener" className="block text-xs text-[#8a8884] hover:text-[#f0ece4] transition">Moonlight Peaks Guide</a>
+                <a href="https://gutsandblackpowder.wiki" target="_blank" rel="noopener" className="block text-xs text-[#8a8884] hover:text-[#f0ece4] transition">Guts &amp; Blackpowder Wiki</a>
+                <p className="text-xs text-[#8a8884] pt-1">
+                  Copyright {new Date().getFullYear()} {siteConfig.shortName}. Fan-made site. Not affiliated with the game developers unless stated.
+                </p>
+              </div>
             </div>
           </div>
         </div>
