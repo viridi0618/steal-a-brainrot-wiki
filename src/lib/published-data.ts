@@ -3,15 +3,40 @@ import { traits } from "@/data/traits";
 import {
   isIndexableBrainrot,
   isIndexableTrait,
+  buildTipFrequency,
 } from "@/lib/route-quality";
 
-export const publishedBrainrots = brainrots.filter(isIndexableBrainrot);
-export const publishedTraits = traits.filter(isIndexableTrait);
+// All non-hidden records (visible on list pages, generate static pages)
+export const visibleBrainrots = brainrots.filter(
+  (r) => r.indexingMeta?.contentStatus !== "hidden"
+);
+export const visibleTraits = traits.filter(
+  (r) => r.indexingMeta?.contentStatus !== "hidden"
+);
+
+// Indexable = contentStatus complete + passes quality gate → sitemap + search
+export const indexableBrainrots = brainrots.filter((r) => {
+  const tipFreq = buildTipFrequency(brainrots);
+  return isIndexableBrainrot(r, tipFreq);
+});
+export const indexableTraits = traits.filter(isIndexableTrait);
+
+// Partial = visible but not indexable → no sitemap, noindex
+export const partialBrainrots = visibleBrainrots.filter(
+  (r) => !isIndexableBrainrot(r, buildTipFrequency(brainrots))
+);
+export const partialTraits = visibleTraits.filter(
+  (r) => !isIndexableTrait(r)
+);
+
+// Legacy aliases (for backward compat during migration)
+export const publishedBrainrots = visibleBrainrots;
+export const publishedTraits = visibleTraits;
 
 export function getPublishedBrainrotBySlug(slug: string) {
-  return publishedBrainrots.find((brainrot) => brainrot.slug === slug);
+  return visibleBrainrots.find((brainrot) => brainrot.slug === slug);
 }
 
 export function getPublishedTraitBySlug(slug: string) {
-  return publishedTraits.find((trait) => trait.slug === slug);
+  return visibleTraits.find((trait) => trait.slug === slug);
 }

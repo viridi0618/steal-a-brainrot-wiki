@@ -5,6 +5,7 @@ import PageHero from "@/components/PageHero";
 import SectionTitle from "@/components/SectionTitle";
 import { FAQSection, RelatedSection, StatGrid } from "@/components/WikiBlocks";
 import { brainrotFaqs, publishedBrainrots, siteConfig } from "@/lib/data";
+import { indexableBrainrots } from "@/lib/published-data";
 
 export const metadata: Metadata = {
   title: "Brainrots",
@@ -57,6 +58,28 @@ export default function BrainrotsPage() {
           ]}
         />
 
+        {/* Section: Featured Brainrots — only indexable ones get linked */}
+        {indexableBrainrots.length > 0 && (
+          <section>
+            <SectionTitle tag="Featured" title="Top Brainrot Pages" align="left" />
+            <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {indexableBrainrots.map((brainrot) => (
+                <li key={brainrot.slug}>
+                  <a
+                    href={`/brainrots/${brainrot.slug}`}
+                    className="block rounded-lg border border-[#2a2826] bg-white/[0.03] p-4 hover:border-[#d4af6a] transition-colors text-sm"
+                  >
+                    <span className="text-[#d4af6a] font-semibold">{brainrot.name}</span>
+                    <span className="mt-1 block text-[#8a8884]">
+                      {brainrot.rarity} · {brainrot.baseIncomeDisplay}
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
         <section>
           <SectionTitle tag="All Brainrots" title="Searchable Brainrot Explorer" align="left" />
           <div className="mt-8">
@@ -79,17 +102,6 @@ export default function BrainrotsPage() {
             description="Common acquisition methods include buying from in-game offers and stealing from another player's base, but each record keeps its current method separate."
           />
         </section>
-
-        {/* All Brainrots index — hidden from visual users, visible to crawlers for SEO internal linking */}
-        <nav aria-label="All Brainrots index" className="sr-only">
-          <ul>
-            {publishedBrainrots.map((brainrot) => (
-              <li key={brainrot.slug}>
-                <a href={`/brainrots/${brainrot.slug}`}>{brainrot.name}</a>
-              </li>
-            ))}
-          </ul>
-        </nav>
 
         <FAQSection faqs={brainrotFaqs} />
         <RelatedSection currentHref="/brainrots" />

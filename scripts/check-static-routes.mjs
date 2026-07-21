@@ -88,8 +88,12 @@ try {
 
   const sitemap = read("out/sitemap.xml");
   const sitemapUrls = [...sitemap.matchAll(/<loc>/g)].length;
-  if (sitemapUrls !== routes.length) {
-    throw new Error(`Sitemap URL count expected ${routes.length}, found ${sitemapUrls}`);
+  // Sitemap only includes indexable records (not all visible)
+  const indexableBrainrotCount = manifest.brainrots.filter(r => r.indexable).length;
+  const indexableTraitCount = manifest.traits.filter(r => r.indexable).length;
+  const expectedSitemapUrls = hubRoutes.length + indexableBrainrotCount + indexableTraitCount;
+  if (sitemapUrls !== expectedSitemapUrls) {
+    throw new Error(`Sitemap URL count expected ${expectedSitemapUrls} (${hubRoutes.length} hub + ${indexableBrainrotCount} brainrots + ${indexableTraitCount} traits), found ${sitemapUrls}`);
   }
   const sitemapLocs = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
   for (const loc of sitemapLocs) {

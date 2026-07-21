@@ -4,7 +4,8 @@ import TraitDetailTemplate from "@/components/TraitDetailTemplate";
 import { siteConfig } from "@/lib/data";
 import {
   getPublishedTraitBySlug,
-  publishedTraits,
+  visibleTraits,
+  indexableTraits,
 } from "@/lib/published-data";
 import { absoluteUrl } from "@/lib/site-config";
 
@@ -13,7 +14,7 @@ interface TraitPageProps {
 }
 
 export function generateStaticParams() {
-  return publishedTraits.map((trait) => ({ slug: trait.slug }));
+  return visibleTraits.map((trait) => ({ slug: trait.slug }));
 }
 
 export async function generateMetadata({
@@ -29,6 +30,8 @@ export async function generateMetadata({
     };
   }
 
+  const isIndexable = indexableTraits.some((t) => t.slug === trait.slug);
+
   const title = `${trait.name} Trait`;
   const shortFallback = `${trait.name} ${trait.multiplierDisplay} ${trait.category || 'multiplier'} trait for Steal a Brainrot — full details on how to obtain, availability, and stacking with other multipliers.`;
   const rawDesc = trait.description || trait.effect || shortFallback;
@@ -43,6 +46,9 @@ export async function generateMetadata({
     title,
     description: descSnippet,
     alternates: { canonical: `/traits/${trait.slug}` },
+    robots: isIndexable
+      ? { index: true, follow: true }
+      : { index: false, follow: true },
     openGraph: {
       title,
       description: descSnippet,

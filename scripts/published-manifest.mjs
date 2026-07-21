@@ -47,10 +47,12 @@ export async function loadPublishedManifest() {
     brainrots: published.publishedBrainrots.map((record) => ({
       slug: record.slug,
       href: `/brainrots/${record.slug}`,
+      indexable: published.indexableBrainrots.some((r) => r.slug === record.slug),
     })),
     traits: published.publishedTraits.map((record) => ({
       slug: record.slug,
       href: `/traits/${record.slug}`,
+      indexable: published.indexableTraits.some((r) => r.slug === record.slug),
     })),
   };
 }

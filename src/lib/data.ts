@@ -5,6 +5,8 @@ import { traits, verifiedTraitRecords } from "@/data/traits";
 import {
   publishedBrainrots,
   publishedTraits,
+  indexableBrainrots,
+  indexableTraits,
 } from "@/lib/published-data";
 import { siteConfig } from "./site-config";
 import type { FAQ, GuideLink, InfoItem, NavItem, PublicRoute } from "./types";
@@ -14,6 +16,8 @@ export {
   mutations,
   publishedBrainrots,
   publishedTraits,
+  indexableBrainrots,
+  indexableTraits,
   siteConfig,
   traits,
   verifiedBrainrotRecords,

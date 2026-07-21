@@ -30,12 +30,21 @@ function publicTips(brainrot: BrainrotRecord) {
 
 export default function BrainrotDetailTemplate({ brainrot }: { brainrot: BrainrotRecord }) {
   const tips = publicTips(brainrot);
+  const isIndexable = brainrot.indexingMeta?.contentStatus === "complete" && brainrot.indexingMeta?.indexable === true;
 
   return (
     <div className="min-h-screen">
       <PageHero tag={brainrot.rarity ?? brainrot.availability} title={brainrot.name} description={brainrot.description} />
       <div className="max-w-7xl mx-auto px-4 py-16 space-y-16">
         <Breadcrumbs items={[{ label: "Brainrots", href: "/brainrots" }, { label: brainrot.name }]} />
+
+        {!isIndexable && (
+          <section>
+            <div className="rounded-lg border border-[#3b2a56] bg-[#120c20]/80 p-5 text-sm leading-7 text-[#b8afc8]">
+              This data record is available for reference, but it has not yet passed the editorial quality gate for search indexing.
+            </div>
+          </section>
+        )}
 
         <section>
           <QuickFactsPanel
@@ -46,7 +55,7 @@ export default function BrainrotDetailTemplate({ brainrot }: { brainrot: Brainro
               { label: "Base Income", value: displayValue(brainrot.baseIncomeDisplay) },
               { label: "Availability", value: brainrot.availability },
               { label: "Acquisition", value: displayValue(brainrot.acquisitionMethod) },
-              { label: "Indexable", value: brainrot.indexable === null ? "Unknown" : brainrot.indexable ? "Yes" : "No" },
+              { label: "Indexable", value: isIndexable ? "Yes" : "No (partial)" },
               { label: "Last Verified", value: brainrot.verifiedAt },
             ]}
           />
@@ -68,7 +77,7 @@ export default function BrainrotDetailTemplate({ brainrot }: { brainrot: Brainro
               rows={[
                 ["Base Cost", displayValue(brainrot.baseCostDisplay), "Unmodified purchase value only."],
                 ["Base Income", displayValue(brainrot.baseIncomeDisplay), "Unmodified income value only."],
-                ["Indexable", brainrot.indexable === null ? "Unknown" : brainrot.indexable ? "Yes" : "No", "Shown only when supported by sources."],
+                ["Indexable", isIndexable ? "Yes" : "No (partial)", "Shown only when supported by sources."],
               ]}
             />
           </div>

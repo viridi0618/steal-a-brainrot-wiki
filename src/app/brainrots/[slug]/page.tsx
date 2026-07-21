@@ -4,7 +4,8 @@ import BrainrotDetailTemplate from "@/components/BrainrotDetailTemplate";
 import { siteConfig } from "@/lib/data";
 import {
   getPublishedBrainrotBySlug,
-  publishedBrainrots,
+  visibleBrainrots,
+  indexableBrainrots,
 } from "@/lib/published-data";
 import { absoluteUrl } from "@/lib/site-config";
 
@@ -13,7 +14,7 @@ interface BrainrotPageProps {
 }
 
 export function generateStaticParams() {
-  return publishedBrainrots.map((brainrot) => ({ slug: brainrot.slug }));
+  return visibleBrainrots.map((brainrot) => ({ slug: brainrot.slug }));
 }
 
 export async function generateMetadata({
@@ -29,6 +30,8 @@ export async function generateMetadata({
     };
   }
 
+  const isIndexable = indexableBrainrots.some((r) => r.slug === brainrot.slug);
+
   const title = brainrot.name;
   const shortFallback = `${brainrot.name} is a ${brainrot.rarity || 'brainrot'} in Steal a Brainrot, generating ${brainrot.baseIncomeDisplay || 'N/A'}/s at ${brainrot.baseCostDisplay || 'N/A'} Cash.`;
   const rawDesc = brainrot.description || brainrot.overview || shortFallback;
@@ -43,6 +46,9 @@ export async function generateMetadata({
     title,
     description: overviewSnippet,
     alternates: { canonical: `/brainrots/${brainrot.slug}` },
+    robots: isIndexable
+      ? { index: true, follow: true }
+      : { index: false, follow: true },
     openGraph: {
       title,
       description: overviewSnippet,
