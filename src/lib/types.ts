@@ -90,6 +90,7 @@ export interface BrainrotRecord {
   overview: string;
   tips: string[];
   conflictNote: string | null;
+  conflictStatus?: "none" | "resolved" | "unresolved";
   description: string;
   indexingMeta: IndexingMeta;
 }
@@ -108,6 +109,7 @@ export interface TraitRecord {
   sources: SourceReference[];
   needsReview: boolean;
   conflictNote: string | null;
+  conflictStatus?: "none" | "resolved" | "unresolved";
   effect: string;
   description: string;
   indexingMeta: IndexingMeta;

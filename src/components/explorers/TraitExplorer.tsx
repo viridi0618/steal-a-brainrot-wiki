@@ -46,6 +46,8 @@ export default function TraitExplorer({ records }: { records: TraitRecord[] }) {
     setAvailability("");
     setSort("name-asc");
   };
+  const isRecordIndexable = (record: TraitRecord) =>
+    record.indexingMeta?.contentStatus === "complete" && record.indexingMeta?.indexable === true;
 
   return (
     <ExplorerShell>
@@ -98,21 +100,31 @@ export default function TraitExplorer({ records }: { records: TraitRecord[] }) {
             </tr>
           </thead>
           <tbody>
-            {filtered.map((record) => (
+            {filtered.map((record) => {
+              const recordIndexable = isRecordIndexable(record);
+              return (
               <tr key={record.slug} className="border-t border-[#2a2826]">
-                <td className="px-4 py-3"><Link href={`/traits/${record.slug}`} className="text-[#d4af6a] hover:text-[#f0ece4]">{record.name}</Link></td>
+                <td className="px-4 py-3">
+                  {recordIndexable ? (
+                    <Link href={`/traits/${record.slug}`} className="text-[#d4af6a] hover:text-[#f0ece4]">{record.name}</Link>
+                  ) : (
+                    <span className="text-[#8a8884]">{record.name}</span>
+                  )}
+                </td>
                 <td className="px-4 py-3">{record.multiplierDisplay ?? "Unknown"}</td>
                 <td className="px-4 py-3">{record.category ?? "Unknown"}</td>
                 <td className="px-4 py-3">{record.availability}</td>
                 <td className="px-4 py-3">{record.acquisitionMethod ?? "Unknown"}</td>
               </tr>
-            ))}
+              );
+            })}
           </tbody>
         </table>
       </div>
       <div className="mt-6 grid gap-3 md:hidden">
-        {filtered.map((record) => (
-          <Link key={record.slug} href={`/traits/${record.slug}`} className="rounded-lg border border-[#2a2826] bg-[#05030c]/70 p-4">
+        {filtered.map((record) => {
+          const content = (
+          <span className="rounded-lg border border-[#2a2826] bg-[#05030c]/70 p-4 block">
             <span className="text-[#d4af6a] font-semibold">{record.name}</span>
             <span className="mt-3 grid grid-cols-2 gap-2 text-sm text-[#8a8884]">
               <span>{record.multiplierDisplay ?? "Unknown"}</span>
@@ -120,8 +132,17 @@ export default function TraitExplorer({ records }: { records: TraitRecord[] }) {
               <span>{record.availability}</span>
               <span className="break-words">{record.acquisitionMethod ?? "Unknown"}</span>
             </span>
-          </Link>
-        ))}
+          </span>
+          );
+
+          return isRecordIndexable(record) ? (
+            <Link key={record.slug} href={`/traits/${record.slug}`}>
+              {content}
+            </Link>
+          ) : (
+            <div key={record.slug}>{content}</div>
+          );
+        })}
       </div>
         </>
       )}

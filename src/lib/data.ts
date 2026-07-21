@@ -29,18 +29,37 @@ export const eventVerification = {
   tacoTuesdayVerifiedAt: checkedAt.tacoTuesday,
 };
 
-export const publicRoutes: { href: PublicRoute; label: string; priority: number }[] = [
-  { href: "/", label: "Home", priority: 1 },
-  { href: "/brainrots", label: "Brainrots", priority: 0.9 },
-  { href: "/traits", label: "Traits", priority: 0.9 },
-  { href: "/mutations", label: "Mutations", priority: 0.9 },
-  { href: "/brainrot-index", label: "Index", priority: 0.8 },
-  { href: "/best-brainrots", label: "Best Brainrots", priority: 0.8 },
-  { href: "/unblocked", label: "Unblocked Guide", priority: 0.8 },
-  { href: "/admin-abuse", label: "Admin Abuse", priority: 0.8 },
-  { href: "/taco-tuesday", label: "Taco Tuesday", priority: 0.8 },
-  { href: "/faq", label: "FAQ", priority: 0.7 },
+export const publicRoutes: { href: PublicRoute; label: string; priority: number; indexable: boolean }[] = [
+  { href: "/", label: "Home", priority: 1, indexable: true },
+  { href: "/brainrots", label: "Brainrots", priority: 0.9, indexable: true },
+  { href: "/traits", label: "Traits", priority: 0.9, indexable: true },
+  { href: "/mutations", label: "Mutations", priority: 0.9, indexable: true },
+  { href: "/brainrot-index", label: "Index", priority: 0.8, indexable: true },
+  { href: "/best-brainrots", label: "Best Brainrots", priority: 0.8, indexable: true },
+  { href: "/unblocked", label: "Unblocked Guide", priority: 0.8, indexable: true },
+  { href: "/admin-abuse", label: "Admin Abuse", priority: 0.8, indexable: true },
+  { href: "/taco-tuesday", label: "Taco Tuesday", priority: 0.8, indexable: true },
+  { href: "/faq", label: "FAQ", priority: 0.7, indexable: true },
 ];
+
+export const noindexUtilityRoutes = [
+  {
+    href: "/search",
+    label: "Search",
+    reason: "Search result pages stay noindex because they do not provide stable canonical content.",
+  },
+] as const;
+
+export const draftDatasetHubRoutes = [
+  "/heroes",
+  "/items",
+  "/relics",
+  "/classes",
+  "/guilds",
+  "/specializations",
+] as const;
+
+export const indexablePublicRoutes = publicRoutes.filter((route) => route.indexable);
 
 export const navItems: NavItem[] = [
   { label: "Home", href: "/" },

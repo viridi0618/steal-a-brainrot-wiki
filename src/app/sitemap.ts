@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { publicRoutes } from "@/lib/data";
+import { indexablePublicRoutes } from "@/lib/data";
 import {
   indexableBrainrots,
   indexableTraits,
@@ -9,7 +9,7 @@ import { absoluteUrl } from "@/lib/site-config";
 export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const hubRoutes = publicRoutes.map((route) => ({
+  const hubRoutes = indexablePublicRoutes.map((route) => ({
     url: absoluteUrl(route.href),
     lastModified: new Date("2026-07-10"),
     changeFrequency: route.href === "/" ? "weekly" as const : "monthly" as const,

@@ -71,7 +71,7 @@ export default function BrainrotsPage() {
                   >
                     <span className="text-[#d4af6a] font-semibold">{brainrot.name}</span>
                     <span className="mt-1 block text-[#8a8884]">
-                      {brainrot.rarity} · {brainrot.baseIncomeDisplay}
+                      {brainrot.rarity} - {brainrot.baseIncomeDisplay}
                     </span>
                   </a>
                 </li>

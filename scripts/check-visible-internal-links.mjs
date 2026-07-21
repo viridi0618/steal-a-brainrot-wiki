@@ -1,51 +1,81 @@
 #!/usr/bin/env node
-/**
- * check-visible-internal-links.mjs
- * Ensures indexable detail pages have visible internal links from list pages.
- * Checks built HTML output.
- */
+import fs from "node:fs";
+import path from "node:path";
+import { loadRuntimeData } from "./load-runtime-data.mjs";
 
-import { readFileSync, existsSync } from 'fs';
-import { resolve } from 'path';
-
+const { published } = await loadRuntimeData();
 let errors = 0;
 
-console.log('=== Visible Internal Links Check ===\n');
-
-// Check /brainrots page
-const brainrotsHtml = readFileSync(resolve('out/brainrots.html'), 'utf8');
-
-// 1. No sr-only all-links dump
-const srOnlyCount = (brainrotsHtml.match(/sr-only/g) || []).length;
-if (srOnlyCount > 0) {
-  console.log(`  ❌ /brainrots has ${srOnlyCount} sr-only references`);
+function fail(message) {
+  console.log(`ERROR: ${message}`);
   errors++;
-} else {
-  console.log('  ✅ /brainrots has no sr-only elements');
 }
 
-// 2. Has Featured section
-if (brainrotsHtml.includes('Featured')) {
-  console.log('  ✅ /brainrots has Featured section');
-} else {
-  console.log('  ⚠️ /brainrots missing Featured section for indexable records');
+function readOutHtml(name) {
+  const candidates = [path.resolve("out", `${name}.html`), path.resolve("out", name, "index.html")];
+  const file = candidates.find((candidate) => fs.existsSync(candidate));
+  if (!file) {
+    fail(`missing built HTML for ${name}`);
+    return "";
+  }
+  return fs.readFileSync(file, "utf8");
 }
 
-// 3. Indexable records are linked from list page
-const sitemap = readFileSync(resolve('out/sitemap.xml'), 'utf8');
-const sitemapBrainrotSlugs = [...sitemap.matchAll(/\/brainrots\/([a-z0-9-]+)/g)].map(m => m[1]);
+function hrefExists(html, href) {
+  return html.includes(`href="${href}"`);
+}
 
-let allLinked = true;
-for (const slug of sitemapBrainrotSlugs) {
-  const linkHref = `/brainrots/${slug}`;
-  if (!brainrotsHtml.includes(linkHref)) {
-    console.log(`  ⚠️ "${slug}" is in sitemap but not linked from /brainrots page`);
-    allLinked = false;
+function checkListPage({
+  label,
+  html,
+  indexableRecords,
+  partialRecords,
+  routePrefix,
+}) {
+  if (html.includes("sr-only")) {
+    fail(`${label}: contains sr-only references; mass hidden link dumps are not allowed`);
+  }
+
+  for (const record of indexableRecords) {
+    const href = `${routePrefix}/${record.slug}`;
+    if (!hrefExists(html, href)) {
+      fail(`${label}: missing visible detail href ${href}`);
+    }
+  }
+
+  for (const record of partialRecords) {
+    const href = `${routePrefix}/${record.slug}`;
+    if (hrefExists(html, href)) {
+      fail(`${label}: partial record exposes detail href ${href}`);
+    }
   }
 }
-if (allLinked) {
-  console.log(`  ✅ All ${sitemapBrainrotSlugs.length} sitemap brainrots are linked from /brainrots`);
-}
 
-console.log(`\nErrors: ${errors}`);
+const brainrotsHtml = readOutHtml("brainrots");
+const traitsHtml = readOutHtml("traits");
+
+checkListPage({
+  label: "/brainrots",
+  html: brainrotsHtml,
+  indexableRecords: published.indexableBrainrots,
+  partialRecords: published.partialBrainrots,
+  routePrefix: "/brainrots",
+});
+
+checkListPage({
+  label: "/traits",
+  html: traitsHtml,
+  indexableRecords: published.indexableTraits,
+  partialRecords: published.partialTraits,
+  routePrefix: "/traits",
+});
+
+console.log("Internal links:");
+console.log(`- all indexable Brainrots visibly linked: ${published.indexableBrainrots.length}`);
+console.log(`- all indexable Traits visibly linked: ${published.indexableTraits.length}`);
+console.log("- no partial Brainrot detail links");
+console.log("- no partial Trait detail links");
+console.log("- no sr-only mass link dump");
+console.log(`- visible link errors: ${errors}`);
+
 process.exit(errors > 0 ? 1 : 0);

@@ -96,7 +96,7 @@ function isMeaningfulEditorialField(value: string | undefined | null): boolean {
 }
 
 function hasUnresolvedCoreConflict(record: BrainrotRecord): boolean {
-  return record.needsReview;
+  return record.needsReview || record.conflictStatus === "unresolved";
 }
 
 export function isIndexableBrainrot(
@@ -106,6 +106,7 @@ export function isIndexableBrainrot(
   return (
     record.indexingMeta.contentStatus === "complete" &&
     record.indexingMeta.indexable === true &&
+    record.confidence !== "low" &&
     hasRequiredStructuredData(record) &&
     hasValidSources(record) &&
     hasUniqueEditorialValue(record) &&
@@ -125,6 +126,7 @@ export function isIndexableTrait(record: TraitRecord): boolean {
   return (
     record.indexingMeta.contentStatus === "complete" &&
     record.indexingMeta.indexable === true &&
+    record.confidence !== "low" &&
     isUrlSafeSlug(record.slug) &&
     Boolean(record.name) &&
     (record.multiplierDisplay !== null || record.multiplierValue !== null) &&
@@ -136,6 +138,7 @@ export function isIndexableTrait(record: TraitRecord): boolean {
     record.sources.length > 0 &&
     Boolean(record.verifiedAt) &&
     !record.needsReview &&
+    record.conflictStatus !== "unresolved" &&
     editorialCount >= 2
   );
 }

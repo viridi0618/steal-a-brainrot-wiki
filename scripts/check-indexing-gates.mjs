@@ -1,110 +1,138 @@
 #!/usr/bin/env node
-/**
- * check-indexing-gates.mjs
- * Verifies indexing quality gates by inspecting built output.
- * Must run after `npm run build`.
- */
+import fs from "node:fs";
+import path from "node:path";
+import { loadRuntimeData } from "./load-runtime-data.mjs";
 
-import { readFileSync, existsSync } from 'fs';
-import { resolve, dirname } from 'path';
-import { fileURLToPath } from 'url';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const rootDir = resolve(__dirname, '..');
-
+const {
+  published,
+  siteConfig,
+  noindexUtilityRoutes,
+  draftDatasetHubRoutes,
+} = await loadRuntimeData();
+const outDir = path.resolve("out");
 let errors = 0;
-let warnings = 0;
+let robotsErrors = 0;
+let canonicalErrors = 0;
 
-console.log('=== Indexing Gate Validation ===\n');
+function fail(message) {
+  console.log(`ERROR: ${message}`);
+  errors++;
+}
 
-// ── Check sitemap from built output ─────────────────────────────────────
-const sitemapPath = resolve(rootDir, 'out/sitemap.xml');
-if (!existsSync(sitemapPath)) {
-  console.log('  ❌ out/sitemap.xml not found — run `npm run build` first');
+function resolveHtml(route) {
+  const clean = route === "/" ? "index" : route.replace(/^\//, "").replace(/\/$/, "");
+  const candidates = [
+    path.join(outDir, clean, "index.html"),
+    path.join(outDir, `${clean}.html`),
+  ];
+  return candidates.find((candidate) => fs.existsSync(candidate));
+}
+
+function readHtml(route) {
+  const file = resolveHtml(route);
+  if (!file) {
+    fail(`${route}: missing built HTML`);
+    return null;
+  }
+  return fs.readFileSync(file, "utf8");
+}
+
+function robotsContent(html) {
+  return html.match(/<meta name="robots" content="([^"]+)"/)?.[1] ?? "";
+}
+
+function canonicalHref(html) {
+  return html.match(/<link rel="canonical" href="([^"]+)"/)?.[1] ?? "";
+}
+
+function checkRecord(record, kind, indexable, sitemapLocs) {
+  const route = kind === "Brainrot" ? `/brainrots/${record.slug}` : `/traits/${record.slug}`;
+  const html = readHtml(route);
+  if (!html) return;
+
+  const expectedRobots = indexable ? "index, follow" : "noindex, follow";
+  const actualRobots = robotsContent(html);
+  if (actualRobots !== expectedRobots) {
+    fail(`${route}: robots expected "${expectedRobots}", found "${actualRobots}"`);
+    robotsErrors++;
+  }
+
+  const expectedCanonical = `${siteConfig.url}${route}`;
+  const actualCanonical = canonicalHref(html);
+  if (actualCanonical !== expectedCanonical) {
+    fail(`${route}: canonical expected ${expectedCanonical}, found ${actualCanonical}`);
+    canonicalErrors++;
+  }
+
+  const inSitemap = sitemapLocs.has(expectedCanonical);
+  if (indexable && !inSitemap) fail(`${route}: indexable record missing from sitemap`);
+  if (!indexable && inSitemap) fail(`${route}: partial record appears in sitemap`);
+
+  if (!indexable && !html.includes("not yet passed the editorial quality gate")) {
+    fail(`${route}: partial page missing editorial quality notice`);
+  }
+}
+
+if (!fs.existsSync(outDir)) {
+  console.log("ERROR: missing out directory. Run npm run build first.");
   process.exit(1);
 }
 
-const sitemap = readFileSync(sitemapPath, 'utf8');
-const allUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]);
-const brainrotUrls = allUrls.filter(u => u.includes('/brainrots/'));
-const traitUrls = allUrls.filter(u => u.includes('/traits/'));
-const hubUrls = allUrls.filter(u => !u.includes('/brainrots/') && !u.includes('/traits/'));
-
-console.log(`Sitemap URLs: ${allUrls.length}`);
-console.log(`  Hub: ${hubUrls.length}`);
-console.log(`  Brainrot detail: ${brainrotUrls.length}`);
-console.log(`  Trait detail: ${traitUrls.length}`);
-
-if (allUrls.length < 20 || allUrls.length > 35) {
-  console.log(`  ❌ Expected 20-35 sitemap URLs, got ${allUrls.length}`);
-  errors++;
+const sitemapPath = path.join(outDir, "sitemap.xml");
+if (!fs.existsSync(sitemapPath)) {
+  console.log("ERROR: out/sitemap.xml not found. Run npm run build first.");
+  process.exit(1);
 }
 
-// ── Check built HTML for robots meta ────────────────────────────────────
-console.log('\n--- Robots meta check ---');
+const sitemap = fs.readFileSync(sitemapPath, "utf8");
+const sitemapLocs = new Set([...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]));
 
-// Sample a complete brainrot
-const completeSample = readFileSync(resolve(rootDir, 'out/brainrots/sigma-boy.html'), 'utf8');
-const partialSample = readFileSync(resolve(rootDir, 'out/brainrots/noobini-pizzanini.html'), 'utf8');
-
-const completeRobots = completeSample.match(/<meta name="robots" content="([^"]+)"/)?.[1];
-const partialRobots = partialSample.match(/<meta name="robots" content="([^"]+)"/)?.[1];
-
-console.log(`  Complete (sigma-boy): robots = "${completeRobots}"`);
-console.log(`  Partial (noobini-pizzanini): robots = "${partialRobots}"`);
-
-if (completeRobots !== 'index, follow') {
-  console.log(`  ❌ Complete page should have robots="index, follow"`);
-  errors++;
-}
-if (partialRobots !== 'noindex, follow') {
-  console.log(`  ❌ Partial page should have robots="noindex, follow"`);
-  errors++;
+for (const route of noindexUtilityRoutes) {
+  const html = readHtml(route.href);
+  if (!html) continue;
+  const actualRobots = robotsContent(html);
+  if (actualRobots !== "noindex, follow") {
+    fail(`${route.href}: robots expected "noindex, follow", found "${actualRobots}"`);
+    robotsErrors++;
+  }
+  if (sitemapLocs.has(`${siteConfig.url}${route.href}`)) {
+    fail(`${route.href}: noindex utility route appears in sitemap`);
+  }
 }
 
-// ── Check partial notice in HTML ─────────────────────────────────────────
-if (partialSample.includes('not yet passed the editorial quality gate')) {
-  console.log('  ✅ Partial page has editorial gate notice');
-} else {
-  console.log('  ❌ Partial page missing editorial gate notice');
-  errors++;
+for (const href of draftDatasetHubRoutes) {
+  if (resolveHtml(href)) {
+    fail(`${href}: empty dataset hub generated public HTML`);
+  }
+  if (sitemapLocs.has(`${siteConfig.url}${href}`)) {
+    fail(`${href}: empty dataset hub appears in sitemap`);
+  }
 }
 
-// ── Check /brainrots list page has no sr-only link dump ──────────────────
-const brainrotsPage = readFileSync(resolve(rootDir, 'out/brainrots.html'), 'utf8');
-const srOnlyCount = (brainrotsPage.match(/sr-only/g) || []).length;
-if (srOnlyCount > 0) {
-  console.log(`\n  ❌ /brainrots page has ${srOnlyCount} sr-only references`);
-  errors++;
-} else {
-  console.log('\n  ✅ /brainrots page has no sr-only elements');
+const indexableBrainrotSlugs = new Set(published.indexableBrainrots.map((record) => record.slug));
+const indexableTraitSlugs = new Set(published.indexableTraits.map((record) => record.slug));
+
+for (const record of published.visibleBrainrots) {
+  checkRecord(record, "Brainrot", indexableBrainrotSlugs.has(record.slug), sitemapLocs);
 }
 
-// Check Featured section exists
-if (brainrotsPage.includes('Featured')) {
-  console.log('  ✅ /brainrots page has Featured section');
-} else {
-  console.log('  ⚠️ /brainrots page missing Featured section');
-  warnings++;
+for (const record of published.visibleTraits) {
+  checkRecord(record, "Trait", indexableTraitSlugs.has(record.slug), sitemapLocs);
 }
 
-// ── Check og:title consistency ──────────────────────────────────────────
-const completeOgTitle = completeSample.match(/<meta property="og:title" content="([^"]+)"/)?.[1];
-const completeTitle = completeSample.match(/<title>([^<]+)<\/title>/)?.[1];
-console.log(`\n  Complete title: "${completeTitle}"`);
-console.log(`  Complete og:title: "${completeOgTitle}"`);
-if (!completeTitle?.includes(completeOgTitle?.split('|')[0]?.trim() || '')) {
-  console.log('  ⚠️ og:title does not match page title');
-  warnings++;
+for (const record of [...published.visibleBrainrots, ...published.visibleTraits]) {
+  if (record.indexingMeta.contentStatus === "hidden") {
+    const route = "baseIncomeValue" in record ? `/brainrots/${record.slug}` : `/traits/${record.slug}`;
+    if (resolveHtml(route)) fail(`${route}: hidden record generated public HTML`);
+    if (sitemapLocs.has(`${siteConfig.url}${route}`)) fail(`${route}: hidden record appears in sitemap`);
+  }
 }
 
-// ── Summary ──────────────────────────────────────────────────────────────
-console.log('\n=== Summary ===');
-console.log(`Sitemap: ${allUrls.length} URLs`);
-console.log(`Brainrot slugs in sitemap:`);
-brainrotUrls.forEach(u => console.log(`  - ${u.split('/brainrots/')[1]}`));
-console.log(`Trait slugs in sitemap:`);
-traitUrls.forEach(u => console.log(`  - ${u.split('/traits/')[1]}`));
-console.log(`\nErrors: ${errors}, Warnings: ${warnings}`);
+console.log("Robots:");
+console.log(`- all complete/indexable checked: ${published.indexableBrainrots.length + published.indexableTraits.length}`);
+console.log(`- all partial checked: ${published.partialBrainrots.length + published.partialTraits.length}`);
+console.log(`- robots errors: ${robotsErrors}`);
+console.log(`- canonical errors: ${canonicalErrors}`);
+console.log(`- indexing gate errors: ${errors}`);
 
 process.exit(errors > 0 ? 1 : 0);

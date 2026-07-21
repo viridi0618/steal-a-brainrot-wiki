@@ -1,35 +1,35 @@
 import { brainrots } from "@/data/brainrots";
 import { traits } from "@/data/traits";
 import {
+  buildTipFrequency,
   isIndexableBrainrot,
   isIndexableTrait,
-  buildTipFrequency,
 } from "@/lib/route-quality";
 
-// All non-hidden records (visible on list pages, generate static pages)
+const brainrotTipFrequency = buildTipFrequency(brainrots);
+
+// Visible records still get public detail pages unless explicitly hidden.
 export const visibleBrainrots = brainrots.filter(
-  (r) => r.indexingMeta?.contentStatus !== "hidden"
+  (record) => record.indexingMeta?.contentStatus !== "hidden"
 );
 export const visibleTraits = traits.filter(
-  (r) => r.indexingMeta?.contentStatus !== "hidden"
+  (record) => record.indexingMeta?.contentStatus !== "hidden"
 );
 
-// Indexable = contentStatus complete + passes quality gate → sitemap + search
-export const indexableBrainrots = brainrots.filter((r) => {
-  const tipFreq = buildTipFrequency(brainrots);
-  return isIndexableBrainrot(r, tipFreq);
-});
+// Indexable records are the only detail pages allowed into sitemap/search.
+export const indexableBrainrots = brainrots.filter((record) =>
+  isIndexableBrainrot(record, brainrotTipFrequency)
+);
 export const indexableTraits = traits.filter(isIndexableTrait);
 
-// Partial = visible but not indexable → no sitemap, noindex
 export const partialBrainrots = visibleBrainrots.filter(
-  (r) => !isIndexableBrainrot(r, buildTipFrequency(brainrots))
+  (record) => !isIndexableBrainrot(record, brainrotTipFrequency)
 );
 export const partialTraits = visibleTraits.filter(
-  (r) => !isIndexableTrait(r)
+  (record) => !isIndexableTrait(record)
 );
 
-// Legacy aliases (for backward compat during migration)
+// Legacy aliases: these mean "visible records", not necessarily indexable.
 export const publishedBrainrots = visibleBrainrots;
 export const publishedTraits = visibleTraits;
 

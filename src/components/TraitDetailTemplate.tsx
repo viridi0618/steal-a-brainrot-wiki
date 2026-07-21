@@ -15,11 +15,21 @@ function displayValue(value: string | null) {
 }
 
 export default function TraitDetailTemplate({ trait }: { trait: TraitRecord }) {
+  const isIndexable = trait.indexingMeta?.contentStatus === "complete" && trait.indexingMeta?.indexable === true;
+
   return (
     <div className="min-h-screen">
       <PageHero tag={trait.multiplierDisplay ?? "Unknown"} title={trait.name} description={trait.description} />
       <div className="max-w-7xl mx-auto px-4 py-16 space-y-16">
         <Breadcrumbs items={[{ label: "Traits", href: "/traits" }, { label: trait.name }]} />
+
+        {!isIndexable && (
+          <section>
+            <div className="rounded-lg border border-[#3b2a56] bg-[#120c20]/80 p-5 text-sm leading-7 text-[#b8afc8]">
+              This data record is available for reference, but it has not yet passed the editorial quality gate for search indexing.
+            </div>
+          </section>
+        )}
 
         <section>
           <QuickFactsPanel
@@ -29,6 +39,7 @@ export default function TraitDetailTemplate({ trait }: { trait: TraitRecord }) {
               { label: "Category", value: displayValue(trait.category) },
               { label: "Source", value: displayValue(trait.acquisitionMethod) },
               { label: "Availability", value: trait.availability },
+              { label: "Indexable", value: isIndexable ? "Yes" : "No (partial)" },
               { label: "Last Verified", value: trait.verifiedAt },
             ]}
           />
