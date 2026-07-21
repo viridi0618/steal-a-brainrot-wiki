@@ -115,6 +115,11 @@ function validateStatus(record, kind, isIndexable) {
   if ((record.needsReview || record.conflictStatus === "unresolved") && isIndexable) {
     fail(`${kind} ${record.slug}: needsReview/unresolved conflict cannot be indexable`);
   }
+  if (status === "complete" && record.conflictNote) {
+    if (!["none", "resolved", "unresolved"].includes(record.conflictStatus ?? "")) {
+      fail(`${kind} ${record.slug}: complete record with conflictNote must set conflictStatus`);
+    }
+  }
 }
 
 if (brainrots.length === 0) fail("brainrots import returned 0 records");

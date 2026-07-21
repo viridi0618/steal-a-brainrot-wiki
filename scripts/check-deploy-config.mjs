@@ -27,8 +27,16 @@ if (!vercelBuild.includes('process.env.VERCEL_ENV === "production"')) {
   errors.push("vercel-build must branch on VERCEL_ENV=production.");
 }
 
-if (!vercelBuild.includes('runScript("validate:launch")') || !vercelBuild.includes('runScript("build")')) {
-  errors.push("production vercel-build must run validate:launch and build.");
+if (!vercelBuild.includes('runScript("validate:launch")')) {
+  errors.push("production vercel-build must run validate:launch.");
+}
+
+if (!vercelBuild.includes('} else {\n  runScript("build");\n}')) {
+  errors.push("preview vercel-build must run build.");
+}
+
+if (vercelBuild.includes('runScript("validate:launch");\n  runScript("build")')) {
+  errors.push("production vercel-build must not run a second build after validate:launch.");
 }
 
 if (errors.length > 0) {

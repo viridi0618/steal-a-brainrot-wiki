@@ -70,7 +70,6 @@ export async function loadRuntimeData() {
     publicRoutes: dataModule.publicRoutes,
     indexablePublicRoutes: dataModule.indexablePublicRoutes,
     noindexUtilityRoutes: dataModule.noindexUtilityRoutes,
-    draftDatasetHubRoutes: dataModule.draftDatasetHubRoutes,
     siteConfig: dataModule.siteConfig,
   };
 }

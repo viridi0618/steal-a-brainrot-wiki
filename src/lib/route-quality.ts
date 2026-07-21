@@ -22,7 +22,7 @@ const GENERIC_TIP_FREQ_THRESHOLD = 3;
 function hasGenericOnlyTips(brainrot: BrainrotRecord, tipFreq?: Map<string, number>): boolean {
   if (brainrot.tips.length === 0) return true;
   if (!tipFreq) return false;
-  // Only fail if EVERY tip is repeated in ≥ GENERIC_TIP_FREQ_THRESHOLD records
+  // Only fail if every tip is repeated in at least the generic threshold.
   return brainrot.tips.every(
     (t) => (tipFreq.get(t) ?? 0) >= GENERIC_TIP_FREQ_THRESHOLD
   );
@@ -74,13 +74,7 @@ function hasUniqueEditorialValue(record: BrainrotRecord): boolean {
     meta.limitations,
   ];
 
-  const meaningful = fields.filter(isMeaningfulEditorialField).length;
-
-  // Also count natural editorial signals in existing data
-  let extra = 0;
-  if (record.conflictNote) extra++;
-
-  return (meaningful + extra) >= 2;
+  return fields.filter(isMeaningfulEditorialField).length >= 2;
 }
 
 // Blocks TODO/TBD/placeholder strings from counting as real editorial value

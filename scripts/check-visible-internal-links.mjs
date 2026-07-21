@@ -3,8 +3,9 @@ import fs from "node:fs";
 import path from "node:path";
 import { loadRuntimeData } from "./load-runtime-data.mjs";
 
-const { published } = await loadRuntimeData();
+const { brainrots, traits, published } = await loadRuntimeData();
 let errors = 0;
+const outDir = path.resolve("out");
 
 function fail(message) {
   console.log(`ERROR: ${message}`);
@@ -70,12 +71,32 @@ checkListPage({
   routePrefix: "/traits",
 });
 
+const hiddenRecords = [...brainrots, ...traits].filter(
+  (record) => record.indexingMeta?.contentStatus === "hidden"
+);
+const htmlFiles = fs.existsSync(outDir)
+  ? fs.readdirSync(outDir, { recursive: true })
+      .filter((file) => typeof file === "string" && file.endsWith(".html"))
+      .map((file) => path.join(outDir, file))
+  : [];
+
+for (const record of hiddenRecords) {
+  const href = "baseIncomeValue" in record ? `/brainrots/${record.slug}` : `/traits/${record.slug}`;
+  for (const file of htmlFiles) {
+    const html = fs.readFileSync(file, "utf8");
+    if (hrefExists(html, href)) {
+      fail(`hidden record exposes internal href ${href} in ${path.relative(outDir, file)}`);
+    }
+  }
+}
+
 console.log("Internal links:");
 console.log(`- all indexable Brainrots visibly linked: ${published.indexableBrainrots.length}`);
 console.log(`- all indexable Traits visibly linked: ${published.indexableTraits.length}`);
 console.log("- no partial Brainrot detail links");
 console.log("- no partial Trait detail links");
 console.log("- no sr-only mass link dump");
+console.log(`- hidden records checked for internal links: ${hiddenRecords.length}`);
 console.log(`- visible link errors: ${errors}`);
 
 process.exit(errors > 0 ? 1 : 0);

@@ -4,10 +4,11 @@ import path from "node:path";
 import { loadRuntimeData } from "./load-runtime-data.mjs";
 
 const {
+  brainrots,
+  traits,
   published,
   siteConfig,
   noindexUtilityRoutes,
-  draftDatasetHubRoutes,
 } = await loadRuntimeData();
 const outDir = path.resolve("out");
 let errors = 0;
@@ -100,15 +101,6 @@ for (const route of noindexUtilityRoutes) {
   }
 }
 
-for (const href of draftDatasetHubRoutes) {
-  if (resolveHtml(href)) {
-    fail(`${href}: empty dataset hub generated public HTML`);
-  }
-  if (sitemapLocs.has(`${siteConfig.url}${href}`)) {
-    fail(`${href}: empty dataset hub appears in sitemap`);
-  }
-}
-
 const indexableBrainrotSlugs = new Set(published.indexableBrainrots.map((record) => record.slug));
 const indexableTraitSlugs = new Set(published.indexableTraits.map((record) => record.slug));
 
@@ -120,7 +112,7 @@ for (const record of published.visibleTraits) {
   checkRecord(record, "Trait", indexableTraitSlugs.has(record.slug), sitemapLocs);
 }
 
-for (const record of [...published.visibleBrainrots, ...published.visibleTraits]) {
+for (const record of [...brainrots, ...traits]) {
   if (record.indexingMeta.contentStatus === "hidden") {
     const route = "baseIncomeValue" in record ? `/brainrots/${record.slug}` : `/traits/${record.slug}`;
     if (resolveHtml(route)) fail(`${route}: hidden record generated public HTML`);

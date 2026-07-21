@@ -50,15 +50,6 @@ export const noindexUtilityRoutes = [
   },
 ] as const;
 
-export const draftDatasetHubRoutes = [
-  "/heroes",
-  "/items",
-  "/relics",
-  "/classes",
-  "/guilds",
-  "/specializations",
-] as const;
-
 export const indexablePublicRoutes = publicRoutes.filter((route) => route.indexable);
 
 export const navItems: NavItem[] = [

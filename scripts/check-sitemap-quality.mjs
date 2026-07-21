@@ -6,7 +6,6 @@ import { loadRuntimeData } from "./load-runtime-data.mjs";
 const {
   indexablePublicRoutes,
   noindexUtilityRoutes,
-  draftDatasetHubRoutes,
   published,
   siteConfig,
 } = await loadRuntimeData();
@@ -29,7 +28,6 @@ const expectedUrls = [
 const expectedSet = new Set(expectedUrls);
 const blockedHubUrls = new Set([
   ...noindexUtilityRoutes.map((route) => `${siteConfig.url}${route.href}`),
-  ...draftDatasetHubRoutes.map((href) => `${siteConfig.url}${href}`),
 ]);
 
 const duplicates = actualUrls.filter((url, index) => actualUrls.indexOf(url) !== index);

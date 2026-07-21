@@ -17,14 +17,6 @@ const hubRoutes = [
   "/faq",
 ];
 const noindexRoutes = ["/search"];
-const emptyDatasetHubRoutes = [
-  "/heroes",
-  "/items",
-  "/relics",
-  "/classes",
-  "/guilds",
-  "/specializations",
-];
 
 const requiredFiles = [
   "index.html",
@@ -128,16 +120,6 @@ try {
     }
     if (sitemapLocs.includes(loc)) {
       throw new Error(`${route} must not be listed in sitemap.`);
-    }
-  }
-
-  for (const route of emptyDatasetHubRoutes) {
-    const loc = `https://stealabrainrotguide.wiki${route}`;
-    if (sitemapLocs.includes(loc)) {
-      throw new Error(`${route} must not be listed in sitemap while it has 0 publishable records.`);
-    }
-    if (resolveFile(route)) {
-      throw new Error(`${route} generated a public page while it has 0 publishable records.`);
     }
   }
 
