@@ -97,14 +97,19 @@ export function isIndexableBrainrot(
     hasRequiredStructuredData(record) &&
     hasValidSources(record) &&
     hasUniqueEditorialValue(record) &&
+    !hasGenericOnlyTips(record, tipFreq) &&
     !isTemplateDescription(record) &&
     !hasUnresolvedCoreConflict(record)
-    // Note: hasGenericOnlyTips is tracked by check-content-duplicates.mjs
-    // for editorial review but does not block indexing at this stage.
   );
 }
 
 export function isIndexableTrait(record: TraitRecord): boolean {
+  const meta = record.indexingMeta?.editorial;
+  const editorialFields = meta
+    ? [meta.useCase, meta.comparison, meta.strategyNotes, meta.limitations, meta.acquisitionNotes]
+    : [];
+  const editorialCount = editorialFields.filter(Boolean).length;
+
   return (
     record.indexingMeta.contentStatus === "complete" &&
     record.indexingMeta.indexable === true &&
@@ -118,6 +123,7 @@ export function isIndexableTrait(record: TraitRecord): boolean {
     Boolean(record.description) &&
     record.sources.length > 0 &&
     Boolean(record.verifiedAt) &&
-    !record.needsReview
+    !record.needsReview &&
+    editorialCount >= 2
   );
 }
