@@ -34,6 +34,22 @@ export interface InfoItem {
 
 export type ConfidenceLevel = "high" | "medium" | "low";
 
+export type ContentStatus = "complete" | "partial" | "hidden";
+
+export interface IndexingMeta {
+  contentStatus: ContentStatus;
+  indexable: boolean;
+  indexingReason: string;
+  editorial?: {
+    useCase?: string;
+    comparison?: string;
+    acquisitionNotes?: string;
+    strategyNotes?: string;
+    defenseNotes?: string;
+    limitations?: string;
+  };
+}
+
 export type AvailabilityStatus =
   | "Obtainable"
   | "Limited"
@@ -66,7 +82,6 @@ export interface BrainrotRecord {
   baseIncomeDisplay: string | null;
   availability: AvailabilityStatus;
   acquisitionMethod: string | null;
-  indexable: boolean | null;
   verifiedAt: string;
   updatedAt?: string;
   confidence: ConfidenceLevel;
@@ -75,7 +90,9 @@ export interface BrainrotRecord {
   overview: string;
   tips: string[];
   conflictNote: string | null;
+  conflictStatus?: "none" | "resolved" | "unresolved";
   description: string;
+  indexingMeta: IndexingMeta;
 }
 
 export interface TraitRecord {
@@ -92,8 +109,10 @@ export interface TraitRecord {
   sources: SourceReference[];
   needsReview: boolean;
   conflictNote: string | null;
+  conflictStatus?: "none" | "resolved" | "unresolved";
   effect: string;
   description: string;
+  indexingMeta: IndexingMeta;
 }
 
 export interface MutationRecord {

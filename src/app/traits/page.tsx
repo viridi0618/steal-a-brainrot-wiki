@@ -11,6 +11,7 @@ import {
   StatGrid,
 } from "@/components/WikiBlocks";
 import { mutations, publishedTraits, siteConfig, traitFaqs } from "@/lib/data";
+import { indexableTraits } from "@/lib/published-data";
 
 export const metadata: Metadata = {
   title: "Traits",
@@ -72,6 +73,27 @@ export default function TraitsPage() {
             { label: "Event Traits", value: `${eventTraits.length}` },
           ]}
         />
+
+        {indexableTraits.length > 0 && (
+          <section>
+            <SectionTitle tag="Featured" title="Top Trait Pages" align="left" />
+            <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {indexableTraits.map((trait) => (
+                <li key={trait.slug}>
+                  <Link
+                    href={`/traits/${trait.slug}`}
+                    className="block rounded-lg border border-[#2a2826] bg-white/[0.03] p-4 hover:border-[#d4af6a] transition-colors text-sm"
+                  >
+                    <span className="text-[#d4af6a] font-semibold">{trait.name}</span>
+                    <span className="mt-1 block text-[#8a8884]">
+                      {trait.multiplierDisplay ?? "Unknown"} - {trait.category ?? "Unknown"}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         <section>
           <SectionTitle tag="Traits List" title="Searchable Trait Explorer" align="left" />

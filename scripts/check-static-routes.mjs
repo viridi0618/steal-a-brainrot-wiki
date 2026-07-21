@@ -16,6 +16,7 @@ const hubRoutes = [
   "/taco-tuesday",
   "/faq",
 ];
+const noindexRoutes = ["/search"];
 
 const requiredFiles = [
   "index.html",
@@ -35,6 +36,7 @@ function read(file) {
 const manifest = await loadPublishedManifest();
 const routes = [
   ...hubRoutes,
+  ...noindexRoutes,
   ...manifest.brainrots.map((record) => record.href),
   ...manifest.traits.map((record) => record.href),
 ];
@@ -88,8 +90,12 @@ try {
 
   const sitemap = read("out/sitemap.xml");
   const sitemapUrls = [...sitemap.matchAll(/<loc>/g)].length;
-  if (sitemapUrls !== routes.length) {
-    throw new Error(`Sitemap URL count expected ${routes.length}, found ${sitemapUrls}`);
+  // Sitemap only includes indexable records (not all visible)
+  const indexableBrainrotCount = manifest.brainrots.filter(r => r.indexable).length;
+  const indexableTraitCount = manifest.traits.filter(r => r.indexable).length;
+  const expectedSitemapUrls = hubRoutes.length + indexableBrainrotCount + indexableTraitCount;
+  if (sitemapUrls !== expectedSitemapUrls) {
+    throw new Error(`Sitemap URL count expected ${expectedSitemapUrls} (${hubRoutes.length} hub + ${indexableBrainrotCount} brainrots + ${indexableTraitCount} traits), found ${sitemapUrls}`);
   }
   const sitemapLocs = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
   for (const loc of sitemapLocs) {
@@ -99,6 +105,21 @@ try {
     const pathname = new URL(loc).pathname || "/";
     if (!resolveFile(pathname)) {
       throw new Error(`Sitemap URL has no generated static file: ${loc}`);
+    }
+  }
+
+  for (const route of noindexRoutes) {
+    const response = await fetch(`${baseUrl}${route}`);
+    const html = await response.text();
+    const loc = `https://stealabrainrotguide.wiki${route}`;
+    if (response.status !== 200) {
+      throw new Error(`${route} returned ${response.status}`);
+    }
+    if (!html.includes('<meta name="robots" content="noindex, follow"')) {
+      throw new Error(`${route} did not render noindex, follow robots metadata.`);
+    }
+    if (sitemapLocs.includes(loc)) {
+      throw new Error(`${route} must not be listed in sitemap.`);
     }
   }
 

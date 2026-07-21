@@ -42,9 +42,9 @@ export default function BrainrotExplorer({
       .filter((record) => !availability || record.availability === availability)
       .filter((record) => {
         if (!indexable) return true;
-        if (indexable === "yes") return record.indexable === true;
-        if (indexable === "no") return record.indexable === false;
-        return record.indexable === null;
+        if (indexable === "yes") return record.indexingMeta?.indexable === true && record.indexingMeta?.contentStatus === "complete";
+        if (indexable === "no") return record.indexingMeta?.indexable !== true || record.indexingMeta?.contentStatus !== "complete";
+        return true;
       })
       .sort((a, b) => {
         if (sort === "name-asc") return a.name.localeCompare(b.name);
@@ -59,6 +59,9 @@ export default function BrainrotExplorer({
   }, [availability, indexable, query, rarity, records, sort]);
 
   const visible = filtered.slice(0, pageSize);
+
+  const isRecordIndexable = (record: BrainrotRecord) =>
+    record.indexingMeta?.contentStatus === "complete" && record.indexingMeta?.indexable === true;
 
   const reset = () => {
     setQuery("");
@@ -90,9 +93,8 @@ export default function BrainrotExplorer({
         <Field label="Indexable">
           <select className={inputClass} value={indexable} onChange={(event) => setIndexable(event.target.value)}>
             <option value="">All</option>
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-            <option value="unknown">Unknown</option>
+            <option value="yes">Yes (complete)</option>
+            <option value="no">No (partial)</option>
           </select>
         </Field>
         <Field label="Sort">
@@ -141,7 +143,15 @@ export default function BrainrotExplorer({
               <tbody>
                 {visible.map((record) => (
                   <tr key={record.slug} className="border-t border-[#2a2826]">
-                    <td className="px-4 py-3"><Link href={`/brainrots/${record.slug}`} className="text-[#d4af6a] hover:text-[#f0ece4]">{record.name}</Link></td>
+                    <td className="px-4 py-3">
+                      {isRecordIndexable(record) ? (
+                        <Link href={`/brainrots/${record.slug}`} className="text-[#d4af6a] hover:text-[#f0ece4]">
+                          {record.name}
+                        </Link>
+                      ) : (
+                        <span className="text-[#8a8884]">{record.name}</span>
+                      )}
+                    </td>
                     <td className="px-4 py-3">{record.rarity ?? "Unknown"}</td>
                     <td className="px-4 py-3 text-right">{record.baseCostDisplay ?? "Unknown"}</td>
                     <td className="px-4 py-3 text-right">{record.baseIncomeDisplay ?? "Unknown"}</td>
@@ -153,17 +163,32 @@ export default function BrainrotExplorer({
             </table>
           </div>
           <div className="mt-6 grid gap-3 md:hidden">
-            {visible.map((record) => (
-              <Link key={record.slug} href={`/brainrots/${record.slug}`} className="rounded-lg border border-[#2a2826] bg-[#05030c]/70 p-4">
-                <span className="text-[#d4af6a] font-semibold">{record.name}</span>
-                <span className="mt-2 grid grid-cols-2 gap-2 text-sm text-[#8a8884]">
-                  <span>{record.rarity ?? "Unknown"}</span>
-                  <span>{record.baseIncomeDisplay ?? "Unknown"}</span>
-                  <span>{record.availability}</span>
-                  <span>{record.baseCostDisplay ?? "Unknown"}</span>
+            {visible.map((record) => {
+              const recordIdx = isRecordIndexable(record);
+              const content = (
+                <span className="rounded-lg border border-[#2a2826] bg-[#05030c]/70 p-4 block">
+                  <span className="text-[#d4af6a] font-semibold">{record.name}</span>
+                  <span className="mt-2 grid grid-cols-2 gap-2 text-sm text-[#8a8884]">
+                    <span>{record.rarity ?? "Unknown"}</span>
+                    <span>{record.baseIncomeDisplay ?? "Unknown"}</span>
+                    <span>{record.availability}</span>
+                    <span>{record.baseCostDisplay ?? "Unknown"}</span>
+                  </span>
                 </span>
-              </Link>
-            ))}
+              );
+
+              return (
+                <div key={record.slug}>
+                  {recordIdx ? (
+                    <Link href={`/brainrots/${record.slug}`}>
+                      {content}
+                    </Link>
+                  ) : (
+                    content
+                  )}
+                </div>
+              );
+            })}
           </div>
         </>
       )}
