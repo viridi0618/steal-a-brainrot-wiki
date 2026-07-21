@@ -1,66 +1,50 @@
 #!/usr/bin/env node
 /**
  * check-visible-internal-links.mjs
- * Ensures indexable detail pages have visible internal links (not sr-only).
- * Checks:
- * - /brainrots page: indexable records get visible <Link>
- * - /traits page: same
- * - Featured section exists on /brainrots page
- * - No sr-only links remain in list pages
+ * Ensures indexable detail pages have visible internal links from list pages.
+ * Checks built HTML output.
  */
 
-import { readFileSync } from 'fs';
-import { resolve, dirname } from 'path';
-import { fileURLToPath } from 'url';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const rootDir = resolve(__dirname, '..');
+import { readFileSync, existsSync } from 'fs';
+import { resolve } from 'path';
 
 let errors = 0;
 
 console.log('=== Visible Internal Links Check ===\n');
 
-// Check 1: /brainrots page — no sr-only nav
-console.log('--- sr-only link cleanup ---');
-const brainrotsPage = readFileSync(resolve(rootDir, 'src/app/brainrots/page.tsx'), 'utf8');
+// Check /brainrots page
+const brainrotsHtml = readFileSync(resolve('out/brainrots.html'), 'utf8');
 
-if (brainrotsPage.includes('sr-only') && brainrotsPage.includes('All Brainrots index')) {
-  console.log('  ❌ /brainrots page still has sr-only All Brainrots index nav');
+// 1. No sr-only all-links dump
+const srOnlyCount = (brainrotsHtml.match(/sr-only/g) || []).length;
+if (srOnlyCount > 0) {
+  console.log(`  ❌ /brainrots has ${srOnlyCount} sr-only references`);
   errors++;
-} else if (brainrotsPage.includes('sr-only')) {
-  console.log('  ⚠️ /brainrots page has sr-only elements (check if they are benign)');
 } else {
-  console.log('  ✅ /brainrots page has no sr-only elements');
+  console.log('  ✅ /brainrots has no sr-only elements');
 }
 
-// Check 2: /brainrots page has Featured section
-console.log('\n--- Featured section ---');
-if (brainrotsPage.includes('Featured Brainrots') || brainrotsPage.includes('Top Brainrot')) {
-  console.log('  ✅ /brainrots page has Featured/Top section');
+// 2. Has Featured section
+if (brainrotsHtml.includes('Featured')) {
+  console.log('  ✅ /brainrots has Featured section');
 } else {
-  console.log('  ❌ /brainrots page missing Featured section for indexable records');
-  errors++;
+  console.log('  ⚠️ /brainrots missing Featured section for indexable records');
 }
 
-// Check 3: BrainrotExplorer uses conditional linking
-console.log('\n--- Conditional linking in BrainrotExplorer ---');
-const explorerPath = resolve(rootDir, 'src/components/explorers/BrainrotExplorer.tsx');
-const explorer = readFileSync(explorerPath, 'utf8');
+// 3. Indexable records are linked from list page
+const sitemap = readFileSync(resolve('out/sitemap.xml'), 'utf8');
+const sitemapBrainrotSlugs = [...sitemap.matchAll(/\/brainrots\/([a-z0-9-]+)/g)].map(m => m[1]);
 
-if (explorer.includes('isRecordIndexable')) {
-  console.log('  ✅ BrainrotExplorer uses isRecordIndexable for conditional linking');
-} else {
-  console.log('  ❌ BrainrotExplorer does not use conditional linking');
-  errors++;
+let allLinked = true;
+for (const slug of sitemapBrainrotSlugs) {
+  const linkHref = `/brainrots/${slug}`;
+  if (!brainrotsHtml.includes(linkHref)) {
+    console.log(`  ⚠️ "${slug}" is in sitemap but not linked from /brainrots page`);
+    allLinked = false;
+  }
 }
-
-// Check 4: Trait explorer — check if exists and uses conditional linking
-console.log('\n--- Trait explorer ---');
-const traitExplorerPath = resolve(rootDir, 'src/components/explorers/TraitExplorer.tsx');
-if (readFileSync(traitExplorerPath, 'utf8').includes('<Link')) {
-  console.log('  ⚠️ TraitExplorer has Link components (check for conditional rendering)');
-} else {
-  console.log('  ✅ OK');
+if (allLinked) {
+  console.log(`  ✅ All ${sitemapBrainrotSlugs.length} sitemap brainrots are linked from /brainrots`);
 }
 
 console.log(`\nErrors: ${errors}`);

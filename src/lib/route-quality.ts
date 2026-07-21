@@ -74,13 +74,25 @@ function hasUniqueEditorialValue(record: BrainrotRecord): boolean {
     meta.limitations,
   ];
 
-  const present = fields.filter(Boolean).length;
+  const meaningful = fields.filter(isMeaningfulEditorialField).length;
 
   // Also count natural editorial signals in existing data
   let extra = 0;
   if (record.conflictNote) extra++;
 
-  return (present + extra) >= 2;
+  return (meaningful + extra) >= 2;
+}
+
+// Blocks TODO/TBD/placeholder strings from counting as real editorial value
+const PLACEHOLDER_PREFIXES = /^(TODO|TBD|PLACEHOLDER|FIXME|WIP)[: ]/i;
+const MIN_EDITORIAL_LENGTH = 30;
+
+function isMeaningfulEditorialField(value: string | undefined | null): boolean {
+  if (!value || typeof value !== 'string') return false;
+  const trimmed = value.trim();
+  if (trimmed.length < MIN_EDITORIAL_LENGTH) return false;
+  if (PLACEHOLDER_PREFIXES.test(trimmed)) return false;
+  return true;
 }
 
 function hasUnresolvedCoreConflict(record: BrainrotRecord): boolean {
@@ -108,7 +120,7 @@ export function isIndexableTrait(record: TraitRecord): boolean {
   const editorialFields = meta
     ? [meta.useCase, meta.comparison, meta.strategyNotes, meta.limitations, meta.acquisitionNotes]
     : [];
-  const editorialCount = editorialFields.filter(Boolean).length;
+  const editorialCount = editorialFields.filter(isMeaningfulEditorialField).length;
 
   return (
     record.indexingMeta.contentStatus === "complete" &&

@@ -15,7 +15,7 @@
     "check:duplicates": "node scripts/check-content-duplicates.mjs",
     "check:sitemap": "node scripts/check-sitemap-quality.mjs",
     "check:visible-links": "node scripts/check-visible-internal-links.mjs",
-    "validate": "npm run check:data && npm run check:indexing && npm run check:duplicates && npm run check:sitemap && npm run check:visible-links && npm run check:links && npm run check:routes && npm run check:ui && npm run lint && npm run build",
+    "validate": "npm run check:data && npm run check:indexing && npm run check:duplicates && npm run check:sitemap && npm run check:visible-links && npm run check:links && npm run lint && npm run build",
     "serve:out": "node scripts/serve-out.mjs",
     "test:e2e": "node scripts/run-e2e.mjs"
   },

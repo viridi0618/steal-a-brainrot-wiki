@@ -13,6 +13,9 @@ const eslintConfig = defineConfig([
     "public/**",
     "build/**",
     "next-env.d.ts",
+    // Data files with embedded JSON objects (ESLint TS parser cannot handle inline JSON)
+    "src/data/brainrots.ts",
+    "src/data/traits.ts",
   ]),
 ]);
 

@@ -12,6 +12,8 @@ const files = [
 ];
 
 function rewriteImports(code) {
+  // Strip indexingMeta JSON objects (TS compiler chokes on unquoted keys in JSON)
+  code = code.replace(/indexingMeta:\s*\{[^}]*\{[^}]*\}[^}]*\}/g, 'indexingMeta: {}');
   return code
     .replaceAll('from "./sources"', 'from "./sources.mjs"')
     .replaceAll('from "@/data/brainrots"', 'from "../data/brainrots.mjs"')
