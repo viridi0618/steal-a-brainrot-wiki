@@ -103,6 +103,7 @@ export default function Footer() {
                 <p className="text-xs text-[#8a8884]">More game guides:</p>
                 <a href="https://moonlightpeaksguide.wiki" target="_blank" rel="noopener" className="block text-xs text-[#8a8884] hover:text-[#f0ece4] transition">Moonlight Peaks Guide</a>
                 <a href="https://gutsandblackpowder.wiki" target="_blank" rel="noopener" className="block text-xs text-[#8a8884] hover:text-[#f0ece4] transition">Guts &amp; Blackpowder Wiki</a>
+                <a href="https://mistfallhuntergg.wiki" target="_blank" rel="noopener" className="block text-xs text-[#8a8884] hover:text-[#f0ece4] transition">Mistfall Hunter Guide</a>
                 <p className="text-xs text-[#8a8884] pt-1">
                   Copyright {new Date().getFullYear()} {siteConfig.shortName}. Fan-made site. Not affiliated with the game developers unless stated.
                 </p>
